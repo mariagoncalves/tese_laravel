@@ -1,0 +1,50 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Value extends Model
+{
+    protected $table = 'value';
+
+    public $timestamps = true;
+
+    protected $fillable = [
+        'entity_id',
+        'property_id',
+        'id_producer',
+        'relation_id',
+        'state',
+		'updated_by',
+        'deleted_by'
+    ];
+
+    protected $guarded = [];
+
+    public function property() {
+        return $this->belongsTo('App\Property', 'property_id', 'id');
+    }
+
+     public function entity() {
+        return $this->belongsTo('App\Entity', 'entity_id', 'id');
+    }
+
+     public function relation() {
+        return $this->belongsTo('App\Relation', 'relation_id', 'id');
+    }
+
+    public function language() {
+        return $this->belongsToMany('App\Language', 'value_name', 'value_id', 'language_id')->withPivot('name','created_at','updated_at','deleted_at');
+    }
+
+    public function updatedBy() {
+
+        return $this->belongsTo('App\Users', 'updated_by', 'id');
+    }
+
+    public function deletedBy() {
+
+        return $this->belongsTo('App\Users', 'deleted_by', 'id');
+    }
+}

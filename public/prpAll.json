@@ -1,0 +1,53 @@
+{"total":2,"per_page":5,"current_page":1,"last_page":1,"next_page_url":null,"prev_page_url":null,"from"
+:1,"to":2,"data":[{"id":3,"state":"active","transaction_type_id":0,"ent_type_id":null,"t_state_id":null
+,"updated_by":null,"deleted_by":null,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00
+:00:00","deleted_at":"2017-06-19 14:24:37","language":[{"id":1,"name":"Portugu\u00eas","slug":"PT","updated_by"
+:null,"deleted_by":null,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at"
+:"2017-06-19 11:43:55","pivot":{"ent_type_id":3,"language_id":1,"name":"Projeto de Arquitetura","created_at"
+:"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00"}}],"properties":[{"id":1,"ent_type_id":3
+,"rel_type_id":null,"value_type":"enum","form_field_type":"text","unit_type_id":0,"form_field_order"
+:1,"mandatory":1,"state":"active","fk_ent_type_id":null,"form_field_size":"255","updated_by":null,"deleted_by"
+:null,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19
+ 11:46:05","language":[{"id":1,"name":"Portugu\u00eas","slug":"PT","updated_by":null,"deleted_by":null
+,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 11
+:43:55","pivot":{"property_id":1,"language_id":1,"name":"Morada","form_field_name":"Cas-1-Morada","created_at"
+:"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 11:46:56"}}],"prop_allowed_values"
+:[{"id":2,"property_id":1,"state":"active","updated_by":null,"deleted_by":null,"created_at":"-0001-11-30
+ 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 18:21:04","language":[{"id":1
+,"name":"Portugu\u00eas","slug":"PT","updated_by":null,"deleted_by":null,"created_at":"-0001-11-30 00
+:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 11:43:55","pivot":{"p_a_v_id":2
+,"language_id":1,"name":"Area","created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00"
+,"deleted_at":"2017-06-19 18:21:58"}}]},{"id":3,"property_id":1,"state":"active","updated_by":null,"deleted_by"
+:null,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19
+ 18:21:04","language":[{"id":1,"name":"Portugu\u00eas","slug":"PT","updated_by":null,"deleted_by":null
+,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 11
+:43:55","pivot":{"p_a_v_id":3,"language_id":1,"name":"Nome","created_at":"-0001-11-30 00:00:00","updated_at"
+:"-0001-11-30 00:00:00","deleted_at":"2017-06-19 18:26:28"}}]}]}]},{"id":4,"state":"active","transaction_type_id"
+:0,"ent_type_id":null,"t_state_id":null,"updated_by":null,"deleted_by":null,"created_at":"-0001-11-30
+ 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 14:24:37","language":[{"id":1
+,"name":"Portugu\u00eas","slug":"PT","updated_by":null,"deleted_by":null,"created_at":"-0001-11-30 00
+:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 11:43:55","pivot":{"ent_type_id"
+:4,"language_id":1,"name":"Projeto de Especialidade","created_at":"-0001-11-30 00:00:00","updated_at"
+:"-0001-11-30 00:00:00"}}],"properties":[{"id":3,"ent_type_id":4,"rel_type_id":null,"value_type":"enum"
+,"form_field_type":"text","unit_type_id":0,"form_field_order":1,"mandatory":1,"state":"active","fk_ent_type_id"
+:null,"form_field_size":"255","updated_by":null,"deleted_by":null,"created_at":"-0001-11-30 00:00:00"
+,"updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 18:32:33","language":[{"id":1,"name":"Portugu
+\u00eas","slug":"PT","updated_by":null,"deleted_by":null,"created_at":"-0001-11-30 00:00:00","updated_at"
+:"-0001-11-30 00:00:00","deleted_at":"2017-06-19 11:43:55","pivot":{"property_id":3,"language_id":1,"name"
+:"Classe","form_field_name":"Cas-1-Classe","created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30
+ 00:00:00","deleted_at":"2017-06-19 18:33:48"}}],"prop_allowed_values":[{"id":4,"property_id":3,"state"
+:"active","updated_by":null,"deleted_by":null,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30
+ 00:00:00","deleted_at":"2017-06-19 18:34:38","language":[{"id":1,"name":"Portugu\u00eas","slug":"PT"
+,"updated_by":null,"deleted_by":null,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00
+:00:00","deleted_at":"2017-06-19 11:43:55","pivot":{"p_a_v_id":4,"language_id":1,"name":"A","created_at"
+:"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at":"2017-06-19 18:35:28"}}]},{"id"
+:6,"property_id":3,"state":"inactive","updated_by":1,"deleted_by":null,"created_at":"2017-06-21 13:51
+:17","updated_at":"2017-06-21 13:51:55","deleted_at":null,"language":[{"id":1,"name":"Portugu\u00eas"
+,"slug":"PT","updated_by":null,"deleted_by":null,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30
+ 00:00:00","deleted_at":"2017-06-19 11:43:55","pivot":{"p_a_v_id":6,"language_id":1,"name":"B","created_at"
+:"2017-06-21 13:51:17","updated_at":"2017-06-21 13:51:55","deleted_at":null}}]},{"id":7,"property_id"
+:3,"state":"inactive","updated_by":1,"deleted_by":null,"created_at":"2017-06-21 15:08:42","updated_at"
+:"2017-06-21 15:08:42","deleted_at":null,"language":[{"id":1,"name":"Portugu\u00eas","slug":"PT","updated_by"
+:null,"deleted_by":null,"created_at":"-0001-11-30 00:00:00","updated_at":"-0001-11-30 00:00:00","deleted_at"
+:"2017-06-19 11:43:55","pivot":{"p_a_v_id":7,"language_id":1,"name":"C","created_at":"2017-06-21 15:08
+:42","updated_at":"2017-06-21 15:08:42","deleted_at":null}}]}]}]}]}
