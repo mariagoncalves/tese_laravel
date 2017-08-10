@@ -44,8 +44,9 @@ class PropertiesManagment extends Controller {
                             }])
                             ->with(['properties' => function($query) {
                                 $query->orderBy('form_field_order', 'asc');
-                            }])
-                            ->paginate(1);
+                            }])->whereHas('language', function ($query) use ($language_id){
+                                return $query->where('language_id', $language_id);
+                            })->paginate(5);
 
         return response()->json($ents);
     }
@@ -259,8 +260,9 @@ class PropertiesManagment extends Controller {
                             }])
                             ->with(['properties' => function($query) {
                                 $query->orderBy('form_field_order', 'asc');
-                            }])
-                            ->paginate(5);
+                            }])->whereHas('language', function ($query) use ($language_id){
+                                return $query->where('language_id', $language_id);
+                            })->paginate(5);
 
 
         return response()->json($rels);
@@ -479,12 +481,16 @@ class PropertiesManagment extends Controller {
 
         $units = PropUnitType::with(['language' => function($query) use ($language_id) {
                                     $query->where('language_id', $language_id);
-                                }])->get();
-
+                                }])
+                                ->whereHas('language', function ($query) use ($language_id){
+                                    return $query->where('language_id', $language_id);
+                                })->get();
 
         return response()->json($units);
     }
 
+
+    //Métodos a serem usados no drag and drop
     public function getPropsRelations($id) {
 
         $language_id = '1';

@@ -40,7 +40,9 @@ class RelationManagement extends Controller
                             ->with(['tState.language' => function($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
-                            ->paginate(5);
+                            ->whereHas('language', function ($query) use ($language_id){
+                                return $query->where('language_id', $language_id);
+                            })->paginate(5);
 
         return response()->json($rels);
     }
@@ -57,7 +59,10 @@ class RelationManagement extends Controller
 
         $entities = EntType::with(['language' => function($query) use ($language_id) {
                                     $query->where('language_id', $language_id);
-                                }])->get();
+                                }])
+                                ->whereHas('language', function ($query) use ($language_id){
+                                    return $query->where('language_id', $language_id);
+                                })->get();
 
         return response()->json($entities);
     }
@@ -68,7 +73,10 @@ class RelationManagement extends Controller
 
         $transactionTypes = TransactionType::with(['language' => function($query) use ($language_id) {
                                     $query->where('language_id', $language_id);
-                                }])->get();
+                                }])
+                                ->whereHas('language', function ($query) use ($language_id){
+                                    return $query->where('language_id', $language_id);
+                                })->get();
 
         return response()->json($transactionTypes);
     }
@@ -79,7 +87,10 @@ class RelationManagement extends Controller
 
         $transactionStates = TState::with(['language' => function($query) use ($language_id) {
                                     $query->where('language_id', $language_id);
-                                }])->get();
+                                }])
+                                ->whereHas('language', function ($query) use ($language_id){
+                                    return $query->where('language_id', $language_id);
+                                })->get();
 
         return response()->json($transactionStates);
     }
@@ -140,7 +151,9 @@ class RelationManagement extends Controller
         $rel = RelType::with(['language' => function($query) use ($language_id) {
                                     $query->where('language_id', $language_id);
                                 }])
-                            ->find($id);
+                                ->whereHas('language', function ($query) use ($language_id){
+                                    return $query->where('language_id', $language_id);
+                                })->find($id);
 
         return response()->json($rel);
     }
