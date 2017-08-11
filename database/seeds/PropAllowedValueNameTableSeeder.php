@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\RelTypeName;
+use App\PropAllowedValueName;
 
-class RelTypeNameTableSeeder extends Seeder
+class PropAllowedValueNameTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,31 +14,37 @@ class RelTypeNameTableSeeder extends Seeder
     {
         $dados = [
         	[
-        		'rel_type_id' => '1',
+        		'p_a_v_id'    => '1',
         		'language_id' => '1',
-        		'name'        => 'Relacao 1',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[	'rel_type_id' => '1',
-        		'language_id' => '2',
-        		'name'        => 'Relation 1',
+        		'name'        => '5 euros',
                 'updated_by'  => '1',
                 'deleted_by'  => '1'
         	],
         	[
-        		'rel_type_id' => '2',
-        		'language_id' => '1',
-        		'name'        => 'Relacao 2',
+        		'p_a_v_id'    => '1',
+        		'language_id' => '2',
+        		'name'        => '5 pounds',
                 'updated_by'  => '1',
                 'deleted_by'  => '1'
         	],
-        	[	'rel_type_id' => '2',
-        		'language_id' => '2',
-        		'name'        => 'Relacao 2',
+        	[
+        		'p_a_v_id'    => '2',
+        		'language_id' => '1',
+        		'name'        => '5 km',
                 'updated_by'  => '1',
                 'deleted_by'  => '1'
-        	]
+        	],
+        	[
+        		'p_a_v_id'    => '2',
+        		'language_id' => '2',
+        		'name'        => '5 inches',
+                'updated_by'  => '1',
+                'deleted_by'  => '1'
+        	],
         ];
+
+        foreach ($dados as $value) {
+            PropAllowedValueName::create($value);
+        }
     }
 }

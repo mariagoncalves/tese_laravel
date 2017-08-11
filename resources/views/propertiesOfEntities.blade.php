@@ -37,7 +37,7 @@
                 <th> [[ "THEADER12" | translate]] </th>
                 <th> [[ "THEADER13" | translate]] </th>
 
-                <th> <button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">[[ "THEADER14" | translate]]</button></th>
+                <th> <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER14" | translate]]</button></th>
             </tr>
             </thead>
             <tbody>
@@ -71,8 +71,9 @@
                     <td>[[ property.updated_at ]]</td>
                     <td>[[ property.deleted_at ]]</td>
                     <td>
-                        <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', property.id)">[[ "BTNTABLE1" | translate]]</button>
-                        <button class="btn btn-danger btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
+                        <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', property.id)">[[ "BTNTABLE1" | translate]]</button>
+                        <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(relation.id)">[[ "BTNTABLE4" | translate]]</button>
+                        <button class="btn btn-primary btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                     </td>
                     <tr ng-repeat-end ng-if="false"></tr>
                 </tr>
