@@ -511,7 +511,7 @@
                         <form name="frmProcess" class="form-horizontal" novalidate="">
 
                             <div class="form-group">
-                                <label for="inputName" class="col-sm-3 control-label">Name:</label>
+                                <label for="inputName" class="col-sm-3 control-label">Name gdhd:</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="process_name" name="process_name" placeholder=""
                                            ng-model="process.language[0].pivot.name">

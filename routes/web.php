@@ -163,6 +163,14 @@ Route::post('/Relation/{id?}', 'RelationManagement@updateRelationType');
 Route::get('/getRelationsTypes/{id?}', 'RelationManagement@getRelations');
 Route::post('/Relation_Type_remove/{id}', 'RelationManagement@remove');
 
+// Teste reltype
+
+Route::get('/modalrelType', function () {
+    return view('reltype/modalRelType');
+});
+
+
+
 
 //******************************************Duarte***********************************************//
 //Users

@@ -1,4 +1,4 @@
-app.controller('RelationTypesManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate) {
+app.controller('RelationTypesManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate, NgTableParams, MyService, $uibModal, $timeout) {
 
     $scope.relations = [];
     $scope.entities = [];
@@ -170,6 +170,56 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             $scope.transactionStates = response.data;
             console.log($scope.transactionStates);
         });
+    };
+
+
+    $scope.openModalProcess = function (size, modalstate, id, parentSelector) {
+
+        //$('#formRelation')[0].reset();
+        $scope.relation = null;
+        $scope.modalstate = modalstate;
+
+        switch (modalstate) {
+            case 'add':
+                $scope.id = id;
+                $scope.form_title = "ADD_FORM_NAME";
+                break;
+            case 'edit':
+                $scope.form_title = "EDIT_FORM_NAME";
+                $scope.id = id;
+                console.log(id);
+                $http.get(API_URL + '/getRelationsTypes/' + id)
+                    .then(function(response) {
+                        $scope.relation = response.data;
+                    });
+                break;
+            default:
+                break;
+        }
+        //$('#myModal').modal('show');
+        //$scope.errors = null;
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'modalrelType',
+            controller: 'ModalInstanceCtrl1',
+            scope: $scope,
+            size: size,
+            //appendTo: parentElem,
+            resolve: {
+            }
+        }).closed.then(function() {
+            //handle ur close event here
+            alert("modal closed");
+        });
+    };
+
+    $scope.ModalInstanceCtrl1 = function ($scope, $uibModalInstance) {
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     };
 
 }).directive('pagination', function(){

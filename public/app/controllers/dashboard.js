@@ -146,7 +146,7 @@ app.controller('dashboardController', function($scope, $http, growl, API_URL, $t
             }
         }).closed.then(function() {
             //handle ur close event here
-            alert("modal closed");
+            //alert("modal closed");
         });
 
         /*modalInstance.result.then(function () {
