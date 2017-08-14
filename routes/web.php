@@ -119,35 +119,35 @@ Route::post('/Process_Type_del/{id}', 'ProcessTypes@delete');
 
 //***********************************MARIA****************************//
 //Properties Home Page
-Route::get('/propertiesManage', 'PropertiesManagment@index');
-Route::get('/properties/states', 'PropertiesManagment@getStates');
+Route::get('/propertiesManage', 'PropertiesManagment@index'); //método inválido
+/*Route::get('/properties/states', 'PropertiesManagment@getStates');
 Route::get('/properties/valueTypes', 'PropertiesManagment@getValueTypes');
 Route::get('/properties/fieldTypes', 'PropertiesManagment@getFieldTypes');
-Route::get('/properties/units', 'PropertiesManagment@getUnits');
+Route::get('/properties/units', 'PropertiesManagment@getUnits');*/
 
 //Properties Of Relations
-Route::get('/propertiesManageRel', 'PropertiesManagment@getAllPropertiesOfRelations');
+/*Route::get('/propertiesManageRel', 'PropertiesManagment@getAllPropertiesOfRelations');
 Route::get('/properties/get_props_rel', 'PropertiesManagment@getAllRel');
 Route::post('/PropertyRel', 'PropertiesManagment@insertPropsRel');
-Route::post('/PropertyRel/{id?}', 'PropertiesManagment@updatePropsRel');
+Route::post('/PropertyRel/{id?}', 'PropertiesManagment@updatePropsRel');*/
 
 
-Route::get('/properties/get_property/{id?}', 'PropertiesManagment@getProperty');
+//Route::get('/properties/get_property/{id?}', 'PropertiesManagment@getProperty');
 
 //inserir e update entidades
-Route::post('/PropertyEnt', 'PropertiesManagment@insertPropsEnt');
-Route::post('/PropertyEnt/{id?}', 'PropertiesManagment@updatePropsEnt');
+//Route::post('/PropertyEnt', 'PropertiesManagment@insertPropsEnt');
+//Route::post('/PropertyEnt/{id?}', 'PropertiesManagment@updatePropsEnt');
 
-Route::get('/propertiesManageEnt', 'PropertiesManagment@getAllPropertiesOfEntities');
-Route::get('/properties/get_props_ents', 'PropertiesManagment@getAllEnt');
+//Route::get('/propertiesManageEnt', 'PropertiesManagment@getAllPropertiesOfEntities');
+//Route::get('/properties/get_props_ents', 'PropertiesManagment@getAllEnt');
 
 
 //Testes
-Route::get('/properties/getPropsRelation/{id?}', 'PropertiesManagment@getPropsRelations');
-Route::post('/updateOrder', 'PropertiesManagment@updateOrderProps');
+/*Route::get('/properties/getPropsRelation/{id?}', 'PropertiesManagment@getPropsRelations');
+Route::post('/updateOrder', 'PropertiesManagment@updateOrderProps');*/
 
-Route::get('/properties/getPropsEntity/{id?}', 'PropertiesManagment@getPropsEntities');
-Route::post('/updateOrderEnt', 'PropertiesManagment@updateOrderPropsEnt');
+//Route::get('/properties/getPropsEntity/{id?}', 'PropertiesManagment@getPropsEntities');
+//Route::post('/updateOrderEnt', 'PropertiesManagment@updateOrderPropsEnt');
 
 
 
@@ -162,15 +162,57 @@ Route::post('/Relation', 'RelationManagement@insertRelations');
 Route::post('/Relation/{id?}', 'RelationManagement@updateRelationType');
 Route::get('/getRelationsTypes/{id?}', 'RelationManagement@getRelations');
 Route::post('/Relation_Type_remove/{id}', 'RelationManagement@remove');
-
-// Teste reltype
-
 Route::get('/modalrelType', function () {
     return view('reltype/modalRelType');
 });
 
+//Novas rotas com entidades separadas das relações
+//----------------------------------Entidade----------------------------------------------------
 
+Route::get('/propertiesManageEnt', 'PropertiesOfEntitiesController@getAllPropertiesOfEntities');
+Route::get('/properties/get_props_ents', 'PropertiesOfEntitiesController@getAllEnt');
 
+Route::post('/PropertyEnt', 'PropertiesOfEntitiesController@insertPropsEnt');
+Route::post('/PropertyEnt/{id?}', 'PropertiesOfEntitiesController@updatePropsEnt');
+
+//Métodos comuns
+/*Route::get('/properties/states', 'PropertiesOfEntitiesController@getStates');
+Route::get('/properties/valueTypes', 'PropertiesOfEntitiesController@getValueTypes');
+Route::get('/properties/fieldTypes', 'PropertiesOfEntitiesController@getFieldTypes');
+Route::get('/properties/units', 'PropertiesOfEntitiesController@getUnits');
+Route::get('/properties/get_property/{id?}', 'PropertiesOfEntitiesController@getProperty');*/
+
+Route::get('/properties/getPropsEntity/{id?}', 'PropertiesOfEntitiesController@getPropsEntities');
+
+Route::post('/updateOrderEnt', 'PropertiesOfEntitiesController@updateOrderPropsEnt');
+
+//----------------------------------Relação----------------------------------------------------
+
+Route::get('/propertiesManageRel', 'PropertiesOfRelationsController@getAllPropertiesOfRelations');
+Route::get('/properties/get_props_rel', 'PropertiesOfRelationsController@getAllRel');
+//Comum
+/*Route::get('/properties/get_property/{id?}', 'PropertiesOfRelationsController@getProperty');
+Route::get('/properties/states', 'PropertiesOfEntitiesController@getStates');
+Route::get('/properties/valueTypes', 'PropertiesOfEntitiesController@getValueTypes');
+Route::get('/properties/fieldTypes', 'PropertiesOfEntitiesController@getFieldTypes');
+Route::get('/properties/units', 'PropertiesOfEntitiesController@getUnits');*/
+
+Route::post('/PropertyRel', 'PropertiesOfRelationsController@insertPropsRel');
+Route::post('/PropertyRel/{id?}', 'PropertiesOfRelationsController@updatePropsRel');
+Route::get('/properties/getPropsRelation/{id?}', 'PropertiesOfRelationsController@getPropsRelations');
+Route::post('/updateOrder', 'PropertiesManagment@updateOrderProps');
+
+Route::get('/modalPropsRel', function () {
+    return view('properties/modalPropsRel');
+});
+
+//--------------------------Métodos comuns as entidades e as relações---------------------------
+
+Route::get('/properties/states', 'PropertiesController@getStates');
+Route::get('/properties/valueTypes', 'PropertiesController@getValueTypes');
+Route::get('/properties/fieldTypes', 'PropertiesController@getFieldTypes');
+Route::get('/properties/units', 'PropertiesController@getUnits');
+Route::get('/properties/get_property/{id?}', 'PropertiesController@getProperty');
 
 //******************************************Duarte***********************************************//
 //Users

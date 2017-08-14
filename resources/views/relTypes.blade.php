@@ -22,8 +22,8 @@
                 <th>[[ "THEADER8" | translate]]</th>
                 <th>[[ "THEADER9" | translate]]</th>
                 <th>
-                    <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER10" | translate]]</button>
-                    <button type="button" class="btn btn-lg btn-success" ng-click="openModalProcess('lg', 'add', 0)">Add new Relation</button>
+                    <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER10" | translate]]</button> -->
+                    <button type="button" class="btn btn-xs btn-success" ng-click="openModalRelTypes('md', 'add', 0)">Add Relations Type</button>
                 </th>
             </tr> 
             </thead>
@@ -42,9 +42,9 @@
                 <td>[[ relation.updated_at ]]</td>
                 <td>[[ relation.deleted_at ]]</td>
                 <td>
-                    <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', relation.id)">[[ "BTNTABLE1" | translate]]</button>
+                    <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', relation.id)">[[ "BTNTABLE1" | translate]]</button> -->
+                    <button type="button" class="btn btn-xs btn-warning" ng-click="openModalRelTypes('md', 'edit', relation.id)">Edit</button>
                     <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(relation.id)">[[ "THEADER11" | translate]]</button>
-                    <button type="button" class="btn btn-lg btn-success" ng-click="openModalProcess('lg', 'edit', relation.id)">Edit</button>
                     <button class="btn btn-primary btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                 </td>
                 <tr ng-repeat-end ng-if="false"></tr>

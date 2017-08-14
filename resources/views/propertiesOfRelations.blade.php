@@ -1,7 +1,8 @@
 @extends('layouts.default')
 @section('content')
     <h2>[["Page_Name" | translate]]</h2>
-    <div ng-controller="propertiesManagmentControllerJs">
+    <!-- <div ng-controller="propertiesManagmentControllerJs"> -->
+    <div ng-controller="propertiesOfRelationsManagmentControllerJs">
         <div growl></div>
 
         <button class="btn btn-default btn-xs btn-detail" ng-click="dotranslate()">TRANSLATE</button>
@@ -36,7 +37,10 @@
                 <th> [[ "THEADER11" | translate]] </th>
                 <th> [[ "THEADER12" | translate]] </th>
                 <th> [[ "THEADER13" | translate]] </th>
-                <th> <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggleRel('add', 0)">[[ "THEADER14" | translate]]</button></th>
+                <th> 
+                    <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggleRel('add', 0)">[[ "THEADER14" | translate]]</button> -->
+                    <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsRel('md', 'add', 0)">Add Properties</button>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -166,20 +170,6 @@
                                 </div>
                             </div>
 
-                            <!-- FALTA ALTERAR O NG MODEL-->
-
-                            <!-- <div class="form-group">
-                                <label for="inputfieldOrder" class="col-sm-3 control-label">{{trans("messages.fieldOrder")}}:</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" id="property_fieldOrder_rel" name="property_fieldOrder_rel" ng-value="property.form_field_order" placeholder="">
-                                    <ul ng-repeat="error in errors.property_fieldOrder_rel" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div> -->
-
-                            <!-- FALTA ALTERAR O NG MODEL-->
-
                            <div class="form-group">
                                 <label for="inputfieldSize" class="col-sm-3 control-label">[[ "THEADER8" | translate]]:</label>
                                 <div class="col-sm-9">
@@ -226,7 +216,6 @@
                         <ul ui-sortable="sortableOptions" ng-model="propsRel" class="list-group">
                             <li ng-repeat="prop in propsRel" class="list-group-item" data-id="[[ prop.id ]]">[[prop.language[0].pivot.name]]</li>
                         </ul>
-
                        <pre>[[propsRel]]</pre>
                     </div>
                 </div>
@@ -235,5 +224,5 @@
     </div>
 @stop
 @section('footerContent')
-    <script src="<?= asset('app/controllers/properties.js') ?>"></script>
+    <script src="<?= asset('app/controllers/propertiesOfRelations.js') ?>"></script>
 @stop

@@ -1,7 +1,8 @@
 @extends('layouts.default')
 @section('content')
     <h2>[["Page_Name" | translate]]</h2>
-    <div ng-controller="propertiesManagmentControllerJs">
+    <!-- <div ng-controller="propertiesManagmentControllerJs"> -->
+        <div ng-controller="propertiesOfEntitiesManagmentControllerJs">
         <div growl></div>
 
         <button class="btn btn-default btn-xs btn-detail" ng-click="dotranslate()">TRANSLATE</button>
@@ -244,5 +245,6 @@
     </div>
 @stop
 @section('footerContent')
-    <script src="<?= asset('app/controllers/properties.js') ?>"></script>
+    <!-- ALTERADO - TESTES -->
+    <script src="<?= asset('app/controllers/propertiesOfEntities.js') ?>"></script>
 @stop

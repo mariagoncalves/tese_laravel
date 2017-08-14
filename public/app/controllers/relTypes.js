@@ -71,7 +71,7 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
         $scope.errors = null;
     };
 
-    $scope.save = function(modalstate, id) {
+    /*$scope.save = function(modalstate, id) {
         var url      = API_URL + "Relation";
 
 
@@ -94,7 +94,7 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             //First function handles success
             $scope.errors = [];
             $scope.getRelations();
-            $('#myModal').modal('hide');
+            //$('#myModal').modal('hide');
 
             $('#myModal select:first').prop('disabled', false);
             $('#formRelation')[0].reset();
@@ -112,13 +112,13 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             } else if (response.status == 500) {
 
 
-                $('#myModal').modal('hide');
-                $('#formRelation')[0].reset();
+                //$('#myModal').modal('hide');
+                //$('#formRelation')[0].reset();
 
                 growl.error(response.data.error, {title: 'error!'});
             }
         });
-    };
+    };*/
 
     $scope.remove = function(id) {
         var url = API_URL + "Relation_Type_remove/" + id;
@@ -173,7 +173,7 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
     };
 
 
-    $scope.openModalProcess = function (size, modalstate, id, parentSelector) {
+    $scope.openModalRelTypes = function (size, modalstate, id, parentSelector) {
 
         //$('#formRelation')[0].reset();
         $scope.relation = null;
@@ -212,11 +212,63 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             }
         }).closed.then(function() {
             //handle ur close event here
-            alert("modal closed");
+            //alert("modal closed");
         });
     };
 
     $scope.ModalInstanceCtrl1 = function ($scope, $uibModalInstance) {
+
+        $scope.save = function(modalstate, id) {
+        var url      = API_URL + "Relation";
+
+        console.log(jQuery('#formRelation').serializeArray());
+
+        var formData = JSON.parse(JSON.stringify(jQuery('#formRelation').serializeArray()));
+
+        console.log(formData);
+
+        if (modalstate === 'edit') {
+            url += "/" + id ;
+        }
+
+        $http({
+            method: 'POST',
+            url: url,
+            data: $.param(formData),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function(response) {
+            //First function handles success
+            $scope.errors = [];
+            $scope.getRelations();
+            //$('#myModal').modal('hide');
+
+            $scope.cancel();
+
+            $('#myModal select:first').prop('disabled', false);
+            $('#formRelation')[0].reset();
+
+
+            if(modalstate == "add") {
+                growl.success('SAVE_SUCCESS_MESSAGE',{title: 'SUCCESS'});
+            } else {
+                growl.success('EDIT_SUCCESS_MESSAGE',{title: 'SUCCESS'});
+            }
+        }, function(response) {
+            //Second function handles error
+            if (response.status == 400) {
+                $scope.errors = response.data.error;
+            } else if (response.status == 500) {
+
+
+                //$('#myModal').modal('hide');
+                //$('#formRelation')[0].reset();
+
+                $scope.cancel();
+
+                growl.error(response.data.error, {title: 'error!'});
+            }
+        });
+    };
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
