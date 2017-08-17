@@ -74,7 +74,8 @@
                     <td>[[ property.updated_at ]]</td>
                     <td>[[ property.deleted_at ]]</td>
                     <td>
-                        <button class="btn btn-warning btn-xs btn-detail" ng-click="toggleRel('edit', property.id)">[[ "BTNTABLE1" | translate]]</button>
+                        <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggleRel('edit', property.id)">[[ "BTNTABLE1" | translate]]</button> -->
+                        <button type="button" class="btn btn-xs btn-warning" ng-click="openModalPropsRel('md', 'edit', property.id)">Edit</button>
                         <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(relation.id)">[[ "BTNTABLE4" | translate]]</button>
                         <button class="btn btn-primary btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                     </td>

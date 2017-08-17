@@ -38,7 +38,10 @@
                 <th> [[ "THEADER12" | translate]] </th>
                 <th> [[ "THEADER13" | translate]] </th>
 
-                <th> <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER14" | translate]]</button></th>
+                <th> 
+                    <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER14" | translate]]</button> -->
+                    <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsEnt('md', 'add', 0)">Add Properties</button>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -72,7 +75,8 @@
                     <td>[[ property.updated_at ]]</td>
                     <td>[[ property.deleted_at ]]</td>
                     <td>
-                        <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', property.id)">[[ "BTNTABLE1" | translate]]</button>
+                        <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', property.id)">[[ "BTNTABLE1" | translate]]</button> -->
+                        <button type="button" class="btn btn-xs btn-warning" ng-click="openModalPropsEnt('md', 'edit', property.id)">Edit</button>
                         <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(relation.id)">[[ "BTNTABLE4" | translate]]</button>
                         <button class="btn btn-primary btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                     </td>
@@ -85,7 +89,7 @@
         </div>
 
         <!-- Modal (Pop up when detail button clicked) -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -168,16 +172,6 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="form-group">
-                                <label for="inputfieldOrder" class="col-sm-3 control-label">{{trans("messages.fieldOrder")}}:</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" id="property_fieldOrder" name="property_fieldOrder" ng-value="property.form_field_order" >
-                                    <ul ng-repeat="error in errors.property_fieldOrder" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div> -->
-
                            <div class="form-group">
                                 <label for="inputfieldSize" class="col-sm-3 control-label">[[ "THEADER8" | translate]]:</label>
                                 <div class="col-sm-9">
@@ -220,7 +214,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Popup para reordenar as propriedades -->
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

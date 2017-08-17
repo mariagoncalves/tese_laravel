@@ -17,11 +17,6 @@ use Illuminate\Support\Facades\Log;
 
 class PropertiesManagment extends Controller {
 
-    public function index() {
-        return view('property');
-    }
-
-
     //MÉTODOS DAS ENTIDADES
     public function getAllPropertiesOfEntities() {
 

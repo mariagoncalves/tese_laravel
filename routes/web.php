@@ -186,6 +186,14 @@ Route::get('/properties/getPropsEntity/{id?}', 'PropertiesOfEntitiesController@g
 
 Route::post('/updateOrderEnt', 'PropertiesOfEntitiesController@updateOrderPropsEnt');
 
+Route::get('/modalPropsEnt', function () {
+    return view('properties/modalPropsEnt');
+});
+
+Route::get('/modalDragDropPropsEnt', function () {
+    return view('properties/modalDragDropPropsEnt');
+});
+
 //----------------------------------Relação----------------------------------------------------
 
 Route::get('/propertiesManageRel', 'PropertiesOfRelationsController@getAllPropertiesOfRelations');

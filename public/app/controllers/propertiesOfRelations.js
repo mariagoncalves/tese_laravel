@@ -207,7 +207,7 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
 
     $scope.openModalPropsRel = function (size, modalstate, id, parentSelector) {
 
-       $('#formPropRel')[0].reset();
+       //$('#formPropRel')[0].reset();
         $scope.property = null;
         $scope.modalstate = modalstate;
 

@@ -1,4 +1,4 @@
-app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate) {
+app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate, NgTableParams, MyService, $uibModal, $timeout) {
 
     $translatePartialLoader.addPart('properties');
 
@@ -47,7 +47,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
     };
 
-    $scope.toggle = function(modalstate, id) {
+    /*$scope.toggle = function(modalstate, id) {
         $('#formProperty')[0].reset();
         $scope.property = null;
         $scope.modalstate = modalstate;
@@ -77,9 +77,9 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         $('#myModal').modal('show');
         $scope.errors = null;
         $scope.process = null;
-    };
+    };*/
 
-    $scope.save = function(modalstate, id) {
+    /*$scope.save = function(modalstate, id) {
         var url      = API_URL + "PropertyEnt";
 
 
@@ -127,7 +127,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 growl.error(response.data.error, {title: 'error!'});
             }
         });
-    };
+    };*/
 
     $scope.showDragDropWindowEnt = function(id) {
 
@@ -209,6 +209,108 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             console.log($scope.units);
 
         });
+    };
+
+    $scope.openModalPropsEnt = function (size, modalstate, id, parentSelector) {
+
+        //$('#formProperty')[0].reset();
+        $scope.property = null;
+        $scope.modalstate = modalstate;
+
+        if(modalstate == "edit") {
+            $('#myModal select:first').prop('disabled', true);
+        } else {
+            $('#myModal select:first').prop('disabled', false);
+        }
+
+        switch (modalstate) {
+            case 'add':
+                $scope.id = id;
+                $scope.form_title = "Add New Property";
+                break;
+            case 'edit':
+                $scope.form_title = "Edit Property";
+                $scope.id = id;
+                $http.get(API_URL + '/properties/get_property/' + id)
+                    .then(function(response) {
+                        $scope.property = response.data;
+                    });
+                break;
+            default:
+                break;
+        }
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'modalPropsEnt',
+            controller: 'ModalInstanceCtrl1',
+            scope: $scope,
+            size: size,
+            //appendTo: parentElem,
+            resolve: {
+            }
+        }).closed.then(function() {
+            //handle ur close event here
+            //alert("modal closed");
+        });
+    };
+
+    $scope.ModalInstanceCtrl1 = function ($scope, $uibModalInstance) {
+
+        $scope.save = function(modalstate, id) {
+        var url      = API_URL + "PropertyEnt";
+
+
+        console.log(jQuery('#formProperty').serializeArray());
+
+        var formData = JSON.parse(JSON.stringify(jQuery('#formProperty').serializeArray()));
+
+        console.log(formData);
+
+        if (modalstate === 'edit') {
+            url += "/" + id ;
+        }
+
+        $http({
+            method: 'POST',
+            url: url,
+            data: $.param(formData),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function(response) {
+            //First function handles success
+            $scope.errors = [];
+            $scope.getEntities();
+           // $('#myModal').modal('hide');
+           $scope.cancel();
+
+            $('#myModal select:first').prop('disabled', false);
+            //$('#formProperty')[0].reset();
+
+
+            if(modalstate == "add") {
+                growl.success('SAVE_SUCCESS_MESSAGE',{title: 'SUCCESS'});
+            } else {
+                growl.success('EDIT_SUCCESS_MESSAGE',{title: 'SUCCESS'});
+            }
+        }, function(response) {
+            //Second function handles error
+            if (response.status == 400) {
+                $scope.errors = response.data.error;
+            } else if (response.status == 500) {
+
+                //$('#myModal').modal('hide');
+                //$('#formProperty')[0].reset();
+                $scope.cancel();
+
+                growl.error(response.data.error, {title: 'error!'});
+            }
+        });
+    };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     };
     
 }).directive('pagination', function(){

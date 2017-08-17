@@ -1,4 +1,4 @@
-<div class="modal-content">
+<div class="modal-content" id = "myModal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
         <h4 class="modal-title" id="myModalLabel">[[ form_title | translate]]</h4>
