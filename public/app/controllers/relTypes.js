@@ -129,10 +129,14 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             //headers: {'Content-Type': 'json'}
         }).then(function (response) {
+            console.log("lalal 11");
+            console.log(response);
             growl.success('This is success message.',{title: 'Success!'});
             $scope.getRelations();
         }, function errorCallback(response) {
-            if (response.status == 400)
+            console.log("lalal");
+            console.log(response);
+            if (response.status == 400 || response.status == 500)
             {
                 growl.error('This is error message.',{title: 'error!'});
             }

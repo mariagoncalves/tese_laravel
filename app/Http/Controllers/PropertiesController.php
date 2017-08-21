@@ -42,9 +42,7 @@ class PropertiesController extends Controller {
     public function getProperty($id) {
         $language_id = '1';
 
-        $property = Property::with(['language' => function($query) use ($language_id) {
-                                    $query->where('language_id', $language_id);
-                                }])
+        $property = Property::with('language')
                             ->with(['units.language' => function($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])

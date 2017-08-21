@@ -22,6 +22,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
     $scope.range = [];
     $scope.errors = [];
     $scope.propsEnt = [];
+     $scope.languages = [];
 
     $scope.getEntities = function(pageNumber) {
 
@@ -311,6 +312,15 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+    };
+
+     $scope.getLanguages = function() {
+
+        $http.get('/languages').then(function(response) {
+            $scope.languages = response.data;
+            console.log($scope.languages);
+
+        });
     };
     
 }).directive('pagination', function(){

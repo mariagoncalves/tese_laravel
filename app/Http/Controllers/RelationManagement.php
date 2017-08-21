@@ -204,6 +204,13 @@ class RelationManagement extends Controller
     public function remove(Request $request, $id) {
 
         $relType = RelType::find($id)->delete();
+        if ($relType) {
+            $result = RelTypeName::where('rel_type_id', $id)->delete();
+            if ($result) {
+                return response()->json();
+            }
+        }
 
+        return response()->json(['error' => 'An error occurred. Try later.'], 500);
     }
 }
