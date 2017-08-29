@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
         <h4 class="modal-title" id="myModalLabel">[[form_title | translate]]</h4>
     </div>
     <div class="modal-body">
@@ -19,41 +19,13 @@
                 <br>
             </div>
 
-            <!-- Buscar linguas, campo de testes -->
-            <!-- <div class="form-group" ng-init="getLanguages()">
-                <label class="col-sm-3 control-label">Linguas:</label>
+            <div class="form-group">
+                <label for="property_name" class="col-sm-3 control-label">[[ "THEADER3" | translate]]:</label>
                 <div class="col-sm-9">
-                    <select class="form-control" name="language_input">
-                        <option value=""></option>
-                        <option ng-repeat="language in languages" ng-value="language.id" ng-selected="">[[ language.name ]]</option>
-                    </select>
-                    <ul ng-repeat="error in errors.language_input" style="padding-left: 15px;">
+                    <input type="text" class="form-control" id="property_name" name="property_name" ng-value="property.language[0].pivot.name" >
+                    <ul ng-repeat="error in errors.property_name" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
                     </ul>
-                </div>
-                <br>
-            </div> -->
-
-
-
-            <div ng-init="getLanguages()">
-                <div class="form-group" ng-repeat="language in languages">
-                    <label for="inputName" class="col-sm-3 control-label">[[ "THEADER3" | translate]] ([[ language.slug ]]):</label>
-                    <div class="col-sm-9" ng-init="aux = 1">
-                        <div ng-repeat="langs in property.language">
-                            <div ng-if="language.id == langs.id">
-                                <input type="text" class="form-control" id="property_name_[[ language.slug ]]" name="property_name_[[ language.slug ]]" ng-value="langs.pivot.name">
-                            </div>
-                        </div>
-
-                        <div ng-if="property == null || property == ''">
-                            <input type="text" class="form-control" id="property_name_[[ language.slug ]]" name="property_name_[[ language.slug ]]">
-                        </div>
-                        <!--<input type="text" class="form-control" id="property_name_[[ language.slug ]]" name="property_name_[[ language.slug ]]" ng-value="property.language[0].pivot.name">-->
-                        <ul ng-repeat="error in errors['property_name_' + language.slug]" style="padding-left: 15px;">
-                            <li>[[ error ]]</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
 

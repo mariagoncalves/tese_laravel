@@ -313,15 +313,6 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             $uibModalInstance.dismiss('cancel');
         };
     };
-
-     $scope.getLanguages = function() {
-
-        $http.get('/languages').then(function(response) {
-            $scope.languages = response.data;
-            console.log($scope.languages);
-
-        });
-    };
     
 }).directive('pagination', function(){
     return{

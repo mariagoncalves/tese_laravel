@@ -75,7 +75,7 @@ class PropertiesOfEntitiesController extends Controller {
 
             $rules = [
                 'entity_type'              => ['required', 'integer'],
-                //'property_name'            => ['required', 'string'/*, Rule::unique('property_name' , 'name')->where('language_id', '1')*/],
+                'property_name'            => ['required', 'string'/*, Rule::unique('property_name' , 'name')->where('language_id', '1')*/],
                 'property_valueType'       => ['required'],
                 'property_fieldType'       => $rulesFieldType,
                 'property_mandatory'       => ['required'],
@@ -85,12 +85,6 @@ class PropertiesOfEntitiesController extends Controller {
                 'property_state'           => ['required'],
                 'reference_entity'         => ['integer']
             ];
-
-            $languages = Language::all();
-
-            foreach ($languages as $lang) {
-                $rules['property_name_'.$lang->slug] = ['required', 'string'];
-            }
 
             $err = Validator::make($data, $rules);
             // Verificar se existe algum erro.
@@ -128,33 +122,24 @@ class PropertiesOfEntitiesController extends Controller {
             // pegar o id da nova propriedade inserida
             $idNewProp = $newProp->id;
 
-            // inserir o nome da propriedade e o nome do campo form_field_name
-            foreach ($languages as $lang) {
-                $name = '';
-                if (isset($data['property_name_'.$lang->slug])) {
-                    $name = $data['property_name_'.$lang->slug];
-                }
+            //Criar o form_field_name
+            //Obter o nome da relação onde a propriedade vai ser inserida
+            $entity          = EntType::find($data['entity_type']);
+            $entity_name     = $entity->language->first()->name;
+            $ent             = substr($entity_name, 0 , 3);
+            $dash            = '-';
+            $field_name      = preg_replace('/[^a-z0-9_ ]/i', '', $data['property_name']);
+            // Substituimos todos pos espaços por underscore
+            $field_name      = str_replace(' ', '_', $field_name);
+            $form_field_name = $ent.$dash.$data['entity_type'].$dash.$field_name;
 
-                //Criar o form_field_name
-                //Obter o nome da relação onde a propriedade vai ser inserida
-                $entity          = EntType::find($data['entity_type']);
-                $entity_name     = $entity->language->first()->name;
-                $ent             = substr($entity_name, 0 , 3);
-                $dash            = '-';
-                $field_name      = preg_replace('/[^a-z0-9_ ]/i', '', $name);
-                // Substituimos todos pos espaços por underscore
-                $field_name      = str_replace(' ', '_', $field_name);
-                $form_field_name = $ent.$dash.$data['entity_type'].$dash.$field_name;
-
-                $dataProp = [
-                    'property_id'     => $idNewProp,
-                    'language_id'     => $lang->id,
-                    'name'            => $name,
-                    'form_field_name' => $form_field_name
-                ];
-                PropertyName::create($dataProp);
-            }
-
+            $dataProp = [
+                'property_id'     => $idNewProp,
+                'language_id'     => 1,
+                'name'            => $data['property_name'],
+                'form_field_name' => $form_field_name
+            ];
+            PropertyName::create($dataProp);
 
             return response()->json([]);
         } catch (\Exception $e) {
@@ -191,7 +176,7 @@ class PropertiesOfEntitiesController extends Controller {
         }
 
         $rules = [
-            //'property_name'       => ['required','string' , Rule::unique('property_name' , 'name')->where('language_id', '1')->ignore($id, 'property_id')],
+            'property_name'       => ['required','string' , Rule::unique('property_name' , 'name')->where('language_id', '1')->ignore($id, 'property_id')],
             'property_state'      => ['required'],
             'property_valueType'  => ['required'],
             'property_fieldType'  => $rulesFieldType,
@@ -202,12 +187,6 @@ class PropertiesOfEntitiesController extends Controller {
             'reference_entity'    => ['integer']
 
         ];
-
-        $languages = Language::all();
-
-        foreach ($languages as $lang) {
-            $rules['property_name_'.$lang->slug] = ['required','string' , Rule::unique('property_name', 'name')->where('language_id', $lang->id)->ignore($id, 'property_id')];
-        }
 
         $err = Validator::make($data, $rules);
         // Verificar se existe algum erro.
@@ -240,15 +219,13 @@ class PropertiesOfEntitiesController extends Controller {
         Property::where('id', $id)
                 ->update($data1);
 
-        foreach ($languages as $lang) {
-            $dataName = [
-                'name' => $data['property_name_'.$lang->slug],
-            ];
+        $dataName = [
+            'name' => $data['property_name'],
+        ];
 
-            PropertyName::where('property_id', $id)
-                        ->where('language_id', $lang->id)
-                        ->update($dataName);
-        }
+        PropertyName::where('property_id', $id)
+                    ->where('language_id', 1)
+                    ->update($dataName);
 
 
         return response()->json([]);

@@ -222,12 +222,6 @@ Route::get('/properties/fieldTypes', 'PropertiesController@getFieldTypes');
 Route::get('/properties/units', 'PropertiesController@getUnits');
 Route::get('/properties/get_property/{id?}', 'PropertiesController@getProperty');
 
-//-------------------------------------------------------------------------------------------------
-//TESTES
-
-Route::get('/languages', 'PropertiesOfEntitiesController@getLanguages');
-
-
 //******************************************Duarte***********************************************//
 //Users
 Route::get('/usersManage', 'UsersController@index');
