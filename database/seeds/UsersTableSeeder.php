@@ -12,41 +12,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
-        	[
-                'id'        => '1',
-        		'name'      => 'Maria',
-        		'email'     => 'maria@gmail.com',
-        		'password'  => bcrypt('1234567'),
-        		'user_name' => 'maria',
-        		'language_id' => '1',
-        		'user_type' => 'internal',
-        		'entity_id' => '1',
-        	],
-        	[	
-                'id'        => '2',
-                'name'      => 'Jéssica',
-        		'email'     => 'jessica@gmail.com',
-        		'password'  => bcrypt('1234567'),
-        		'user_name' => 'jessica',
-        		'language_id' => '1',
-        		'user_type' => 'internal',
-        		'entity_id' => '1',
-        	],
-        	[	
-                'id'        => '3',
-                'name'      => 'José',
-        		'email'     => 'jose@gmail.com',
-        		'password'  => bcrypt('1234567'),
-        		'user_name' => 'jose',
-        		'language_id' => '1',
-        		'user_type' => 'internal',
-        		'entity_id' => '1',
-        	]
-        ];
+        factory(Users::class, 1)->create(['name' => 'Maria', 'email' => 'maria@gmail.com']);
 
-        foreach ($dados as $value) {
-            Users::create($value);
-        }
+        factory(Users::class, 6)->create();
     }
 }

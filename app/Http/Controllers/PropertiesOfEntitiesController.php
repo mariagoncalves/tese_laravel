@@ -125,7 +125,11 @@ class PropertiesOfEntitiesController extends Controller {
             //Criar o form_field_name
             //Obter o nome da relação onde a propriedade vai ser inserida
             $entity          = EntType::find($data['entity_type']);
-            $entity_name     = $entity->language->first()->name;
+            //$entity_name     = $entity->entTypeName->first()->name;
+            $entity_name     = $entity->language->first()->pivot->name;
+            \Log::debug($entity_name);
+            //\Log::debug($entity_name);
+
             $ent             = substr($entity_name, 0 , 3);
             $dash            = '-';
             $field_name      = preg_replace('/[^a-z0-9_ ]/i', '', $data['property_name']);
@@ -143,6 +147,8 @@ class PropertiesOfEntitiesController extends Controller {
 
             return response()->json([]);
         } catch (\Exception $e) {
+            \Log::debug("Métod: insertPropsEnt");
+            \Log::debug($e);
             return response()->json(['error' => 'An error occurred. Try later.'], 500);
         }
     }

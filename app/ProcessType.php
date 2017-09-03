@@ -11,6 +11,7 @@ class ProcessType extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'process_type_id',
         'state',
 		'updated_by',
         'deleted_by'

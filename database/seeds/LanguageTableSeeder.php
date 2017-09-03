@@ -14,31 +14,22 @@ class LanguageTableSeeder extends Seeder
     {
         $dados = [
             [
-                'id'         => '1',
-                'name'       => 'Português',
-                'slug'       => 'pt',
-                'state'      => 'active',
-                'updated_by' => '1',
-                'deleted_by' => '1'
+                'name'   => 'Português',
+                'slug'   => 'pt',
             ],
-            [   'id'         => '2',
-                'name'       => 'Inglês',
-                'slug'       => 'en',
-                'state'      => 'active',
-                'updated_by' => '1',
-                'deleted_by' => '1'
+            [ 
+                'name'   => 'Inglês',
+                'slug'   => 'en',
             ],
-            [   'id'         => '3',
-                'name'       => 'Espanhol',
-                'slug'       => 'es',
-                'state'      => 'active',
-                'updated_by' => '1',
-                'deleted_by' => '1'
+            [
+                'name'   => 'Espanhol',
+                'slug'   => 'es',
             ]
         ];
 
         foreach ($dados as $value) {
-            Language::create($value);
+            factory(Language::class, 1)->create(['name' => $value['name'], 'slug' => $value['slug']]);
         }
+
     }
 }

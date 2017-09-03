@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\PropUnitType;
+use App\PropUnitTypeName;
 
 class PropUnitTypeTableSeeder extends Seeder
 {
@@ -12,35 +13,16 @@ class PropUnitTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
-        	[
-        		'id'         => '1',
-        		'state'      => 'active',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	],
-        	[
-        		'id'         => '2',
-        		'state'      => 'inactive',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	],
-        	[
-        		'id'         => '3',
-        		'state'      => 'active',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	],
-        	[
-        		'id'         => '4',
-        		'state'      => 'active',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	]
-        ];
+        $units = ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm'];
 
-        foreach ($dados as $value) {
-            PropUnitType::create($value);
+        foreach ($units as $unit) {
+            $newUnit = factory(PropUnitType::class, 1)->create();
+
+            factory(PropUnitTypeName::class, 1)->create([
+                'prop_unit_type_id' => $newUnit->id, 
+                'name'              => $unit,
+                'updated_by'        => $newUnit->updated_by,
+            ]);
         }
     }
 }

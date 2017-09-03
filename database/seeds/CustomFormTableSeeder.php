@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\CustomForm;
+use App\CustomFormName;
 
 class CustomFormTableSeeder extends Seeder
 {
@@ -12,29 +13,25 @@ class CustomFormTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
-        	[
-        		'id'         => '1',
-        		'state'      => 'active',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	],
-        	[
-        		'id'         => '2',
-        		'state'      => 'inactive',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	],
-        	[
-        		'id'         => '3',
-        		'state'      => 'active',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	]
-        ];
+        $forms = ['Formulário de Cedência de Transporte', 'Formulário de Apoios', 'Formulário de Concursos'];
 
-        foreach ($dados as $value) {
-            CustomForm::create($value);
+        foreach ($forms as $form) {
+            $newForm = factory(CustomForm::class, 1)->create();
+
+            factory(CustomFormName::class, 1)->create([
+                'custom_form_id' => $newForm->id, 
+                'name'           => $form,
+                'language_id'    => App\Language::where('slug', 'pt')->first()->id,
+                'updated_by'     => $newForm->updated_by,
+            ]);
         }
+
+        factory(CustomForm::class, 10)->create()->each(function($newForm) {
+            factory(CustomFormName::class, 1)->create([
+                'custom_form_id' => $newForm->id, 
+                'language_id'    => App\Language::where('slug', 'pt')->first()->id,
+                'updated_by'     => $newForm->updated_by,
+            ]);
+        });
     }
 }

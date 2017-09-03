@@ -12,29 +12,6 @@ class RoleHasUserTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
-        	[
-        		'role_id' => '1',
-        		'user_id'  => '1',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	],
-        	[
-        		'role_id' => '2',
-        		'user_id'  => '2',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	],
-        	[
-        		'role_id' => '3',
-        		'user_id'  => '3',
-                'updated_by' => '1',
-                'deleted_by' => '1'
-        	]
-        ];
-
-        foreach ($dados as $value) {
-            RoleHasUser::create($value);
-        }
+        factory(RoleHasUser::class, 7)->create();
     }
 }

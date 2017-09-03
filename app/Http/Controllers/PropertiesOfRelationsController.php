@@ -121,6 +121,10 @@ class PropertiesOfRelationsController extends Controller {
             //Obter o nome da relação onde a propriedade vai ser inserida
             $relation        = RelType::find($data['relation_type']);
             $relationName    = $relation->language->first()->name;
+
+            $entity_name     = $entity->entTypeName->first()->name;
+
+
             $rel             = substr($relationName, 0 , 3);
             $dash            = '-';
             $fieldName       = preg_replace('/[^a-z0-9_ ]/i', '', $data['property_name_rel']);

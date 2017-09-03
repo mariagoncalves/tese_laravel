@@ -59,9 +59,9 @@ class EntType extends Model
         return $this->hasMany('App\Property', 'ent_type_id', 'id');
     }
 
-    public function entTypeName() {
+    /*public function entTypeName() {
         return $this->hasMany('App\EntTypeName', 'ent_type_id', 'id');
-    }
+    }*/
 
     public function language() {
         return $this->belongsToMany('App\Language', 'ent_type_name', 'ent_type_id', 'language_id')->withPivot('name','created_at','updated_at','deleted_at');
