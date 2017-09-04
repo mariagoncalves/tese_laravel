@@ -35,5 +35,11 @@
   "BTN1FORM" : "Save changes",
   
   "BTNPAGINATION1" : "Next",
-  "BTNPAGINATION2" : "Prev"
+  "BTNPAGINATION2" : "Prev",
+
+  "REMOVE_PROPERTY" : "Remove property",
+  "REMOVE_MESSAGE" : "Are you sure you want to remove the property? ",
+
+  "YES" : "Yes",
+  "NO" : "No"
 }

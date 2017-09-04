@@ -36,7 +36,7 @@
                 <th> [[ "THEADER10" | translate]] </th>
                 <th> [[ "THEADER11" | translate]] </th>
                 <th> [[ "THEADER12" | translate]] </th>
-                <th> [[ "THEADER13" | translate]] </th>
+                <!-- <th> [[ "THEADER13" | translate]] </th> -->
 
                 <th> 
                     <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER14" | translate]]</button> -->
@@ -55,7 +55,7 @@
                     </div>
                 </td>
 
-                <td ng-if="entity.properties.length == 0" colspan="12">[[ "NO_PROPERTIES" | translate]]</td>
+                <td ng-if="entity.properties.length == 0" colspan="11">[[ "NO_PROPERTIES" | translate]]</td>
                 <td ng-if="entity.properties.length == 0" colspan="1">
                     <!--<button class="btn btn-default btn-xs btn-detail">Inserir</button> -->
                     <button class="btn btn-danger btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
@@ -73,11 +73,11 @@
                     <td>[[ property.state ]]</td>
                     <td>[[ property.created_at ]]</td>
                     <td>[[ property.updated_at ]]</td>
-                    <td>[[ property.deleted_at ]]</td>
+                    <!-- <td>[[ property.deleted_at ]]</td> -->
                     <td>
                         <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', property.id)">[[ "BTNTABLE1" | translate]]</button> -->
                         <button type="button" class="btn btn-xs btn-warning" ng-click="openModalPropsEnt('md', 'edit', property.id)">Edit</button>
-                        <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(relation.id)">[[ "BTNTABLE4" | translate]]</button>
+                        <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(property.id)">[[ "BTNTABLE4" | translate]]</button>
                         <button class="btn btn-primary btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                     </td>
                     <tr ng-repeat-end ng-if="false"></tr>

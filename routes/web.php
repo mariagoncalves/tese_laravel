@@ -119,7 +119,7 @@ Route::post('/Process_Type_del/{id}', 'ProcessTypes@delete');
 
 //***********************************MARIA****************************//
 //Properties Home Page
-Route::get('/propertiesManage', 'PropertiesManagment@index'); //método inválido
+//Route::get('/propertiesManage', 'PropertiesManagment@index'); //método inválido
 /*Route::get('/properties/states', 'PropertiesManagment@getStates');
 Route::get('/properties/valueTypes', 'PropertiesManagment@getValueTypes');
 Route::get('/properties/fieldTypes', 'PropertiesManagment@getFieldTypes');
@@ -193,6 +193,14 @@ Route::get('/modalPropsEnt', function () {
 Route::get('/modalDragDropPropsEnt', function () {
     return view('properties/modalDragDropPropsEnt');
 });
+
+Route::post('/PropertyOfEntities_remove/{id}', 'PropertiesOfEntitiesController@remove');
+
+Route::get('/modalConfirm', function () {
+    return view('properties/modalConfirm');
+});
+
+
 
 //----------------------------------Relação----------------------------------------------------
 

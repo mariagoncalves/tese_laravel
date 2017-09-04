@@ -3,11 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 
 class Property extends Model
 {
-     protected $table = 'property';
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+
+    protected $table = 'property';
 
     public $timestamps = true;
 

@@ -274,4 +274,17 @@ class PropertiesOfEntitiesController extends Controller {
 
         return response()->json($languages);
     }
+
+    public function remove(Request $request, $id) {
+
+        $property = Property::find($id)->delete();
+        if ($property) {
+            $result = PropertyName::where('property_id', $id)->delete();
+            if ($result) {
+                return response()->json();
+            }
+        }
+
+        return response()->json(['error' => 'An error occurred. Try later.'], 500);
+    }
 }

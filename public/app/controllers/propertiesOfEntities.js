@@ -313,6 +313,33 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             $uibModalInstance.dismiss('cancel');
         };
     };
+
+    $scope.remove = function(id) {
+        var url = API_URL + "PropertyOfEntities_remove/" + id;
+
+        $http({
+            method: 'POST',
+            url: url,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            //headers: {'Content-Type': 'json'}
+        }).then(function (response) {
+            console.log("lalal 11");
+            console.log(response);
+            growl.success('This is success message.',{title: 'Success!'});
+            $scope.getEntities();
+        }, function errorCallback(response) {
+            console.log("lalal");
+            console.log(response);
+            if (response.status == 400 || response.status == 500)
+            {
+                growl.error('This is error message.',{title: 'error!'});
+            }
+            else
+            {
+                $scope.errors = response.data;
+            }
+        });
+    };
     
 }).directive('pagination', function(){
     return{

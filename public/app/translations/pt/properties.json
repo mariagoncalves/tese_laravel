@@ -34,5 +34,11 @@
 
   "BTN1FORM" : "Guardar Alterações",
   "BTNPAGINATION1" : "Próximo",
-  "BTNPAGINATION2" : "Anterior"
+  "BTNPAGINATION2" : "Anterior",
+
+  "REMOVE_PROPERTY" : "Remover propriedade",
+  "REMOVE_MESSAGE" : "Tem a certeza que pretende remover a propriedade?",
+
+  "YES" : "Sim",
+  "NO" : "Não"
 }

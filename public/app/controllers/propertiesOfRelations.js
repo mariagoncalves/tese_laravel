@@ -302,6 +302,98 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
             $uibModalInstance.dismiss('cancel');
         };
     };
+
+    /*$scope.confirmRemove = function (id) {
+
+        console.log("O id da prop é " + id);
+
+        $('#modalConfirm').modal('show');
+
+        $scope.remove = function(id) {
+
+        console.log("Consigo ter aqui o id e é: " + id);
+        var url = API_URL + "PropertyOfEntities_remove/" + id;
+
+        $http({
+            method: 'POST',
+            url: url,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            //headers: {'Content-Type': 'json'}
+        }).then(function (response) {
+            console.log("lalal 11");
+            console.log(response);
+            growl.success('This is success message.',{title: 'Success!'});
+            $scope.getEntities();
+        }, function errorCallback(response) {
+            console.log("lalal");
+            console.log(response);
+            if (response.status == 400 || response.status == 500)
+            {
+                growl.error('This is error message.',{title: 'error!'});
+            }
+            else
+            {
+                $scope.errors = response.data;
+            }
+        });
+    };*/
+
+    $scope.openModaConfirm = function (size, id, parentSelector) {
+
+        console.log(id);
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'modalConfirm',
+            controller: 'ModalInstanceCtrl2',
+            scope: $scope,
+            size: size,
+            //appendTo: parentElem,
+            resolve: {
+            }
+        }).closed.then(function() {
+            //handle ur close event here
+            //alert("modal closed");
+        });
+    };
+
+    $scope.ModalInstanceCtrl2 = function ($scope, $uibModalInstance) {
+
+        $scope.remove = function(id) {
+
+            console.log("Consigo ter aqui o id e é: " + id);
+            /*var url = API_URL + "PropertyOfEntities_remove/" + id;
+
+            $http({
+                method: 'POST',
+                url: url,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                //headers: {'Content-Type': 'json'}
+            }).then(function (response) {
+                console.log("lalal 11");
+                console.log(response);
+                growl.success('This is success message.',{title: 'Success!'});
+                $scope.cancel();
+            }, function errorCallback(response) {
+                console.log("lalal");
+                console.log(response);
+                if (response.status == 400 || response.status == 500)
+                {
+                    growl.error('This is error message.',{title: 'error!'});
+                }
+                else
+                {
+                    $scope.errors = response.data;
+                }
+            });*/
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    };
     
 }).directive('pagination', function(){
     return{
