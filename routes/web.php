@@ -167,25 +167,15 @@ Route::get('/modalrelType', function () {
 });
 
 //Novas rotas com entidades separadas das relações
-//----------------------------------Entidade----------------------------------------------------
+//----------------------------------Propriedades da Entidade----------------------------------------------------
 
 Route::get('/propertiesManageEnt', 'PropertiesOfEntitiesController@getAllPropertiesOfEntities');
 Route::get('/properties/get_props_ents', 'PropertiesOfEntitiesController@getAllEnt');
 
 Route::post('/PropertyEnt', 'PropertiesOfEntitiesController@insertPropsEnt');
 Route::post('/PropertyEnt/{id?}', 'PropertiesOfEntitiesController@updatePropsEnt');
-
-//Métodos comuns
-/*Route::get('/properties/states', 'PropertiesOfEntitiesController@getStates');
-Route::get('/properties/valueTypes', 'PropertiesOfEntitiesController@getValueTypes');
-Route::get('/properties/fieldTypes', 'PropertiesOfEntitiesController@getFieldTypes');
-Route::get('/properties/units', 'PropertiesOfEntitiesController@getUnits');
-Route::get('/properties/get_property/{id?}', 'PropertiesOfEntitiesController@getProperty');*/
-
 Route::get('/properties/getPropsEntity/{id?}', 'PropertiesOfEntitiesController@getPropsEntities');
-
 Route::post('/updateOrderEnt', 'PropertiesOfEntitiesController@updateOrderPropsEnt');
-
 Route::get('/modalPropsEnt', function () {
     return view('properties/modalPropsEnt');
 });
@@ -200,19 +190,10 @@ Route::get('/modalConfirm', function () {
     return view('properties/modalConfirm');
 });
 
-
-
-//----------------------------------Relação----------------------------------------------------
+//----------------------------------Propriedades da Relação----------------------------------------------------
 
 Route::get('/propertiesManageRel', 'PropertiesOfRelationsController@getAllPropertiesOfRelations');
 Route::get('/properties/get_props_rel', 'PropertiesOfRelationsController@getAllRel');
-//Comum
-/*Route::get('/properties/get_property/{id?}', 'PropertiesOfRelationsController@getProperty');
-Route::get('/properties/states', 'PropertiesOfEntitiesController@getStates');
-Route::get('/properties/valueTypes', 'PropertiesOfEntitiesController@getValueTypes');
-Route::get('/properties/fieldTypes', 'PropertiesOfEntitiesController@getFieldTypes');
-Route::get('/properties/units', 'PropertiesOfEntitiesController@getUnits');*/
-
 Route::post('/PropertyRel', 'PropertiesOfRelationsController@insertPropsRel');
 Route::post('/PropertyRel/{id?}', 'PropertiesOfRelationsController@updatePropsRel');
 Route::get('/properties/getPropsRelation/{id?}', 'PropertiesOfRelationsController@getPropsRelations');
@@ -229,6 +210,26 @@ Route::get('/properties/valueTypes', 'PropertiesController@getValueTypes');
 Route::get('/properties/fieldTypes', 'PropertiesController@getFieldTypes');
 Route::get('/properties/units', 'PropertiesController@getUnits');
 Route::get('/properties/get_property/{id?}', 'PropertiesController@getProperty');
+
+//----------------------------------Pesquisa Dinâmica----------------------------------------------------
+
+Route::get('/dynamicSearch', 'DynamicSearchController@index');
+Route::get('/dynamicSearch/entities', 'DynamicSearchController@getEntities');
+
+Route::get('/dynamicSearch/entityDetails/{id?}', 'DynamicSearchController@getEntitiesDetails');
+
+//Teste
+//Route::get('/dynamicSearch/selectEntity/{id?}', 'DynamicSearchController@getEntitiesData');
+
+
+
+
+
+
+
+
+
+
 
 //******************************************Duarte***********************************************//
 //Users

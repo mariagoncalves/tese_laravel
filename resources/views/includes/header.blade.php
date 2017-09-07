@@ -37,6 +37,9 @@
                 <li>
                     <a href="/">Entities</a>
                 </li>
+                <li>
+                    <a href="/dynamicSearch">Dynamic Search</a>
+                </li>
             </ul>
         </li>
 		<li>

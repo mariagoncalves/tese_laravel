@@ -125,7 +125,7 @@ class PropertiesOfEntitiesController extends Controller {
             //Criar o form_field_name
             //Obter o nome da relação onde a propriedade vai ser inserida
             $entity          = EntType::find($data['entity_type']);
-            //$entity_name     = $entity->entTypeName->first()->name;
+
             $entity_name     = $entity->language->first()->pivot->name;
             \Log::debug($entity_name);
             //\Log::debug($entity_name);

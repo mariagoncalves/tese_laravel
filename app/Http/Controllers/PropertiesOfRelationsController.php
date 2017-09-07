@@ -120,9 +120,7 @@ class PropertiesOfRelationsController extends Controller {
             //Criar o form_field_name
             //Obter o nome da relação onde a propriedade vai ser inserida
             $relation        = RelType::find($data['relation_type']);
-            $relationName    = $relation->language->first()->name;
-
-            $entity_name     = $entity->entTypeName->first()->name;
+            $relationName    = $relation->language->first()->pivot->name;
 
 
             $rel             = substr($relationName, 0 , 3);
