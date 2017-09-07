@@ -215,11 +215,10 @@ Route::get('/properties/get_property/{id?}', 'PropertiesController@getProperty')
 
 Route::get('/dynamicSearch', 'DynamicSearchController@index');
 Route::get('/dynamicSearch/entities', 'DynamicSearchController@getEntities');
-
 Route::get('/dynamicSearch/entityDetails/{id?}', 'DynamicSearchController@getEntitiesDetails');
 
-//Teste
-//Route::get('/dynamicSearch/selectEntity/{id?}', 'DynamicSearchController@getEntitiesData');
+
+Route::get('/dynamicSearch/entity/{id?}', 'DynamicSearchController@getEntitiesData');
 
 
 

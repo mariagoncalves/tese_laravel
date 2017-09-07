@@ -35,5 +35,22 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
                     });
 
     }*/
+
+    $scope.teste = function (id) {
+
+        console.log("O id ta funcionando_: " + id + " Funciona mesmo?");
+    }
+
+    $scope.getEntitiesData = function (id) {
+
+        console.log(id);
+
+        $http.get(API_URL + '/dynamicSearch/entity/' + id)
+                    .then(function(response) {
+                        $scope.ents = response.data;
+                        console.log('dados dos ents: ');
+                        console.log($scope.ents);
+                    });
+    }
 });
 

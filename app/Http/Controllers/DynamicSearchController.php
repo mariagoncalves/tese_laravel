@@ -37,7 +37,31 @@ class DynamicSearchController extends Controller
 
     public function getEntitiesDetails($id) {
 
-    	\Log::debug($id);
-    	return view('entitiesDetails', compact('id'));
+    	//\Log::debug($id);
+    	//return view('entitiesDetails', compact('id'));
+
+    	$data = ['id' => $id];
+    	return view('entitiesDetails')->with($data);
+    }
+
+    public function getEntitiesData($id) {
+
+    	//\Log::debug($id);
+
+    	$language_id = '1';
+
+        $ents = EntType::with(['language' => function($query) use ($language_id)  {
+        						$query->where('language_id', $language_id);
+        					}])
+        				->with(['properties' => function($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+        				->with(['properties.language' => function($query) use ($language_id) {
+        						$query->where('language_id', $language_id);
+        					}])->find($id);
+
+        \Log::debug($ents);
+
+        return response()->json($ents);
     }
 }
