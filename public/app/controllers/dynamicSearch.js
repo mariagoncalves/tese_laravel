@@ -16,6 +16,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.ents = [];
     $scope.operators = [];
     $scope.propAllowedValues = [];
+    $scope.fkEnt = [];
 
     $scope.getEntities = function () {
 
@@ -24,19 +25,6 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             console.log($scope.entities);
         });
     }
-
-    /*$scope.getEntitiesData = function (id) {
-
-        $scope.id = id;
-        console.log(id);
-
-        $http.get(API_URL + '/dynamicSearch/selectEntity/' + id)
-                    .then(function(response) {
-                        $scope.ents = response.data;
-                        console.log($scope.ents);
-                    });
-
-    }*/
 
     $scope.teste = function (id) {
 
@@ -57,7 +45,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
     $scope.getOperators = function () {
 
-        console.log("tá avor");
+        //console.log("tá avor");
 
         $http.get('/dynamicSearch/getOperators').then(function(response) {
             $scope.operators = response.data;
@@ -65,9 +53,9 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
-     $scope.getEnumValues = function (id) {
+    $scope.getEnumValues = function (id) {
 
-        console.log("tá avir fdddfd" + id);
+        //console.log("tá avir fdddfd" + id);
 
         $http.get(API_URL + '/dynamicSearch/getEnumValues/' + id).then(function(response) {
             $scope.propAllowedValues = response.data;
@@ -75,5 +63,15 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
+    $scope.getEntityInstances = function (entityId, propId) {
+
+        console.log("tá a vir e o id da Entity é " + entityId + " e o id da prop é: " + propId);
+
+        $http.get(API_URL + '/dynamicSearch/getEntityInstances/' + entityId + '/' + propId).then(function(response) {
+            $scope.fkEnt = response.data[0];
+            console.log("Dados instancias");
+            console.log($scope.fkEnt);
+        });
+    }
 });
 

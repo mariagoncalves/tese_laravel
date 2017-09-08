@@ -18,7 +18,7 @@
 	                </tr>
 	            </thead>
 		        <tbody>
-	                <td ng-if="ents.properties.length == 0" colspan="4"> Não tem propriedades </td>
+	                <td ng-if="ents.properties.length == 0" colspan="4"> A entidade [[ents.language[0].pivot.name ]] não tem propriedades </td>
 
 	                <div ng-if = "ents.properties.length > 0">
 		                <tr ng-repeat="property in ents.properties">
@@ -34,13 +34,13 @@
 									</div>
 									<div ng-switch-when="enum">
 										<select name = "selectET" ng-init = "getEnumValues(property.id)">
-							        		<option ng-repeat = "propAllowedValue in propAllowedValues"> [[ propAllowedValue ]] </option>
+							        		<option ng-repeat = "propAllowedValue in propAllowedValues"> [[ propAllowedValue.language[0].pivot.name ]] </option>
 							        	</select>
 									</div>
 									<div ng-switch-when="ent_ref"> 
-										<select name = "ent_refER" >
-							        		<option></option> <!--This solves the problem that operatores always where sent in set state-->
-							        		<option> </option>
+										<select name = "ent_refER" ng-init = "getEntityInstances(ents.id, property.id)">
+							        		<option></option>
+							        		<option ng-repeat = "inst in fkEnt.fk_ent_type.entity"> [[ inst.language[0].pivot.name ]] </option>
 							        	</select>
 									</div>
 							        <div ng-switch-default>
@@ -57,6 +57,15 @@
             	</tbody>
 			</table> 
 		</div>
+
+		<div>
+
+
+
+		</div>
+
+
+
 	</div>
 	<input type="hidden" name="estado" value="execucao">
 	<input type="submit" value="Pesquisar">
