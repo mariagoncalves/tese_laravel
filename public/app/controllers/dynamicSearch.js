@@ -14,6 +14,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
     $scope.entities = [];
     $scope.ents = [];
+    $scope.operators = [];
+    $scope.propAllowedValues = [];
 
     $scope.getEntities = function () {
 
@@ -52,5 +54,26 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
                         console.log($scope.ents);
                     });
     }
+
+    $scope.getOperators = function () {
+
+        console.log("tá avor");
+
+        $http.get('/dynamicSearch/getOperators').then(function(response) {
+            $scope.operators = response.data;
+            console.log($scope.operators);
+        });
+    }
+
+     $scope.getEnumValues = function (id) {
+
+        console.log("tá avir fdddfd" + id);
+
+        $http.get(API_URL + '/dynamicSearch/getEnumValues/' + id).then(function(response) {
+            $scope.propAllowedValues = response.data;
+            console.log($scope.propAllowedValues);
+        });
+    }
+
 });
 
