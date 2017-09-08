@@ -25,7 +25,33 @@
 		                    <td>[[ property.id ]]</td>
 		                    <td>[[ property.language[0].pivot.name ]]</td>
 		                    <td><input type="checkbox" name = "" value = "[[ property.id ]]"> </td>
-		                    <td> </td>
+		                    <td>
+		                    	<div ng-switch on="property.value_type">
+							        <div ng-switch-when="text"> <input type="text" name=""> </div>
+							        <div ng-switch-when="bool"> 
+							        	<input type="radio" name="radioET" value="true">True
+										<input type="radio" name="radioET" value="false">False 
+									</div>
+									<div ng-switch-when="enum">
+										<select name = "selectET" ng-init = "getEnumValues(property.id)">
+							        		<option ng-repeat = "propAllowedValue in propAllowedValues"> [[ propAllowedValue ]] </option>
+							        	</select>
+									</div>
+									<div ng-switch-when="ent_ref"> 
+										<select name = "ent_refER" >
+							        		<option></option> <!--This solves the problem that operatores always where sent in set state-->
+							        		<option> </option>
+							        	</select>
+									</div>
+							        <div ng-switch-default>
+							        	<select name = "operators" ng-init = "getOperators()">
+							        		<option></option> <!--This solves the problem that operatores always where sent in set state-->
+							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+							        	</select>
+							        	<input type="text" name="doubleER">
+							        </div>
+								</div>
+		                    </td>
 		                </tr>
 	            	</div>
             	</tbody>

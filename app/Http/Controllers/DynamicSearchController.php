@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\EntType;
+use App\PropAllowedValue;
 
 class DynamicSearchController extends Controller
 {
@@ -63,5 +64,24 @@ class DynamicSearchController extends Controller
         \Log::debug($ents);
 
         return response()->json($ents);
+    }
+
+    public function getOperators() {
+
+        $operators = array(
+            "lower"=>"<",
+            "greater"=>">",
+            "equal"=>"=",
+            "different"=>"!="
+            );
+
+        return response()->json($operators);
+   }
+
+   public function getEnumValues($id) {
+
+        $propAllowedValues = PropAllowedValue::where('prop_allowed_value.property.id', $id);
+
+        return response()->json($propAllowedValues);
     }
 }

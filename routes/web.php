@@ -216,6 +216,8 @@ Route::get('/properties/get_property/{id?}', 'PropertiesController@getProperty')
 Route::get('/dynamicSearch', 'DynamicSearchController@index');
 Route::get('/dynamicSearch/entities', 'DynamicSearchController@getEntities');
 Route::get('/dynamicSearch/entityDetails/{id?}', 'DynamicSearchController@getEntitiesDetails');
+Route::get('/dynamicSearch/getOperators', 'DynamicSearchController@getOperators');
+Route::get('/dynamicSearch/getEnumValues/{id?}', 'DynamicSearchController@getEnumValues');
 
 
 Route::get('/dynamicSearch/entity/{id?}', 'DynamicSearchController@getEntitiesData');
