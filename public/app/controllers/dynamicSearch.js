@@ -17,6 +17,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.operators = [];
     $scope.propAllowedValues = [];
     $scope.fkEnt = [];
+    $scope.entRefs = []; 
 
     $scope.getEntities = function () {
 
@@ -71,6 +72,17 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             $scope.fkEnt = response.data[0];
             console.log("Dados instancias");
             console.log($scope.fkEnt);
+        });
+    }
+
+    $scope.getEntRefs = function (id) {
+
+        //console.log("teste com id: " + id);
+
+        $http.get(API_URL + '/dynamicSearch/getEntRefs/' + id).then(function(response) {
+            $scope.entRefs = response.data;
+            console.log("Ddos das ent refs");
+            console.log($scope.entRefs);
         });
     }
 });

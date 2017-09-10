@@ -94,10 +94,42 @@ class DynamicSearchController extends Controller
         				    ->where('id', $propId)
         				    ->get();
 
-        \Log::debug($fkEnt);
+        //\Log::debug($fkEnt);
 
         return response()->json($fkEnt);
     }
 
+    public function getEntRefs($id) {
+
+        /*$language_id = '1';
+
+        $entRefs = EntType::with(['language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->with(['properties' => function($query) use ($language_id) {
+                            $query->where('language_id', $language_id);
+                        }])
+                        ->where('property.value_type', 'ent_ref')
+                        ->where('property.fk_ent_type_id', $id)
+                        ->get();
+
+        \Log::debug($entRefs);*/
+
+        $language_id = '1';
+
+        $entRefs = Property::with(['entType.language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->with(['language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->where('property.value_type', 'ent_ref')
+                        ->where('property.fk_ent_type_id', $id)
+                        ->get();
+
+        \Log::debug($entRefs);
+
+        return response()->json($entRefs);
+    }
 
 }

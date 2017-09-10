@@ -219,7 +219,8 @@ Route::get('/dynamicSearch/entityDetails/{id?}', 'DynamicSearchController@getEnt
 Route::get('/dynamicSearch/getOperators', 'DynamicSearchController@getOperators');
 Route::get('/dynamicSearch/getEnumValues/{id?}', 'DynamicSearchController@getEnumValues');
 Route::get('/dynamicSearch/getEntityInstances/{entityId?}/{propId?}', 'DynamicSearchController@getEntityInstances');
-///dynamicSearch/getEntityInstances/' + entityId + '/' + propId
+Route::get('/dynamicSearch/getEntRefs/{id?}', 'DynamicSearchController@getEntRefs');
+
 
 
 Route::get('/dynamicSearch/entity/{id?}', 'DynamicSearchController@getEntitiesData');
