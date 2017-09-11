@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\EntType;
 use App\PropAllowedValue;
 use App\Property;
+use App\RelType;
 
 class DynamicSearchController extends Controller
 {
@@ -101,35 +102,58 @@ class DynamicSearchController extends Controller
 
     public function getEntRefs($id) {
 
-        /*$language_id = '1';
-
-        $entRefs = EntType::with(['language' => function ($query) use ($language_id) {
-                                $query->where('language_id', $language_id);
-                            }])
-                        ->with(['properties' => function($query) use ($language_id) {
-                            $query->where('language_id', $language_id);
-                        }])
-                        ->where('property.value_type', 'ent_ref')
-                        ->where('property.fk_ent_type_id', $id)
-                        ->get();
-
-        \Log::debug($entRefs);*/
-
         $language_id = '1';
 
         $entRefs = Property::with(['entType.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
-                        ->with(['language' => function ($query) use ($language_id) {
+                        /*->with(['language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
-                            }])
+                            }])*/
                         ->where('property.value_type', 'ent_ref')
                         ->where('property.fk_ent_type_id', $id)
                         ->get();
 
-        \Log::debug($entRefs);
+        //\Log::debug($entRefs);
 
         return response()->json($entRefs);
+    }
+
+    public function getPropsOfEnts($id) {
+
+        $language_id = '1';
+
+        $propsOfEnts = Property::with(['language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->where('property.ent_type_id', $id)
+                        ->get();
+
+        //\Log::debug($propsOfEnts);
+
+        return response()->json($propsOfEnts);
+    }
+
+    public function getRelsWithEnt($id) {
+
+        $language_id = '1';
+
+        $relsWithEnt = RelType::with(['language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->with(['properties' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->with(['properties.language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->where('ent_type1_id', $id)
+                        ->orWhere('ent_type2_id', $id)
+                        ->get();
+
+        \Log::debug($relsWithEnt);
+
+        return response()->json($relsWithEnt);
     }
 
 }

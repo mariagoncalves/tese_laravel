@@ -17,7 +17,10 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.operators = [];
     $scope.propAllowedValues = [];
     $scope.fkEnt = [];
-    $scope.entRefs = []; 
+    $scope.entRefs = [];
+    $scope.propsOfEnts = [];
+    $scope.relsWithEnt = [];
+
 
     $scope.getEntities = function () {
 
@@ -25,11 +28,6 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             $scope.entities = response.data;
             console.log($scope.entities);
         });
-    }
-
-    $scope.teste = function (id) {
-
-        console.log("O id ta funcionando_: " + id + " Funciona mesmo?");
     }
 
     $scope.getEntitiesData = function (id) {
@@ -66,7 +64,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
     $scope.getEntityInstances = function (entityId, propId) {
 
-        console.log("tá a vir e o id da Entity é " + entityId + " e o id da prop é: " + propId);
+        //console.log("tá a vir e o id da Entity é " + entityId + " e o id da prop é: " + propId);
 
         $http.get(API_URL + '/dynamicSearch/getEntityInstances/' + entityId + '/' + propId).then(function(response) {
             $scope.fkEnt = response.data[0];
@@ -83,6 +81,28 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             $scope.entRefs = response.data;
             console.log("Ddos das ent refs");
             console.log($scope.entRefs);
+        });
+    }
+
+    $scope.getPropsOfEnts = function (id) {
+
+        console.log("teste com id getPropsOfEnts: " + id);
+
+        $http.get(API_URL + '/dynamicSearch/getPropsOfEnts/' + id).then(function(response) {
+            $scope.propsOfEnts = response.data;
+            console.log("Ddos getPropsOfEnts");
+            console.log($scope.propsOfEnts);
+        });
+    }
+
+    $scope.getRelsWithEnt = function (id) {
+
+        console.log("teste com id getRelsWithEnt: " + id);
+
+        $http.get(API_URL + '/dynamicSearch/getRelsWithEnt/' + id).then(function(response) {
+            $scope.relsWithEnt = response.data;
+            console.log("Ddos relsWithEnt");
+            console.log($scope.relsWithEnt);
         });
     }
 });
