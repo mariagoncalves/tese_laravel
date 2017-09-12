@@ -31,7 +31,10 @@ class DynamicSearchController extends Controller
     	//\Log::debug($id);
     	//return view('entitiesDetails', compact('id'));
 
-    	$data = ['id' => $id];
+    	$data = [
+                'id' => $id,
+                'count' => '0'
+                ];
     	return view('entitiesDetails')->with($data);
     }
 
@@ -127,6 +130,7 @@ class DynamicSearchController extends Controller
                                 $query->where('language_id', $language_id);
                             }])
                         ->where('property.ent_type_id', $id)
+                        //->where('property.value_type', '!=', 'ent_ref') //Evita a verificação na vista
                         ->get();
 
         //\Log::debug($propsOfEnts);
@@ -147,6 +151,12 @@ class DynamicSearchController extends Controller
                         ->with(['properties.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
+                        /*->with(['ent1' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->with(['ent2' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])*/
                         ->where('ent_type1_id', $id)
                         ->orWhere('ent_type2_id', $id)
                         ->get();
