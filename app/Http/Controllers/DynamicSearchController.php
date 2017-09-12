@@ -163,4 +163,26 @@ class DynamicSearchController extends Controller
         return response()->json($relsWithEnt);
     }
 
+    public function getEntsRelated($id) {
+
+        $language_id = '1';
+
+        $entsRelated = RelType::with(['language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->with(['ent1.language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->with(['ent2.language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->where('id', $id)
+                            ->get();
+
+
+        \Log::debug($entsRelated);
+
+        return response()->json($entsRelated);
+    }
+
 }

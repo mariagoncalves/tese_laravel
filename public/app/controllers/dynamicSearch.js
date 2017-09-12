@@ -20,6 +20,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.entRefs = [];
     $scope.propsOfEnts = [];
     $scope.relsWithEnt = [];
+    $scope.entRelated = [];
 
 
     $scope.getEntities = function () {
@@ -57,7 +58,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         //console.log("tá avir fdddfd" + id);
 
         $http.get(API_URL + '/dynamicSearch/getEnumValues/' + id).then(function(response) {
-            $scope.propAllowedValues = response.data;
+            $scope.propAllowedValues[id] = response.data;
             console.log("Prop Allowed value");
             console.log($scope.propAllowedValues);
         });
@@ -107,15 +108,15 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
-    $scope.entRelated = function (ent_type1) {
+    $scope.getEntsRelated = function (id) {
 
-        console.log("tá a vir e o id da ENT1 é " + ent_type1 + " e o id da ENT2é: " + "fd");
+        console.log("ID RELATION: " + id);
 
-        /*$http.get(API_URL + '/dynamicSearch/getEntityInstances/' + entityId + '/' + propId).then(function(response) {
-            $scope.fkEnt = response.data[0];
-            console.log("Dados instancias");
-            console.log($scope.fkEnt);
-        });*/
+        $http.get(API_URL + '/dynamicSearch/getEntsRelated/' + id).then(function(response) {
+            $scope.entRelated = response.data[0];
+            console.log("Dados entRelated");
+            console.log($scope.entRelated);
+        });
     }
 });
 
