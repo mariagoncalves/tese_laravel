@@ -58,6 +58,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
         $http.get(API_URL + '/dynamicSearch/getEnumValues/' + id).then(function(response) {
             $scope.propAllowedValues = response.data;
+            console.log("Prop Allowed value");
             console.log($scope.propAllowedValues);
         });
     }
@@ -67,7 +68,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         console.log("getEntityInstances: o id da Entity é " + entityId + " e o id da prop é: " + propId);
 
         $http.get(API_URL + '/dynamicSearch/getEntityInstances/' + entityId + '/' + propId).then(function(response) {
-            $scope.fkEnt = response.data[0];
+            $scope.fkEnt[propId] = response.data[0];
             console.log("Dados instancias getEntityInstances");
             console.log($scope.fkEnt);
         });
@@ -89,7 +90,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         console.log("teste com id getPropsOfEnts: " + id);
 
         $http.get(API_URL + '/dynamicSearch/getPropsOfEnts/' + id).then(function(response) {
-            $scope.propsOfEnts = response.data;
+            $scope.propsOfEnts[id] = response.data;
             console.log("Ddos getPropsOfEnts");
             console.log($scope.propsOfEnts);
         });

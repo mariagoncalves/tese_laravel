@@ -266,15 +266,6 @@ class PropertiesOfEntitiesController extends Controller {
         return response()->json();
     }
 
-    public function getLanguages() {
-
-        $language_id = '1';
-
-        $languages = Language::all();
-
-        return response()->json($languages);
-    }
-
     public function remove(Request $request, $id) {
 
         $property = Property::find($id)->delete();

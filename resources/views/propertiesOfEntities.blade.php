@@ -239,6 +239,5 @@
     </div>
 @stop
 @section('footerContent')
-    <!-- ALTERADO - TESTES -->
     <script src="<?= asset('app/controllers/propertiesOfEntities.js') ?>"></script>
 @stop
