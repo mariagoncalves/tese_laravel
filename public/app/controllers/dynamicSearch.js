@@ -20,7 +20,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.entRefs = [];
     $scope.propsOfEnts = [];
     $scope.relsWithEnt = [];
-    $scope.entRelated = [];
+    $scope.entsRelated = [];
+    $scope.propsEntRelated = [];
 
 
     $scope.getEntities = function () {
@@ -113,9 +114,20 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         console.log("ID RELATION: " + id);
 
         $http.get(API_URL + '/dynamicSearch/getEntsRelated/' + id).then(function(response) {
-            $scope.entRelated = response.data[0];
-            console.log("Dados entRelated");
-            console.log($scope.entRelated);
+            $scope.entsRelated = response.data[0];
+            console.log("Dados entsRelated");
+            console.log($scope.entsRelated);
+        });
+    }
+
+    $scope.getPropsEntRelated = function (id) {
+
+        console.log("IDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD da entidade relacionada: " + id);
+
+        $http.get(API_URL + '/dynamicSearch/getPropsEntRelated/' + id).then(function(response) {
+            $scope.propsEntRelated = response.data[0];
+            console.log("Dados propsEntRelated");
+            console.log($scope.propsEntRelated);
         });
     }
 });

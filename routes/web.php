@@ -223,7 +223,7 @@ Route::get('/dynamicSearch/getEntRefs/{id?}', 'DynamicSearchController@getEntRef
 Route::get('/dynamicSearch/getPropsOfEnts/{id?}', 'DynamicSearchController@getPropsOfEnts');
 Route::get('/dynamicSearch/getRelsWithEnt/{id?}', 'DynamicSearchController@getRelsWithEnt');
 Route::get('/dynamicSearch/getEntsRelated/{id?}', 'DynamicSearchController@getEntsRelated');
-
+Route::get('/dynamicSearch/getPropsEntRelated/{id?}', 'DynamicSearchController@getPropsEntRelated');
 
 
 

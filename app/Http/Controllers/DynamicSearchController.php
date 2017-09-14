@@ -148,17 +148,17 @@ class DynamicSearchController extends Controller
                         ->with(['properties.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
-                        /*->with(['ent1' => function ($query) use ($language_id) {
+                        ->with(['ent1.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
-                        ->with(['ent2' => function ($query) use ($language_id) {
+                        ->with(['ent2.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
-                            }])*/
+                            }])
                         ->where('ent_type1_id', $id)
                         ->orWhere('ent_type2_id', $id)
                         ->get();
 
-        \Log::debug($relsWithEnt);
+        //\Log::debug($relsWithEnt);
 
         return response()->json($relsWithEnt);
     }
@@ -180,9 +180,46 @@ class DynamicSearchController extends Controller
                             ->get();
 
 
-        \Log::debug($entsRelated);
+        //\Log::debug($entsRelated);
 
         return response()->json($entsRelated);
+    }
+
+    public function getPropsEntRelated($id) {
+
+        \Log::debug($id);
+
+        /*$language_id = '1';
+
+        $propsEntRelated = Property::with(['language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->where('ent_type_id', $id)
+
+                            ->get();
+
+
+        \Log::debug($propsEntRelated);
+
+        return response()->json($propsEntRelated);*/
+
+        $language_id = '1';
+
+        $propsEntRelated = EntType::with(['language' => function($query) use ($language_id)  {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->with(['properties' => function($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                        ->with(['properties.language' => function($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])->find($id);
+
+
+        \Log::debug($propsEntRelated);
+
+        return response()->json($propsEntRelated);
+
     }
 
 }
