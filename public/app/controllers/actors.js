@@ -305,4 +305,3 @@ app.controller('actorsController', function($scope, $http, growl, API_URL, $tran
         '</ul>'
     };
 });
-

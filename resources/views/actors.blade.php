@@ -151,6 +151,5 @@
 @stop
 @section('footerContent')
     <script src="<?= asset('app/controllers/actors.js') ?>"></script>
-
 @stop
 

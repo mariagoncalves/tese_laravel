@@ -163,11 +163,13 @@ class DynamicSearchController extends Controller
         return response()->json($relsWithEnt);
     }
 
-    public function getEntsRelated($id) {
-
+    public function getEntsRelated($idRelType, $idEntType) {
         $language_id = '1';
 
-        $entsRelated = RelType::with(['language' => function ($query) use ($language_id) {
+        $entsRelated = RelType::where(function ($query) use ($idEntType) {
+                                $query->where('ent_type1_id', $idEntType)->orWhere('ent_type2_id', $idEntType);
+                            })
+                            ->with(['language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
                             ->with(['ent1.language' => function ($query) use ($language_id) {
@@ -176,50 +178,37 @@ class DynamicSearchController extends Controller
                             ->with(['ent2.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
-                            ->where('id', $id)
+                            ->get()
+                            ->toArray();
+
+        foreach ($entsRelated as $key => $value) {
+            $ent_type_id = '';
+            if ($value['ent_type1_id'] == $idEntType) {
+                $ent_type_id = $value['ent_type2_id'];
+            } else {
+                $ent_type_id = $value['ent_type1_id'];
+            }
+
+            $properteis = Property::with(['language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->where('ent_type_id', $ent_type_id)
+                            ->with('entType')
                             ->get();
 
+            $entsRelated[$key]['properteis'] = $properteis->toArray();
+        }
 
         //\Log::debug($entsRelated);
-
         return response()->json($entsRelated);
     }
 
-    public function getPropsEntRelated($id) {
+    public function pesquisa ($id)  {
 
         \Log::debug($id);
 
-        /*$language_id = '1';
+        
 
-        $propsEntRelated = Property::with(['language' => function ($query) use ($language_id) {
-                                $query->where('language_id', $language_id);
-                            }])
-                            ->where('ent_type_id', $id)
-
-                            ->get();
-
-
-        \Log::debug($propsEntRelated);
-
-        return response()->json($propsEntRelated);*/
-
-        $language_id = '1';
-
-        $propsEntRelated = EntType::with(['language' => function($query) use ($language_id)  {
-                                $query->where('language_id', $language_id);
-                            }])
-                        ->with(['properties' => function($query) use ($language_id) {
-                                $query->where('language_id', $language_id);
-                            }])
-                        ->with(['properties.language' => function($query) use ($language_id) {
-                                $query->where('language_id', $language_id);
-                            }])->find($id);
-
-
-        \Log::debug($propsEntRelated);
-
-        return response()->json($propsEntRelated);
-
+        return response()->json();
     }
-
 }

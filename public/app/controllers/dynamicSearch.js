@@ -22,6 +22,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.relsWithEnt = [];
     $scope.entsRelated = [];
     $scope.propsEntRelated = [];
+    $scope.information = [];
 
 
     $scope.getEntities = function () {
@@ -109,13 +110,14 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
-    $scope.getEntsRelated = function (id) {
+    $scope.getEntsRelated = function (idRelType, idEntType) {
 
-        console.log("ID RELATION: " + id);
+        console.log("ID RELATION: " + idRelType);
+        console.log("ID ENTIDADE: " + idEntType);
 
-        $http.get(API_URL + '/dynamicSearch/getEntsRelated/' + id).then(function(response) {
-            $scope.entsRelated = response.data[0];
-            console.log("Dados entsRelated");
+        $http.get(API_URL + '/dynamicSearch/getEntsRelated/' + idRelType + '/' + idEntType).then(function(response) {
+            $scope.entsRelated = response.data;
+            console.log("Dados entsRelated TETETE: ");
             console.log($scope.entsRelated);
         });
     }
@@ -130,5 +132,18 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             console.log($scope.propsEntRelated);
         });
     }
+
+    $scope.pesquisa = function (id) {
+
+        console.log("IDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD da PESQUISAAA: " + id);
+
+        $http.get(API_URL + '/dynamicSearch/pesquisa/' + id).then(function(response) {
+            $scope.information = response.data[0];
+            console.log("Dados information");
+            console.log($scope.information);
+        });
+    }
+
+
 });
 

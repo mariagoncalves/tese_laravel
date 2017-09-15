@@ -215,6 +215,7 @@ Route::get('/properties/get_property/{id?}', 'PropertiesController@getProperty')
 
 Route::get('/dynamicSearch', 'DynamicSearchController@index');
 Route::get('/dynamicSearch/entities', 'DynamicSearchController@getEntities');
+Route::get('/dynamicSearch/entity/{id?}', 'DynamicSearchController@getEntitiesData');
 Route::get('/dynamicSearch/entityDetails/{id?}', 'DynamicSearchController@getEntitiesDetails');
 Route::get('/dynamicSearch/getOperators', 'DynamicSearchController@getOperators');
 Route::get('/dynamicSearch/getEnumValues/{id?}', 'DynamicSearchController@getEnumValues');
@@ -222,12 +223,11 @@ Route::get('/dynamicSearch/getEntityInstances/{entityId?}/{propId?}', 'DynamicSe
 Route::get('/dynamicSearch/getEntRefs/{id?}', 'DynamicSearchController@getEntRefs');
 Route::get('/dynamicSearch/getPropsOfEnts/{id?}', 'DynamicSearchController@getPropsOfEnts');
 Route::get('/dynamicSearch/getRelsWithEnt/{id?}', 'DynamicSearchController@getRelsWithEnt');
-Route::get('/dynamicSearch/getEntsRelated/{id?}', 'DynamicSearchController@getEntsRelated');
+Route::get('/dynamicSearch/getEntsRelated/{idRelType?}/{idEntType}', 'DynamicSearchController@getEntsRelated');
 Route::get('/dynamicSearch/getPropsEntRelated/{id?}', 'DynamicSearchController@getPropsEntRelated');
 
 
-
-Route::get('/dynamicSearch/entity/{id?}', 'DynamicSearchController@getEntitiesData');
+Route::get('/dynamicSearch/pesquisa/{id?}', 'DynamicSearchController@pesquisa');
 
 
 

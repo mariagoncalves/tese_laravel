@@ -114,12 +114,15 @@
             </div>
 
             <div class="form-group">
-                <label for="entityType" class="col-sm-3 control-label">[[ "INPUT_REF_ENT" | translate]]:</label>
+                <label for="reference_entity" class="col-sm-3 control-label">[[ "INPUT_REF_ENT" | translate]]:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="reference_entity">
                         <option value="0"></option>
                         <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.fk_ent_type_id">[[ entity.language[0].pivot.name ]]</option>
                     </select>
+                    <ul ng-repeat="error in errors.reference_entity" style="padding-left: 15px;">
+                        <li>[[ error ]]</li>
+                    </ul>
                 </div>
             </div>
         </form>
