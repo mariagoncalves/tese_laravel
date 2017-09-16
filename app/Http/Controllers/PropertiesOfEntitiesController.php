@@ -59,6 +59,7 @@ class PropertiesOfEntitiesController extends Controller {
             }
 
             $rulesFieldType = ['required'];
+            $rulesEntRef = ['integer'];
 
             if(isset($data['property_valueType']) && $data['property_valueType'] == 'text') {
                 //$rulesFieldType = 'required|regex:((text)|(textbox))';
@@ -69,6 +70,7 @@ class PropertiesOfEntitiesController extends Controller {
                 $rulesFieldType = ['required', Rule::in(['radio','selectbox', 'checkbox']),];
             } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'ent_ref') {
                 $rulesFieldType = ['required', Rule::in(['selectbox']),];
+                $rulesEntRef = ['required', 'integer'];
             } else {
                 $rulesFieldType = ['required', Rule::in(['text']),];
             }
@@ -83,7 +85,7 @@ class PropertiesOfEntitiesController extends Controller {
                 'unites_names'             => ['integer'],
                 'property_fieldSize'       => $propertyFieldSize,
                 'property_state'           => ['required'],
-                'reference_entity'         => ['integer']
+                'reference_entity'         => $rulesEntRef
             ];
 
             $err = Validator::make($data, $rules);
@@ -167,6 +169,7 @@ class PropertiesOfEntitiesController extends Controller {
         }
 
         $rulesFieldType = ['required'];
+        $rulesEntRef = ['integer'];
 
         if(isset($data['property_valueType']) && $data['property_valueType'] == 'text') {
             //$rulesFieldType = 'required|regex:((text)|(textbox))';
@@ -177,6 +180,7 @@ class PropertiesOfEntitiesController extends Controller {
             $rulesFieldType = ['required', Rule::in(['radio','selectbox', 'checkbox']),];
         } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'ent_ref') {
             $rulesFieldType = ['required', Rule::in(['selectbox']),];
+            $rulesEntRef = ['required', 'integer'];
         } else {
             $rulesFieldType = ['required', Rule::in(['text']),];
         }
@@ -190,7 +194,7 @@ class PropertiesOfEntitiesController extends Controller {
             //'property_fieldOrder' => ['required', 'integer', 'min:1'],
             'unites_names'        => ['integer'],
             'property_fieldSize'  => $propertyFieldSize,
-            'reference_entity'    => ['integer']
+            'reference_entity'    => $rulesEntRef
 
         ];
 
@@ -277,5 +281,20 @@ class PropertiesOfEntitiesController extends Controller {
         }
 
         return response()->json(['error' => 'An error occurred. Try later.'], 500);
+    }
+
+    // testes
+
+    public function getAllProps() {
+
+        $language_id = '1';
+
+        $props = Property::with(['language' => function($query) use ($language_id) {
+                                    $query->where('language_id', $language_id);
+                                }])
+                            ->get();
+
+        //\Log::debug($props);
+
     }
 }

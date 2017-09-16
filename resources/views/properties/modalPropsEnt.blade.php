@@ -117,14 +117,32 @@
                 <label for="reference_entity" class="col-sm-3 control-label">[[ "INPUT_REF_ENT" | translate]]:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="reference_entity">
-                        <option value="0"></option>
+                        <option value=""></option>
                         <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.fk_ent_type_id">[[ entity.language[0].pivot.name ]]</option>
                     </select>
+                    <!-- <input type = "text" class="form-control" name = "reference_entity" id = "reference_entity"> -->
                     <ul ng-repeat="error in errors.reference_entity" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
                     </ul>
                 </div>
             </div>
+            <!-- <div class="form-group">
+                <label for="assoc_properties" class="col-sm-3 control-label">Propriedades:</label>
+                <div class="col-sm-9">
+                    <script type="text/javascript">
+                        $(".propselecting").select2({
+                            placeholder: "Props",
+                            allowClear: true
+                        });
+                    </script>
+                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="selroles" ng-options="role.id as role.name for role in roles" required>
+                    </select>
+
+                    <ul ng-repeat="error in errors.assoc_properties" style="padding-left: 15px;">
+                        <li>[[ error ]]</li>
+                    </ul>
+                </div>
+            </div> -->
         </form>
     </div>
     <div class="modal-footer">

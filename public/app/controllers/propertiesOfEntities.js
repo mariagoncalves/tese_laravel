@@ -22,7 +22,8 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
     $scope.range = [];
     $scope.errors = [];
     $scope.propsEnt = [];
-     $scope.languages = [];
+    //$scope.languages = [];
+    $scope.props = [];
 
     $scope.getEntities = function(pageNumber) {
 
@@ -228,6 +229,28 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             case 'add':
                 $scope.id = id;
                 $scope.form_title = "Add New Property";
+
+
+                /*$http.get(API_URL + 'get_actors/' + id)
+                    .then(function(response) {
+                        $scope.actor = response.data;
+                    });*/
+                $http.get(API_URL + '/actors/get_roles')
+                    .then(function(response) {
+                        $scope.roles = response.data;
+                    });
+                $http.get(API_URL + '/actors/get_selroles/' + id)
+                    .then(function(response) {
+                        $scope.selroles = response.data;
+                    });
+    
+                /*$http.get(API_URL + '/properties/getAllProps')
+                    .then(function(response) {
+                        console.log("OLHA AS PROPS");
+                        $scope.props = response.data;
+                        console.log($scope.props);
+                    });*/
+
                 break;
             case 'edit':
                 $scope.form_title = "Edit Property";
@@ -340,6 +363,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             }
         });
     };
+
     
 }).directive('pagination', function(){
     return{

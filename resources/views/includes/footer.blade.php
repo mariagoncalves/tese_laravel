@@ -16,6 +16,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
+
 <!-- Novo -->
 <!-- <script src="<?= asset('../app/lib/angular-sanitize.min.js') ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.js"></script> -->

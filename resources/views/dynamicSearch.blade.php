@@ -1,6 +1,7 @@
 @extends('layouts.default')
 @section('content')
 
+
 <h3> Pesquisa dinâmica - Escolher tipo de entidade</h3>
 <div ng-controller="dynamicSearchControllerJs">
 	<div ng-init="getEntities()">
@@ -15,6 +16,7 @@
 		</div>
 	</div>
 </div>
+
 
 @stop
 @section('footerContent')
