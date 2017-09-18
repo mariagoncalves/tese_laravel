@@ -7,7 +7,7 @@
 <form>
 	<div ng-controller="dynamicSearchControllerJs"> 
 		<div ng-init = "getEntitiesData({{$id}})">
-			<h3>Lista de propriedades da entidade [[ents.language[0].pivot.name ]] </h3>
+			<h3> <!-- {{trans("dynamicSearch.Title_Table1")}} --> Lista de propriedades da entidade [[ents.language[0].pivot.name ]] </h3>
 			<table class="table table-striped" border = "1px solid">
 	            <thead>
 	                <tr>

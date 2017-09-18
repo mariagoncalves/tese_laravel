@@ -22,6 +22,8 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
     $scope.range = [];
     $scope.errors = [];
     $scope.propsEnt = [];
+    $scope.propEntity = [];
+    $scope.select2PropEntity = [];
     //$scope.languages = [];
     $scope.props = [];
 
@@ -281,57 +283,82 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
     };
 
+    $scope.changedSelectEntitiesValue = function() {
+        console.log("Alterou");
+        var value = $("[name=entity_type]").val();
+        //value = value.split(":")[1];
+
+       if (value == '' || value == undefined) {
+            $("[name=fk_property]").prop('disabled', 'disabled');
+            $("#propselect").prop('disabled', 'disabled');
+
+            $scope.propEntity = [];
+            $scope.select2PropEntity = [];
+        } else {
+            $("[name=fk_property]").removeAttr("disabled");
+            $("#propselect").removeAttr("disabled");
+
+            $http.get('/properties/getPropsEntity/' + value).then(function(response) {
+                console.log(response.data);
+                $scope.propEntity = response.data;
+                $scope.select2PropEntity = response.data;
+            });
+       }
+    };
+
     $scope.ModalInstanceCtrl1 = function ($scope, $uibModalInstance) {
 
         $scope.save = function(modalstate, id) {
-        var url      = API_URL + "PropertyEnt";
+            var url      = API_URL + "PropertyEnt";
 
+            console.log(jQuery('#formProperty').serializeArray());
 
-        console.log(jQuery('#formProperty').serializeArray());
+            var formData = JSON.parse(JSON.stringify(jQuery('#formProperty').serializeArray()));
 
-        var formData = JSON.parse(JSON.stringify(jQuery('#formProperty').serializeArray()));
+            formData.push({'name': 'propselect', 'value': $("#propselect").val()});
+            console.log(formData);
+            console.log($("#propselect").val());
 
-        console.log(formData);
-
-        if (modalstate === 'edit') {
-            url += "/" + id ;
-        }
-
-        $http({
-            method: 'POST',
-            url: url,
-            data: $.param(formData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function(response) {
-            //First function handles success
-            $scope.errors = [];
-            $scope.getEntities();
-           // $('#myModal').modal('hide');
-           $scope.cancel();
-
-            $('#myModal select:first').prop('disabled', false);
-            //$('#formProperty')[0].reset();
-
-
-            if(modalstate == "add") {
-                growl.success('SAVE_SUCCESS_MESSAGE',{title: 'SUCCESS'});
-            } else {
-                growl.success('EDIT_SUCCESS_MESSAGE',{title: 'SUCCESS'});
+            if (modalstate === 'edit') {
+                url += "/" + id ;
             }
-        }, function(response) {
-            //Second function handles error
-            if (response.status == 400) {
-                $scope.errors = response.data.error;
-            } else if (response.status == 500) {
 
-                //$('#myModal').modal('hide');
+            $http({
+                method: 'POST',
+                url: url,
+                data: $.param(formData),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function(response) {
+                //First function handles success
+                $scope.errors = [];
+                $scope.getEntities();
+               // $('#myModal').modal('hide');
+               $scope.cancel();
+
+                $('#myModal select:first').prop('disabled', false);
                 //$('#formProperty')[0].reset();
-                $scope.cancel();
 
-                growl.error(response.data.error, {title: 'error!'});
-            }
-        });
-    };
+
+                if(modalstate == "add") {
+                    growl.success('SAVE_SUCCESS_MESSAGE',{title: 'SUCCESS'});
+                } else {
+                    growl.success('EDIT_SUCCESS_MESSAGE',{title: 'SUCCESS'});
+                }
+            }, function(response) {
+                //Second function handles error
+                if (response.status == 400) {
+                    $scope.errors = response.data.error;
+                } else if (response.status == 500) {
+
+                    //$('#myModal').modal('hide');
+                    //$('#formProperty')[0].reset();
+                    $scope.cancel();
+
+                    growl.error(response.data.error, {title: 'error!'});
+                }
+            });
+        };
+
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };

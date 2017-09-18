@@ -38,7 +38,7 @@ class PropertiesOfRelationsController extends Controller {
                                 $query->orderBy('form_field_order', 'asc');
                             }])->whereHas('language', function ($query) use ($language_id){
                                 return $query->where('language_id', $language_id);
-                            })->paginate(1);
+                            })->paginate(10);
 
 
         return response()->json($rels);

@@ -7,6 +7,69 @@
 
         <button class="btn btn-default btn-xs btn-detail" ng-click="dotranslate()">TRANSLATE</button>
 
+        <!-- Tabela utilizando o ng-table -->
+
+        <!-- <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
+            <colgroup>
+                <col width="60%" />
+                <col width="20%" />
+                <col width="20%" />
+            </colgroup>
+            <tr class="ng-table-group" ng-repeat-start="group in $groups">
+                <td colspan="1">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>[[ group.value ]]</strong>
+                    </a>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows" ng-repeat="relation in group.data" ng-repeat-end>
+                <td sortable="'name'" filter="{name: 'text'}" data-title="'THEADER5' | translate" groupable="'name'">
+                    [[relation.language[0].pivot.name]]
+                </td>
+                <td sortable="'id'" data-title="'ID'">
+                    [[transactiontype.id]]
+                </td>
+                <td sortable="'t_name'" filter="{'t_name': 'text'}" data-title="'THEADER2' | translate" groupable="'t_name'">
+                    [[transactiontype.t_name]]
+                </td>
+                <td sortable="'rt_name'" data-title="'THEADER3' | translate" groupable="'rt_name'">
+                    [[transactiontype.rt_name]]
+                </td>
+
+                <td sortable="'state'" data-title="'State'" groupable="'state'">
+                    [[transactiontype.state]]
+                </td>
+
+                <td sortable="'state'" data-title="'Created_at'">
+                    [[ transactiontype.created_at ]]
+                </td>
+
+                <td sortable="'updated_at'" data-title="'Updated_at'">
+                    [[ transactiontype.updated_at ]]
+                </td>
+
+                <td sortable="'deleted_at'" data-title="'Deleted_at'">
+                    [[ transactiontype.deleted_at ]]
+                </td>
+
+                <td sortable="'executer'" data-title="'Executer'">
+                    [[ transactiontype.executer ]]
+                </td>
+
+                <td>
+                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', transactiontype.id)">[[ "BTNTABLE1" | translate]]</button>
+                    <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
+                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
+                </td>
+            </tr>
+        </table> -->
+ 
+
+
+
+
+
         <!-- Table-to-load-the-data Part -->
         <table class="table table-striped" st-table="displayedCollection" ng-init="getRelations()" st-safe-src="relations">
             <thead>
@@ -36,7 +99,7 @@
                 <th> [[ "THEADER10" | translate]] </th>
                 <th> [[ "THEADER11" | translate]] </th>
                 <th> [[ "THEADER12" | translate]] </th>
-                <th> [[ "THEADER13" | translate]] </th>
+                <!-- <th> [[ "THEADER13" | translate]] </th> -->
                 <th> 
                     <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggleRel('add', 0)">[[ "THEADER14" | translate]]</button> -->
                     <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsRel('md', 'add', 0)">Add Properties</button>
@@ -54,7 +117,7 @@
                     </div>
                 </td>
 
-                <td ng-if="relation.properties.length == 0" colspan="12">[[ "NO_PROPERTIES" | translate]]</td>
+                <td ng-if="relation.properties.length == 0" colspan="11">[[ "NO_PROPERTIES" | translate]]</td>
                 <td ng-if="relation.properties.length == 0" colspan="1">
                     <!-- <button class="btn btn-default btn-xs btn-detail">Inserir</button> -->
                     <button class="btn btn-danger btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
@@ -72,7 +135,7 @@
                     <td>[[ property.state ]]</td>
                     <td>[[ property.created_at ]]</td>
                     <td>[[ property.updated_at ]]</td>
-                    <td>[[ property.deleted_at ]]</td>
+                    <!-- <td>[[ property.deleted_at ]]</td> -->
                     <td>
                         <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggleRel('edit', property.id)">[[ "BTNTABLE1" | translate]]</button> -->
                         <button type="button" class="btn btn-xs btn-warning" ng-click="openModalPropsRel('md', 'edit', property.id)">Edit</button>
@@ -84,7 +147,7 @@
                 </tr>
             </tbody>
         </table>
-         <div>
+        <div>
             <pagination></pagination>
         </div>
 

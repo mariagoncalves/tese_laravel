@@ -8,9 +8,9 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">[[ "THEADER1" | translate]]:</label>
                 <div class="col-sm-9">
-                    <select class="form-control" name="entity_type">
+                    <select class="form-control" name="entity_type" ng-model="entity_type" ng-change="changedSelectEntitiesValue()">
                         <option value=""></option>
-                        <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.ent_type_id">[[ entity.language[0].pivot.name ]]</option>
+                        <option ng-repeat="entity in entities" value="[[ entity.id ]]" ng-selected="entity.id == property.ent_type_id">[[ entity.language[0].pivot.name ]]</option>
                     </select>
                     <ul ng-repeat="error in errors.entity_type" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
@@ -113,11 +113,12 @@
                 </div>
             </div>
 
+            <!-- Aqui é só um select para selecionar apenas um -->
             <div class="form-group">
-                <label for="reference_entity" class="col-sm-3 control-label">[[ "INPUT_REF_ENT" | translate]]:</label>
+                <label for="reference_entity" class="col-sm-3 control-label"> Fk_entity_type:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="reference_entity">
-                        <option value=""></option>
+                        <option value="0"></option>
                         <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.fk_ent_type_id">[[ entity.language[0].pivot.name ]]</option>
                     </select>
                     <!-- <input type = "text" class="form-control" name = "reference_entity" id = "reference_entity"> -->
@@ -126,23 +127,64 @@
                     </ul>
                 </div>
             </div>
-            <!-- <div class="form-group">
-                <label for="assoc_properties" class="col-sm-3 control-label">Propriedades:</label>
+            <div class="form-group">
+                <label for="fk_property" class="col-sm-3 control-label"> Fk_property:</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="fk_property" ng-disabled="true">
+                        <option value=""></option>
+                        <option ng-repeat="property in propEntity.properties" ng-value="property.id">[[ property.language[0].pivot.name ]]</option>
+                    </select>
+                    <ul ng-repeat="error in errors.fk_property" style="padding-left: 15px;">
+                        <li>[[ error ]]</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Fazer o multiselect nestes dois campos -->
+             <div class="form-group">
+                <label for="ent_type_info" class="col-sm-3 control-label"> Entity_type_info:</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="ent_type_info">
+                        <option value=""></option>
+                        <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.fk_ent_type_id">[[ entity.language[0].pivot.name ]]</option>
+                    </select>
+                    <!-- <input type = "text" class="form-control" name = "reference_entity" id = "reference_entity"> -->
+                    <!-- <ul ng-repeat="error in errors.ent_type_info" style="padding-left: 15px;">
+                        <li>[[ error ]]</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="prop_type_info" class="col-sm-3 control-label"> Property_info:</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="prop_type_info">
+                        <option value=""></option>
+                        <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.fk_ent_type_id">[[ entity.language[0].pivot.name ]]</option>
+                    </select> -->
+                    <!-- <input type = "text" class="form-control" name = "reference_entity" id = "reference_entity"> -->
+                    <ul ng-repeat="error in errors.prop_type_info" style="padding-left: 15px;">
+                        <li>[[ error ]]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Exemplo de multiselect -->
+            <div class="form-group">
+                <label for="assoc_properties" class="col-sm-3 control-label">Property_info:</label>
                 <div class="col-sm-9">
                     <script type="text/javascript">
                         $(".propselecting").select2({
-                            placeholder: "Props",
+                            placeholder: "Properties",
                             allowClear: true
                         });
                     </script>
-                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="selroles" ng-options="role.id as role.name for role in roles" required>
+                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" ng-disabled="true" name="propselect" ng-model="propselect" ng-options="propEntity.id as propEntity.language[0].pivot.name for propEntity in select2PropEntity.properties" required>
                     </select>
 
                     <ul ng-repeat="error in errors.assoc_properties" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
                     </ul>
                 </div>
-            </div> -->
+            </div>
         </form>
     </div>
     <div class="modal-footer">

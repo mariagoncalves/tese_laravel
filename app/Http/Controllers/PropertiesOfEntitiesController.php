@@ -48,6 +48,7 @@ class PropertiesOfEntitiesController extends Controller {
     public function insertPropsEnt(Request $request) {
         try {
             $data = $request->all();
+            \Log::debug($data);
 
             $propertyFieldSize = '';
             if(isset($data["property_fieldType"])) {
@@ -60,6 +61,7 @@ class PropertiesOfEntitiesController extends Controller {
 
             $rulesFieldType = ['required'];
             $rulesEntRef = ['integer'];
+            $rulePropRef = ['integer'];
 
             if(isset($data['property_valueType']) && $data['property_valueType'] == 'text') {
                 //$rulesFieldType = 'required|regex:((text)|(textbox))';
@@ -71,6 +73,11 @@ class PropertiesOfEntitiesController extends Controller {
             } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'ent_ref') {
                 $rulesFieldType = ['required', Rule::in(['selectbox']),];
                 $rulesEntRef = ['required', 'integer'];
+            } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'prop_ref') {
+                $rulesFieldType = ['required', Rule::in(['selectbox']),];
+                $rulePropRef = ['required', 'integer'];
+            } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'file') {
+                $rulesFieldType = ['required', Rule::in(['file']),];
             } else {
                 $rulesFieldType = ['required', Rule::in(['text']),];
             }
@@ -85,7 +92,8 @@ class PropertiesOfEntitiesController extends Controller {
                 'unites_names'             => ['integer'],
                 'property_fieldSize'       => $propertyFieldSize,
                 'property_state'           => ['required'],
-                'reference_entity'         => $rulesEntRef
+                'reference_entity'         => $rulesEntRef,
+                //'fk_property'              => $rulePropRef 
             ];
 
             $err = Validator::make($data, $rules);
@@ -117,7 +125,8 @@ class PropertiesOfEntitiesController extends Controller {
                 'form_field_size'  => $data['property_fieldSize'      ],
                 'mandatory'        => $data['property_mandatory'      ],
                 'state'            => $data['property_state'          ],
-                'fk_ent_type_id'   => $data['reference_entity'        ]
+                'fk_ent_type_id'   => $data['reference_entity'        ],
+                'fk_property_id'   => $data['fk_property'             ],
             );
 
             $newProp   = Property::create($data1);
@@ -146,6 +155,27 @@ class PropertiesOfEntitiesController extends Controller {
                 'form_field_name' => $form_field_name
             ];
             PropertyName::create($dataProp);
+
+            // Adicionar propriedades na nova propriedade
+            if(isset($data['propselect']) && $data['propselect']) {
+                $propselect = explode(',', $data['propselect']);
+                
+                \Log::debug("Nova propriedade: " . $idNewProp);
+                \Log::debug("Associação das propriedades: ");
+                foreach($propselect as $prop){
+                    $prop_id = str_replace('number:', '', $prop);
+                    \Log::debug($prop_id);
+                    /*$relation = $actor->actorRole()->where('role_id', $roleid)->first();
+
+                    if (is_null($relation)) {
+                        $roleactor = new RoleHasActor();
+                        $roleactor->role_id = $roleid;
+                        $roleactor->actor_id = $request->input('actor_id');
+                        $roleactor->updated_by = 1;
+                        $roleactor->save();
+                    }*/
+                }
+            }
 
             return response()->json([]);
         } catch (\Exception $e) {
@@ -252,6 +282,7 @@ class PropertiesOfEntitiesController extends Controller {
                                     $query->orderBy('form_field_order', 'asc');
                                 }])
                             ->find($id);
+
 
         return response()->json($propsEnt);
     }
