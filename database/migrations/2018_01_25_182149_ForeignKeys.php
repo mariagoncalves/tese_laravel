@@ -39,10 +39,10 @@ class ForeignKeys extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
         });
-        Schema::table('custom_form_has_prop', function(Blueprint $table) {
+        /*Schema::table('custom_form_has_ent_type', function(Blueprint $table) {
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
-        });
+        });*/
         Schema::table('ent_type', function(Blueprint $table) {
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
@@ -185,6 +185,16 @@ class ForeignKeys extends Migration
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
         });
 
+        Schema::table('actor_can_read_property', function(Blueprint $table) {
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
+            $table->foreign('deleted_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
+        });
+
+        Schema::table('actor_can_read_ent_type', function(Blueprint $table) {
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
+            $table->foreign('deleted_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
+        });
+
 
 //        Schema::table('agent', function (Blueprint $table) {
 //            $table->foreign('user_id')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
@@ -204,15 +214,15 @@ class ForeignKeys extends Migration
         });
 //
 //
-        Schema::table('custom_form_has_prop', function(Blueprint $table) {
-            $table->foreign('property_id')->references('id')->on('property')->onDelete('no action')->onUpdate('no action');
+        /*Schema::table('custom_form_has_ent_type', function(Blueprint $table) {
+            $table->foreign('ent_type_id')->references('id')->on('ent_type')->onDelete('no action')->onUpdate('no action');
             $table->foreign('custom_form_id')->references('id')->on('custom_form')->onDelete('no action')->onUpdate('no action');
-            $table->primary(array('property_id', 'custom_form_id'));
-        });
+            $table->primary(array('ent_type_id', 'custom_form_id'));
+        });*/
 //
         Schema::table('ent_type', function(Blueprint $table) {
-        $table->foreign('par_ent_type_id')->references('id')->on('ent_type')->onDelete('no action')->onUpdate('no action');
-        $table->foreign('par_prop_type_val')->references('id')->on('prop_allowed_value')->onDelete('no action')->onUpdate('no action');
+            $table->foreign('par_ent_type_id')->references('id')->on('ent_type')->onDelete('no action')->onUpdate('no action');
+            $table->foreign('par_prop_type_val')->references('id')->on('prop_allowed_value')->onDelete('no action')->onUpdate('no action');
         });
 //
 //
@@ -318,6 +328,7 @@ class ForeignKeys extends Migration
             $table->foreign('unit_type_id')->references('id')->on('prop_unit_type')->onDelete('no action')->onUpdate('no action');
             $table->foreign('rel_type_id')->references('id')->on('rel_type')->onDelete('no action')->onUpdate('no action');
             $table->foreign('fk_ent_type_id')->references('id')->on('ent_type')->onDelete('no action')->onUpdate('no action');
+			$table->foreign('fk_property_id')->references('id')->on('property')->onDelete('no action')->onUpdate('no action');
         });
         Schema::table('value', function (Blueprint $table) {
             $table->foreign('relation_id')->references('id')->on('relation')->onDelete('no action')->onUpdate('no action');
@@ -328,6 +339,16 @@ class ForeignKeys extends Migration
         Schema::table('ent_type', function (Blueprint $table) {
             $table->foreign('transaction_type_id')->references('id')->on('transaction_type')->onDelete('no action')->onUpdate('no action');
             $table->foreign('t_state_id')->references('id')->on('t_state')->onDelete('no action')->onUpdate('no action');
+        });
+
+        Schema::table('actor_can_read_property', function (Blueprint $table) {
+            $table->foreign('property_need')->references('id')->on('property')->onDelete('no action')->onUpdate('no action');
+            $table->foreign('property_info')->references('id')->on('property')->onDelete('no action')->onUpdate('no action');
+        });
+
+        Schema::table('actor_can_read_ent_type', function (Blueprint $table) {
+            $table->foreign('property_need')->references('id')->on('property')->onDelete('no action')->onUpdate('no action');
+            $table->foreign('ent_type_info')->references('id')->on('ent_type')->onDelete('no action')->onUpdate('no action');
         });
 
     }
@@ -396,6 +417,9 @@ class ForeignKeys extends Migration
         Schema::table('property', function (Blueprint $table) {
             $table->dropForeign(['unit_type_id']);
         });
+		Schema::table('property', function (Blueprint $table) {
+            $table->dropForeign(['fk_property_id']);
+        });
         Schema::table('prop_allowed_value', function (Blueprint $table) {
             $table->dropForeign(['property_id']);
         });
@@ -414,6 +438,7 @@ class ForeignKeys extends Migration
 
         Schema::table('ent_type', function (Blueprint $table) {
             $table->dropForeign(['par_ent_type_id']);
+			$table->dropForeign(['par_prop_type_val']);
         });
 
         Schema::table('property', function (Blueprint $table) {
@@ -438,12 +463,21 @@ class ForeignKeys extends Migration
             $table->dropForeign(['t_state_id']);
             $table->dropForeign(['caused_t']);
         });
-        Schema::table('custom_form_has_prop', function (Blueprint $table) {
-            $table->dropForeign(['property_id']);
+        
+        /*Schema::table('custom_form_has_ent_type', function (Blueprint $table) {
+            $table->dropForeign(['ent_type_id']);
             $table->dropForeign(['custom_form_id']);
+        });*/
+
+        Schema::table('actor_can_read_property', function (Blueprint $table) {
+            $table->dropForeign(['property_need']);
+            $table->dropForeign(['property_info']);
         });
 
-
+        Schema::table('actor_can_read_ent_type', function (Blueprint $table) {
+            $table->dropForeign(['property_need']);
+            $table->dropForeign(['ent_type_info']);
+        });
 
         // Updated by e Deleted by
 
@@ -463,10 +497,12 @@ class ForeignKeys extends Migration
             $table->dropForeign(['updated_by']);
             $table->dropForeign(['deleted_by']);
         });
-        Schema::table('custom_form_has_prop', function(Blueprint $table) {
+        
+        /*Schema::table('custom_form_has_ent_type', function(Blueprint $table) {
             $table->dropForeign(['updated_by']);
             $table->dropForeign(['deleted_by']);
-        });
+        });*/
+
         Schema::table('ent_type', function(Blueprint $table) {
             $table->dropForeign(['updated_by']);
             $table->dropForeign(['deleted_by']);
@@ -605,6 +641,14 @@ class ForeignKeys extends Migration
             $table->dropForeign(['deleted_by']);
         });
         Schema::table('value_name', function(Blueprint $table) {
+            $table->dropForeign(['updated_by']);
+            $table->dropForeign(['deleted_by']);
+        });
+        Schema::table('actor_can_read_property', function (Blueprint $table) {
+            $table->dropForeign(['updated_by']);
+            $table->dropForeign(['deleted_by']);
+        });
+        Schema::table('actor_can_read_ent_type', function (Blueprint $table) {
             $table->dropForeign(['updated_by']);
             $table->dropForeign(['deleted_by']);
         });

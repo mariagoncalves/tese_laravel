@@ -12,6 +12,6 @@ class RoleHasUserTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(RoleHasUser::class, 7)->create();
+        factory(RoleHasUser::class, 2)->create();
     }
 }

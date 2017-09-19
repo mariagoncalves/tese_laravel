@@ -11,8 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        /*
-
         $this->call(LanguageTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(PropUnitTypeTableSeeder::class);
@@ -39,7 +37,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EntTypeTableSeeder::class);
         // $this->call(EntTypeNameTableSeeder::class); (Remover)
 
-        $this->call(EntityTableSeeder::class);a
+        $this->call(EntityTableSeeder::class);
         // $this->call(EntityNameTableSeeder::class); (Remover)
 
         $this->call(RelTypeTableSeeder::class);
@@ -52,8 +50,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TransactionStateTableSeeder::class);
         $this->call(TransactionAckTableSeeder::class);
 
-        $this->call(ActorIniciatesTTableSeeder::class);
-         */
+        //$this->call(ActorIniciatesTTableSeeder::class); // (Falta Alterar)
         
         $this->call(PropertyTableSeeder::class);
         // $this->call(PropertyNameTableSeeder::class); (Remover)

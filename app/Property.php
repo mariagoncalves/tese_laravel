@@ -3,16 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 
 class Property extends Model
 {
-    use SoftDeletes;
-
-    protected $dates = ['deleted_at'];
-
-    protected $table = 'property';
+     protected $table = 'property';
 
     public $timestamps = true;
 
@@ -26,7 +21,9 @@ class Property extends Model
         'mandatory',
         'state',
         'fk_ent_type_id',
+        'fk_property_id',
         'form_field_size',
+        'can_edit',
 		'updated_by',
         'deleted_by'
     ];
@@ -41,12 +38,16 @@ class Property extends Model
         return $this->belongsTo('App\EntType', 'fk_ent_type_id', 'id');
     }
 
+    public function fkProperty() {
+        return $this->belongsTo('App\Property', 'fk_property_id', 'id');
+    }
+
     public function customForms() {
         return $this->belongsToMany('App\CustomForm', 'custom_form_has_prop');
     }
 
     public function relType() {
-        return $this->belongsTo('App\EntType', 'rel_type_id', 'id');
+        return $this->belongsTo('App\RelType', 'rel_type_id', 'id');
     }
 
     public function values() {
@@ -59,6 +60,18 @@ class Property extends Model
 
     public function propAllowedValues() {
         return $this->hasMany('App\PropAllowedValue', 'property_id', 'id');
+    }
+
+    public function actorCanReadEntTypes() {
+        return $this->belongsToMany('App\ActorCanReadEntType', 'actor_can_read_ent_type', 'property_need', 'ent_type_info')->withPivot('created_at','updated_at','deleted_at');
+    }
+
+    public function actorCanReadPropperty_need() {
+        return $this->belongsToMany('App\ActorCanReadProperty', 'actor_can_read_property', 'property_need', 'property_info')->withPivot('created_at','updated_at','deleted_at');
+    }
+
+    public function actorCanReadPropperty_info() {
+        return $this->belongsToMany('App\ActorCanReadProperty', 'actor_can_read_property', 'property_info', 'property_need')->withPivot('created_at','updated_at','deleted_at');
     }
 
     public function language() {

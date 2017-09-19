@@ -196,12 +196,13 @@ $factory->define(App\TStateName::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\TransactionType::class, function (Faker\Generator $faker, $attributes) {
-	$user = App\Users::all()->random()->id;
 
+    $actor = App\Actor::all()->random()->id;
 	if (isset($attributes['executer']) && $attributes['executer'] != "") {
-		$user = $attributes['executer'];
+		$actor = $attributes['executer'];
 	}
 
+    $user = App\Users::all()->random()->id;
 	if (isset($attributes['updated_by']) && $attributes['updated_by'] != "") {
 		$user = $attributes['updated_by'];
 	}
@@ -209,9 +210,9 @@ $factory->define(App\TransactionType::class, function (Faker\Generator $faker, $
     return [
         'state'  		  => 'active',
         'process_type_id' => App\ProcessType::all()->random()->id,
-        'executer'		  => $user,
+        'executer'		  => $actor,
         'updated_by'      => $user,
-        'deleted_by'      => NULL,
+        'deleted_by'  => NULL,
     ];
 });
 
@@ -349,10 +350,9 @@ $factory->define(App\Property::class, function (Faker\Generator $faker) {
 		$rel = App\RelType::all()->random()->id;
 	}
 
-	$valuesType = ['text', 'bool', 'int', 'ent_ref', 'double', 'enum'];
+	$valuesType = ['text', 'bool', 'int', 'ent_ref', 'double', 'enum', 'prof_ref', 'info', 'file'];
 	$fieldType  = ['text', 'textbox', 'radio', 'checkbox', 'selectbox'];
 	$state      = ['active', 'inactive'];
-
 
     return [
 		'ent_type_id'	   => $ent, 
@@ -364,7 +364,9 @@ $factory->define(App\Property::class, function (Faker\Generator $faker) {
 		'mandatory'		   => rand(0, 1),
 		'state'			   => $state[rand(0, 1)],
 		'fk_ent_type_id'   => NULL,
+        'fk_property_id'   => NULL,
 		'form_field_size'  => rand(1, 500),
+        'can_edit'         => 1,
         'updated_by'       => App\Users::all()->random()->id,
         'deleted_by'       => NULL,
     ];
