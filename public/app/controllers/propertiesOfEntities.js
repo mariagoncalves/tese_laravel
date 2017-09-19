@@ -222,9 +222,12 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         $scope.modalstate = modalstate;
 
         if(modalstate == "edit") {
-            $('#myModal select:first').prop('disabled', true);
+            //$("[name=entity_type]").prop('disabled', 'disabled');
+            $("input:text[name=property_fieldSize]").prop('disabled', 'disabled');
+            console.log("Tá a entar");
         } else {
-            $('#myModal select:first').prop('disabled', false);
+            $("[name=property_name]").removeAttr("disabled");
+            console.log("Não entra");
         }
 
         switch (modalstate) {
@@ -232,31 +235,11 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 $scope.id = id;
                 $scope.form_title = "Add New Property";
 
-
-                /*$http.get(API_URL + 'get_actors/' + id)
-                    .then(function(response) {
-                        $scope.actor = response.data;
-                    });*/
-                $http.get(API_URL + '/actors/get_roles')
-                    .then(function(response) {
-                        $scope.roles = response.data;
-                    });
-                $http.get(API_URL + '/actors/get_selroles/' + id)
-                    .then(function(response) {
-                        $scope.selroles = response.data;
-                    });
-    
-                /*$http.get(API_URL + '/properties/getAllProps')
-                    .then(function(response) {
-                        console.log("OLHA AS PROPS");
-                        $scope.props = response.data;
-                        console.log($scope.props);
-                    });*/
-
                 break;
             case 'edit':
                 $scope.form_title = "Edit Property";
                 $scope.id = id;
+
                 $http.get(API_URL + '/properties/get_property/' + id)
                     .then(function(response) {
                         $scope.property = response.data;
@@ -288,7 +271,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         var value = $("[name=entity_type]").val();
         //value = value.split(":")[1];
 
-       if (value == '' || value == undefined) {
+        if (value == '' || value == undefined) {
             $("[name=fk_property]").prop('disabled', 'disabled');
             $("#propselect").prop('disabled', 'disabled');
 
@@ -304,6 +287,61 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 $scope.select2PropEntity = response.data;
             });
        }
+    };
+
+    $scope.changes = function(valueType) {
+
+        console.log("Chegou aqui hello");
+        console.log(valueType);
+
+        /*var raddd = $("input:radio[name=property_valueType]:checked").val();
+        console.log(raddd);
+
+        $scope.valueType = valueType;
+
+        var radio = document.querySelectorAll('input[type=radio]:checked')[0].value;
+        console.log(radio);*/
+
+
+        if (valueType == 'ent_ref') {
+            $("[name=fk_property]").prop('disabled', 'disabled');
+            $("#propselect").prop('disabled', 'disabled');
+
+            $("[name=reference_entity]").removeAttr("disabled");
+            $("[name=ent_types_select]").removeAttr("disabled");
+
+        } else if (valueType == 'prop_ref') {
+           
+            $("[name=reference_entity]").prop('disabled', 'disabled');
+            $("[name=ent_types_select]").prop('disabled', 'disabled');
+
+            $("[name=fk_property]").removeAttr("disabled");
+            $("#propselect").removeAttr("disabled");
+
+        } else if (valueType == 'info') {
+
+            $("[name=ent_types_select]").removeAttr("disabled");
+            $("#propselect").removeAttr("disabled");
+
+            $("[name=fk_property]").prop('disabled', 'disabled');
+            $("[name=reference_entity]").prop('disabled', 'disabled');
+
+        } else {
+
+            $("[name=fk_property]").prop('disabled', 'disabled');
+            $("#propselect").prop('disabled', 'disabled');
+
+            $("[name=reference_entity]").prop('disabled', 'disabled');
+            $("[name=ent_types_select]").prop('disabled', 'disabled');
+        }
+
+        /*$http.get('/properties/get_all_Ents').then(function(response) {
+            console.log("VALOR DO PEDIDO");
+            console.log(response.data);
+            $scope.ents = response.data;
+            $scope.select2Ents = response.data;
+        });*/
+        
     };
 
     $scope.ModalInstanceCtrl1 = function ($scope, $uibModalInstance) {

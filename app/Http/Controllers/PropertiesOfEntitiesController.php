@@ -314,18 +314,17 @@ class PropertiesOfEntitiesController extends Controller {
         return response()->json(['error' => 'An error occurred. Try later.'], 500);
     }
 
-    // testes
-
-    public function getAllProps() {
+    public function getAllEnts() {
 
         $language_id = '1';
 
-        $props = Property::with(['language' => function($query) use ($language_id) {
-                                    $query->where('language_id', $language_id);
-                                }])
-                            ->get();
+        $allEnts = EntType::with(['language' => function ($query) use ($language_id) {
+                        $query->where('language_id', $language_id);
+                    }])
+                ->get();
 
-        //\Log::debug($props);
+        \Log::debug($allEnts);
 
+        return response()->json($allEnts);
     }
 }

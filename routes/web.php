@@ -190,9 +190,10 @@ Route::get('/modalConfirm', function () {
     return view('properties/modalConfirm');
 });
 
+Route::get('/properties/get_all_Ents', 'PropertiesOfEntitiesController@getAllEnts');
 
-//Teste Multiselect Props
-Route::get('/properties/getAllProps', 'PropertiesOfEntitiesController@getAllProps');
+
+
 
 //----------------------------------Propriedades da Relação----------------------------------------------------
 
