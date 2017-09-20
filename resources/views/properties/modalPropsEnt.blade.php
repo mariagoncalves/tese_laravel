@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">[[ "THEADER1" | translate]]:</label>
                 <div class="col-sm-9">
-                    <select class="form-control" name="entity_type" ng-model="entity_type" ng-change="changedSelectEntitiesValue()">
+                    <select class="form-control" name="entity_type" ng-model="entity_type">
                         <option value=""></option>
                         <option ng-repeat="entity in entities" value="[[ entity.id ]]" ng-selected="entity.id == property.ent_type_id">[[ entity.language[0].pivot.name ]]</option>
                     </select>
@@ -52,6 +52,22 @@
                     </ul>
                 </div>
             </div>
+
+
+            <!-- Teste com select em vez de radio-->
+            <!-- <div class="form-group">
+                <label class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="property_valueType" ng-model="property_valueType"  ng-init="getValueTypes()" ng-change = "changes(valueType)">
+                        <option value=""></option>
+                        <option ng-repeat="valueType in valueTypes" value="[[ valueType ]]" ng-selected="valueType == property.value_type">[[ valueType ]]</option>
+                    </select>
+                    <ul ng-repeat="error in errors.property_valueType" style="padding-left: 15px;">
+                        <li>[[ error ]]</li>
+                    </ul>
+                </div>
+                <br>
+            </div> -->
 
             <div class="form-group" ng-init="getFieldTypes()">
                 <label for="Gender" class="col-sm-3 control-label">[[ "THEADER6" | translate]]:</label>
@@ -117,8 +133,8 @@
             <div class="form-group">
                 <label for="reference_entity" class="col-sm-3 control-label"> Fk_entity_type:</label>
                 <div class="col-sm-9">
-                    <select class="form-control" name="reference_entity" ng-disabled="true">
-                        <option value="0"></option>
+                    <select class="form-control" name="reference_entity" ng-disabled="true" ng-model = "reference_entity" ng-change = "getPropsByEnt()">
+                        <option value=""></option>
                         <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.fk_ent_type_id">[[ entity.language[0].pivot.name ]]</option>
                     </select>
                     <!-- <input type = "text" class="form-control" name = "reference_entity" id = "reference_entity"> -->
@@ -149,7 +165,7 @@
                             allowClear: true
                         });
                     </script>
-                    <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" ng-disabled="true" name="ent_types_select" ng-model="ent_types_select" ng-options="ent.id as ent.language[0].pivot.name for ent in select2Ents" required>
+                    <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" ng-disabled="true" name="ent_types_select" ng-model="ent_types_select" ng-options="ent.id as ent.language[0].pivot.name for ent in select2Ents">
                     </select>
 
                     <ul ng-repeat="error in errors.ent_types_select" style="padding-left: 15px;">
@@ -168,9 +184,8 @@
                             allowClear: true
                         });
                     </script>
-                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" ng-disabled="true" name="propselect" ng-model="propselect" ng-options="propEntity.id as propEntity.language[0].pivot.name for propEntity in select2PropEntity.properties" required>
+                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" ng-disabled="true" name="propselect" ng-model="propselect" ng-options="propEntity.id as propEntity.language[0].pivot.name for propEntity in select2PropEntity.properties">
                     </select>
-
                     <ul ng-repeat="error in errors.propselect" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
                     </ul>

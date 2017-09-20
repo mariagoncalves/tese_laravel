@@ -266,9 +266,10 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
     };
 
-    $scope.changedSelectEntitiesValue = function() {
+    /*$scope.changedSelectEntitiesValue = function() {
         console.log("Alterou");
         var value = $("[name=entity_type]").val();
+        console.log(value);
         //value = value.split(":")[1];
 
         if (value == '' || value == undefined) {
@@ -287,67 +288,125 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 $scope.select2PropEntity = response.data;
             });
        }
-    };
+    };*/
 
     $scope.changes = function(valueType) {
 
         console.log("Chegou aqui hello");
         console.log(valueType);
 
-        /*var raddd = $("input:radio[name=property_valueType]:checked").val();
-        console.log(raddd);
-
-        $scope.valueType = valueType;
-
-        var radio = document.querySelectorAll('input[type=radio]:checked')[0].value;
-        console.log(radio);*/
-
+        $http.get('/properties/get_all_Ents').then(function(response) {
+            console.log("VALOR DO PEDIDO");
+            console.log(response.data);
+            $scope.ents = response.data;
+            $scope.select2Ents = response.data;
+        });
 
         if (valueType == 'ent_ref') {
             $("[name=fk_property]").prop('disabled', 'disabled');
             $("#propselect").prop('disabled', 'disabled');
 
             $("[name=reference_entity]").removeAttr("disabled");
-            $("[name=ent_types_select]").removeAttr("disabled");
+
+            //Não sei se é para desbloquear
+            //$("[name=ent_types_select]").removeAttr("disabled");
+            //Se for para desbloquear
+            $("[name=ent_types_select]").prop('disabled', 'disabled');
+
+            $("#checkProps").remove();
+            $("#checkEnts").remove();
+
 
         } else if (valueType == 'prop_ref') {
            
-            $("[name=reference_entity]").prop('disabled', 'disabled');
+            //Multiselect de entidades fica bloqueado
             $("[name=ent_types_select]").prop('disabled', 'disabled');
 
+            //Este fica desbloqueado para servir como filtro
+            $("[name=reference_entity]").removeAttr("disabled");
+
+            //Não sei se é para desbloquear
+            //$("#propselect").removeAttr("disabled");
+            //Se for para fica bloqueado
+            $("#propselect").prop('disabled', 'disabled');
+
             $("[name=fk_property]").removeAttr("disabled");
-            $("#propselect").removeAttr("disabled");
+
+
+
+            //$("input type:checkbox[name=checkProps]").remove();
+            $("#checkProps").remove();
+            $("#checkEnts").remove();
 
         } else if (valueType == 'info') {
 
+            //Desbloquear
             $("[name=ent_types_select]").removeAttr("disabled");
             $("#propselect").removeAttr("disabled");
+            $("[name=reference_entity]").removeAttr("disabled");
 
+            //Bloquear
             $("[name=fk_property]").prop('disabled', 'disabled');
-            $("[name=reference_entity]").prop('disabled', 'disabled');
+
+            //Acrescentar coisas
+            $("#propselect").before("<input type = 'checkbox' name = 'checkProps' id = 'checkProps'>");
+            //$("#propselect").prepend("Alguma coisa");
+            $("#ent_types_select").before("<input type = 'checkbox' name = 'checkEnts'  id = 'checkEnts'>");
+
+
+
+
+            /*var en = $("#checkEnts").is(":checked");
+            console.log("Valor do en: ");
+            console.log(en);
+            var en2 = $("#checkProps").is(":checked");*/
 
         } else {
 
             $("[name=fk_property]").prop('disabled', 'disabled');
             $("#propselect").prop('disabled', 'disabled');
-
             $("[name=reference_entity]").prop('disabled', 'disabled');
             $("[name=ent_types_select]").prop('disabled', 'disabled');
-        }
 
-        /*$http.get('/properties/get_all_Ents').then(function(response) {
-            console.log("VALOR DO PEDIDO");
-            console.log(response.data);
-            $scope.ents = response.data;
-            $scope.select2Ents = response.data;
-        });*/
+            $("#checkProps").remove();
+            $("#checkEnts").remove();
+        }
         
+    };
+
+    $scope.getPropsByEnt = function () {
+
+        console.log("Tá a chegar ao teste");
+
+        var value = $("[name=reference_entity]").val();
+        value = value.split(":")[1];
+        //var value = $("[name=entity_type]").val();
+        console.log(value);
+
+        $http.get('/properties/getPropsEntity/' + value).then(function(response) {
+            console.log(response.data);
+            $scope.propEntity = response.data;
+            $scope.select2PropEntity = response.data;
+        });
+
+        //var teste = $("#fk_ent_type option:selected").val();
+        //console.log(teste);
+
+        //var entSel = $("reference_entity").val();
+        //console.log(entSel);
     };
 
     $scope.ModalInstanceCtrl1 = function ($scope, $uibModalInstance) {
 
         $scope.save = function(modalstate, id) {
             var url      = API_URL + "PropertyEnt";
+
+            var entCheck = $("#checkEnts").is(":checked");
+            console.log("Entidade? ");
+            console.log(entCheck);
+            var propCheck = $("#checkProps").is(":checked");
+            console.log("Propriedades? ");
+            console.log(propCheck);
 
             console.log(jQuery('#formProperty').serializeArray());
 

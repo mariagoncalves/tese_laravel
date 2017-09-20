@@ -62,6 +62,9 @@ class PropertiesOfEntitiesController extends Controller {
             $rulesFieldType = ['required'];
             $rulesEntRef = ['integer'];
             $rulePropRef = ['integer'];
+ 
+            $ruleEntTypeInfo = ['integer'];
+            $rulePropInfo = ['integer'];
 
             if(isset($data['property_valueType']) && $data['property_valueType'] == 'text') {
                 //$rulesFieldType = 'required|regex:((text)|(textbox))';
@@ -78,6 +81,10 @@ class PropertiesOfEntitiesController extends Controller {
                 $rulePropRef = ['required', 'integer'];
             } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'file') {
                 $rulesFieldType = ['required', Rule::in(['file']),];
+            } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
+                $rulesFieldType = ['required', Rule::in(['text']),];
+                $ruleEntTypeInfo = 'required_without_all:propselect';
+                $rulePropInfo = 'required_without_all:ent_types_select';
             } else {
                 $rulesFieldType = ['required', Rule::in(['text']),];
             }
@@ -93,7 +100,9 @@ class PropertiesOfEntitiesController extends Controller {
                 'property_fieldSize'       => $propertyFieldSize,
                 'property_state'           => ['required'],
                 'reference_entity'         => $rulesEntRef,
-                //'fk_property'              => $rulePropRef 
+                'fk_property'              => $rulePropRef,
+                'ent_types_select'         => $ruleEntTypeInfo, //'required_without_all:propselect',
+                'propselect'               =>  $rulePropInfo //'required_without_all:ent_types_select'
             ];
 
             $err = Validator::make($data, $rules);
