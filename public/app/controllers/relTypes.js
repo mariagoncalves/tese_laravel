@@ -45,7 +45,7 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
         });
     };
 
-    $scope.toggle = function(modalstate, id) {
+    /*$scope.toggle = function(modalstate, id) {
         $('#formRelation')[0].reset();
         $scope.relation = null;
         $scope.modalstate = modalstate;
@@ -69,7 +69,7 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
         }
         $('#myModal').modal('show');
         $scope.errors = null;
-    };
+    };*/
 
     /*$scope.save = function(modalstate, id) {
         var url      = API_URL + "Relation";

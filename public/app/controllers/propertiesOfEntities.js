@@ -290,10 +290,14 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
        }
     };*/
 
-    $scope.changes = function(valueType) {
+    $scope.changes = function() {
 
         console.log("Chegou aqui hello");
-        console.log(valueType);
+        //console.log(valueType);
+
+        var valueType = $("[name=property_valueType]").val();
+        console.log("Valor do valueType:");
+        console.log("fsd" + valueType);
 
         $http.get('/properties/get_all_Ents').then(function(response) {
             console.log("VALOR DO PEDIDO");
@@ -356,10 +360,10 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
 
 
 
-            /*var en = $("#checkEnts").is(":checked");
-            console.log("Valor do en: ");
-            console.log(en);
-            var en2 = $("#checkProps").is(":checked");*/
+            //var en = $("#checkEnts").is(":checked");
+            //console.log("Valor do en: ");
+            //console.log(en);
+            //var en2 = $("#checkProps").is(":checked");
 
         } else {
 

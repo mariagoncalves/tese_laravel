@@ -20,7 +20,7 @@
                 <th>[[ "THEADER6" | translate]]</th>
                 <th>[[ "THEADER7" | translate]]</th>
                 <th>[[ "THEADER8" | translate]]</th>
-                <th>[[ "THEADER9" | translate]]</th>
+                <!-- <th>[[ "THEADER9" | translate]]</th> -->
                 <th>
                     <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER10" | translate]]</button> -->
                     <button type="button" class="btn btn-xs btn-success" ng-click="openModalRelTypes('md', 'add', 0)">Add Relations Type</button>
@@ -28,7 +28,7 @@
             </tr> 
             </thead>
             <tbody>
-                <td ng-if="relations.length == 0" colspan="11">[[ "NO_RELATIONS" | translate]]</td>
+                <td ng-if="relations.length == 0" colspan="10">[[ "NO_RELATIONS" | translate]]</td>
 
                 <tr ng-repeat-start="relation in relations" ng-if="false" ng-init="innerIndex = $index"></tr>
                 <td> [[ relation.id ]] </td>
@@ -40,7 +40,7 @@
                 <td>[[ relation.state ]]</td>
                 <td>[[ relation.created_at ]]</td>
                 <td>[[ relation.updated_at ]]</td>
-                <td>[[ relation.deleted_at ]]</td>
+                <!-- <td>[[ relation.deleted_at ]]</td> -->
                 <td>
                     <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', relation.id)">[[ "BTNTABLE1" | translate]]</button> -->
                     <button type="button" class="btn btn-xs btn-warning" ng-click="openModalRelTypes('md', 'edit', relation.id)">Edit</button>
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Modal (Pop up when detail button clicked) -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -149,7 +149,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 @stop
 @section('footerContent')

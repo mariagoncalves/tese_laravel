@@ -48,7 +48,7 @@ class PropertiesOfEntitiesController extends Controller {
     public function insertPropsEnt(Request $request) {
         try {
             $data = $request->all();
-            \Log::debug($data);
+            //\Log::debug($data);
 
             $propertyFieldSize = '';
             if(isset($data["property_fieldType"])) {
@@ -113,13 +113,20 @@ class PropertiesOfEntitiesController extends Controller {
                 return response()->json(['error' => $result], 400);
             }
 
-            if(!isset($data['unites_names']) || (isset($data['unites_names']) && $data['unites_names'] == "0")) {
+            if(!isset($data['unites_names']) || (isset($data['unites_names']) && $data['unites_names'] == "")) {
                 $data['unites_names'] = NULL;
             }
 
-            if(!isset($data['reference_entity']) || (isset($data['reference_entity']) && $data['reference_entity'] == "0")) {
+            if(!isset($data['reference_entity']) || (isset($data['reference_entity']) && $data['reference_entity'] == "")) {
                 $data['reference_entity'] = NULL;
-            }
+            } 
+
+            if(!isset($data['fk_property']) || (isset($data['fk_property']) && $data['fk_property'] == "")) {
+                $data['fk_property'] = NULL;
+            } 
+
+            //\Log::debug($data['fk_property']);
+            //\Log::debug($data['reference_entity']);
 
             //Buscar o nr de propriedades de uma relação, porque o form_field_order vai ser o nr de props que tem +1
             $countPropEnt = Property::where('ent_type_id', '=', $data['entity_type'])->count();
@@ -138,6 +145,8 @@ class PropertiesOfEntitiesController extends Controller {
                 'fk_property_id'   => $data['fk_property'             ],
             );
 
+            \Log::debug($data1);
+
             $newProp   = Property::create($data1);
             // pegar o id da nova propriedade inserida
             $idNewProp = $newProp->id;
@@ -147,7 +156,7 @@ class PropertiesOfEntitiesController extends Controller {
             $entity          = EntType::find($data['entity_type']);
 
             $entity_name     = $entity->language->first()->pivot->name;
-            \Log::debug($entity_name);
+            //\Log::debug($entity_name);
             //\Log::debug($entity_name);
 
             $ent             = substr($entity_name, 0 , 3);
@@ -169,11 +178,11 @@ class PropertiesOfEntitiesController extends Controller {
             if(isset($data['propselect']) && $data['propselect']) {
                 $propselect = explode(',', $data['propselect']);
                 
-                \Log::debug("Nova propriedade: " . $idNewProp);
-                \Log::debug("Associação das propriedades: ");
+                //\Log::debug("Nova propriedade: " . $idNewProp);
+                //\Log::debug("Associação das propriedades: ");
                 foreach($propselect as $prop){
                     $prop_id = str_replace('number:', '', $prop);
-                    \Log::debug($prop_id);
+                    //\Log::debug($prop_id);
                     /*$relation = $actor->actorRole()->where('role_id', $roleid)->first();
 
                     if (is_null($relation)) {
@@ -188,8 +197,8 @@ class PropertiesOfEntitiesController extends Controller {
 
             return response()->json([]);
         } catch (\Exception $e) {
-            \Log::debug("Métod: insertPropsEnt");
-            \Log::debug($e);
+            //\Log::debug("Métod: insertPropsEnt");
+            //\Log::debug($e);
             return response()->json(['error' => 'An error occurred. Try later.'], 500);
         }
     }
@@ -299,7 +308,7 @@ class PropertiesOfEntitiesController extends Controller {
     public function updateOrderPropsEnt(Request $request) {
 
         $dados = $request->all();
-        \Log::debug($dados);
+        //\Log::debug($dados);
 
         if (is_array($dados) && count($dados) > 0) {
             foreach ($dados as $key => $id) {
@@ -332,7 +341,7 @@ class PropertiesOfEntitiesController extends Controller {
                     }])
                 ->get();
 
-        \Log::debug($allEnts);
+        //\Log::debug($allEnts);
 
         return response()->json($allEnts);
     }

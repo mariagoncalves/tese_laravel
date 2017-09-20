@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="form-group" ng-init="getValueTypes()">
+            <!-- <div class="form-group" ng-init="getValueTypes()">
                 <label for="Gender" class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
                 <div class="col-sm-9">
                     <label class="radio-inline valueType" ng-repeat="valueType in valueTypes">
@@ -51,14 +51,14 @@
                         <li>[[ error ]]</li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
 
 
             <!-- Teste com select em vez de radio-->
-            <!-- <div class="form-group">
+            <div class="form-group" ng-init="getValueTypes()">
                 <label class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
                 <div class="col-sm-9">
-                    <select class="form-control" name="property_valueType" ng-model="property_valueType"  ng-init="getValueTypes()" ng-change = "changes(valueType)">
+                    <select class="form-control" name="property_valueType" ng-model="property_valueType" ng-change = "changes()">
                         <option value=""></option>
                         <option ng-repeat="valueType in valueTypes" value="[[ valueType ]]" ng-selected="valueType == property.value_type">[[ valueType ]]</option>
                     </select>
@@ -67,7 +67,7 @@
                     </ul>
                 </div>
                 <br>
-            </div> -->
+            </div>
 
             <div class="form-group" ng-init="getFieldTypes()">
                 <label for="Gender" class="col-sm-3 control-label">[[ "THEADER6" | translate]]:</label>
@@ -85,7 +85,7 @@
                 <label for="unitType" class="col-sm-3 control-label">[[ "THEADER7" | translate]]:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="unites_names">
-                        <option value="0"></option>
+                        <option value=""></option>
                         <option ng-repeat="unit in units" ng-value="unit.id" ng-selected="unit.id == property.unit_type_id">[[ unit.language[0].pivot.name ]]</option>
                     </select>
                     <ul ng-repeat="error in errors.unites_names" style="padding-left: 15px;">
