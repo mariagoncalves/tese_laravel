@@ -203,15 +203,15 @@ class PropertiesOfEntitiesController extends Controller {
                     $prop_id = str_replace('number:', '', $prop);
                     
                     //Verificar se a propriedade já está associada com a nova propriedade
-                    $count = ActorCanReadProperty::where('property_need', $idNewProp)->where('property_info', $prop_id)
-                                                ->get()->count();
+                    //$count = ActorCanReadProperty::where('property_need', $idNewProp)->where('property_info', $prop_id)
+                      //                          ->get()->count();
 
                     //Se for igual a zero, significa que não está ainda associada..
                     //Logo será necessário associar
 
-                    if($count == 0) {
+                    //if($count == 0) {
                         ActorCanReadProperty::create(['property_need' => $idNewProp, 'property_info' => $prop_id]);
-                    }
+                    //}
                 }
             }
 
@@ -224,15 +224,15 @@ class PropertiesOfEntitiesController extends Controller {
                     $enti_id = str_replace('number:', '', $enti);
 
                     //Verificar se a entidade já está associada com a nova propriedade
-                    $count = ActorCanReadEntType::where('property_need', $idNewProp)->where('ent_type_info', $enti_id)
-                                                ->get()->count();
+                    //$count = ActorCanReadEntType::where('property_need', $idNewProp)->where('ent_type_info', $enti_id)
+                                                //->get()->count();
 
                     //Se for igual a zero, significa que não está ainda associada..
                     //Logo será necessário associar
 
-                    if ($count == 0) {
+                    //if ($count == 0) {
                         ActorCanReadEntType::create(['property_need' => $idNewProp, 'ent_type_info' => $enti_id]);
-                    }
+                    //}
                 }
             }
 
@@ -356,60 +356,35 @@ class PropertiesOfEntitiesController extends Controller {
 
         // Editar propriedades na nova propriedade
         if(isset($data['propselect']) && $data['propselect']) {
+
+            ActorCanReadProperty::where('property_need', $id)->delete();
+
             $propselect = explode(',', $data['propselect']);
 
-            foreach($propselect as $prop){
+            \Log::debug($propselect);
+
+           foreach($propselect as $prop){
                 $prop_id = str_replace('number:', '', $prop);
                 
-                //Verificar se a propriedade já está associada com a nova propriedade
-                $count = ActorCanReadProperty::where('property_need', $id)->where('property_info', $prop_id)
-                                            ->get()->count();
-
-                //Se for igual a zero, significa que não está ainda associada..
-                //Logo será necessário associar
-
-                if($count == 0) {
-
-                    $dataSelectProp = [
-                        'property_info' => $prop_id
-
-                    ];
-
-                    ActorCanReadProperty::where('property_need', $id)
-                                        ->update($dataSelectProp);
-                }
+                ActorCanReadProperty::create(['property_need' => $id, 'property_info' => $prop_id]);
             }
         }
 
-        //Adicionar entidades na nova propriedade
-        if (isset($data['ent_types_select']) && $data['ent_types_select']) {
+        //Editar entidades na nova propriedade
+         if(isset($data['ent_types_select']) && $data['ent_types_select']) {
+
+            ActorCanReadEntType::where('property_need', $id)->delete();
+
             $ent_types_select = explode(',', $data['ent_types_select']);
 
-            //Percorrer cada uma das entidades e associar com a nova propriedade
-            foreach ($ent_types_select as $enti) {
-                $enti_id = str_replace('number:', '', $enti);
+            \Log::debug($ent_types_select);
 
-                //Verificar se a entidade já está associada com a nova propriedade
-                $count = ActorCanReadEntType::where('property_need', $id)->where('ent_type_info', $enti_id)
-                                            ->get()->count();
-
-                //Se for igual a zero, significa que não está ainda associada..
-                //Logo será necessário associar
-
-                if ($count == 0) {
-
-                    $dataSelectEnt = [
-                        'ent_type_info' => $enti_id
-
-                    ];
-
-                    ActorCanReadProperty::where('property_need', $id)
-                                        ->update($dataSelectEnt);
-                }
+           foreach($ent_types_select as $entityType){
+                $entityType_id = str_replace('number:', '', $entityType);
+                
+                ActorCanReadEntType::create(['property_need' => $id, 'ent_type_info' => $entityType_id]);
             }
         }
-
-
 
         return response()->json([]);
     }

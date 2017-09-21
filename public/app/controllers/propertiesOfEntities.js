@@ -221,66 +221,10 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         $scope.property = null;
         $scope.modalstate = modalstate;
 
-        /*if(modalstate == "edit") {
-            //$("[name=entity_type]").prop('disabled', 'disabled');
-            //$("entity_type").attr('disabled', 'disabled');
-            //$("input:text[name=entity_type]").prop("readonly", true);
-            //$("#entity_type").prop('disabled', 'disabled');
-            //$('#entity_type').prop('readonly', true);
-
-            console.log("Tá a entar");
-        } else {
-            $("[name=entity_type]").removeAttr("disabled");
-            console.log("Não entra");
+        //Porque que não funciona aqui e tem de ser dentro do pedido ajax?
+        /*if (modalstate == 'edit') {
+            $("[name=entity_type]").prop('disabled', 'disabled');
         }*/
-
-        if(modalstate == "add") {
-            //$("[name=entity_type]").removeAttr("disabled");
-            //$("#entity_type").removeAttr("disabled");
-            //$("#formProperty entity_type").removeAttr("disabled");
-            //$("#entity_type").prop('disabled', false);
-            //$("entity_type").removeAttr("disabled");
-            //$("#formProperty select:first").removeAttr("disabled");
-
-            //Desbloquear o nome da entidade
-            $("entity_type").prop('disabled', false);
-
-            //teste
-            //$("#property_name").prop('disabled', 'disabled');
-
-            console.log("Não entra");
-        } else {
-
-
-            //Caso seja editar e o value_type seja info, quero desbloquear a fk_entity e as 2 de multiselect já com as opções selecionadas antes
-
-            //Este valor só vem quando altero a selectbox -.-
-            var valType = $("#property_valueType option:selected").text();
-            console.log(valType);
-
-            /*if(valType == 'info') {
-
-                $("[name=ent_types_select]").removeAttr("disabled");
-                $("#propselect").removeAttr("disabled");
-                $("[name=reference_entity]").removeAttr("disabled");
-                $("[name=fk_property]").prop('disabled', 'disabled');
-
-            } else if (valType == 'ent_ref') {
-
-                $("[name=fk_property]").prop('disabled', 'disabled');
-                $("#propselect").prop('disabled', 'disabled');
-                $("[name=reference_entity]").removeAttr("disabled");
-                $("[name=ent_types_select]").prop('disabled', 'disabled');
-
-            } else if (valType == 'prop_ref') {
-                
-                $("[name=ent_types_select]").prop('disabled', 'disabled');
-                $("[name=reference_entity]").removeAttr("disabled");
-                $("#propselect").prop('disabled', 'disabled');
-                $("[name=fk_property]").removeAttr("disabled");
-                
-            }*/
-        }
 
         switch (modalstate) {
             case 'add':
@@ -294,6 +238,8 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 $http.get(API_URL + '/properties/get_property/' + id)
                     .then(function(response) {
                         $scope.property = response.data;
+                        $scope.changes();
+                        $("[name=entity_type]").prop('disabled', 'disabled');
                     });
                 break;
             default:
@@ -349,6 +295,10 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         var valueType = $("[name=property_valueType]").val();
         console.log("Valor do valueType:");
         console.log(valueType);
+
+        if (valueType == "") {
+            valueType = $scope.property.valueType;
+        }
 
         $http.get('/properties/get_all_Ents').then(function(response) {
             console.log("VALOR DO PEDIDO");

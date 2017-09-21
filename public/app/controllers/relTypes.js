@@ -195,6 +195,7 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
                 $http.get(API_URL + '/getRelationsTypes/' + id)
                     .then(function(response) {
                         $scope.relation = response.data;
+                        $("[name=relation_name]").prop('disabled', 'disabled');
                     });
                 break;
             default:

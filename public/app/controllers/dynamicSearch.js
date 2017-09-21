@@ -137,6 +137,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
         console.log("ID da PESQUISAAA: " + id);
 
+        var en2 = $("#checkProps").is(":checked");
+
         $http.get(API_URL + '/dynamicSearch/pesquisa/' + id).then(function(response) {
             $scope.information = response.data[0];
             console.log("Dados information");
