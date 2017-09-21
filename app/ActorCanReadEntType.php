@@ -24,6 +24,11 @@ class ActorCanReadEntType extends Model
 
     protected $guarded = [];
 
+    public function entType() {
+
+        return $this->belongsTo('App\EntType', 'ent_type_info', 'id');
+    }
+
     public function updatedBy() {
 
         return $this->belongsTo('App\Users', 'updated_by', 'id');

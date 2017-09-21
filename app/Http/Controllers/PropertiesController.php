@@ -48,6 +48,16 @@ class PropertiesController extends Controller {
                             ->with(['units.language' => function($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
+                            ->with(['actorCanReadEntTypes' => function($query) use ($language_id) {
+                                $query->with(['entType.language' => function($query) use ($language_id) {
+                                    $query->where('language_id', $language_id);
+                                }]);
+                            }])
+                            ->with(['actorCanReadPropperty' => function($query) use ($language_id) {
+                                $query->with(['property.language' => function($query) use ($language_id) {
+                                    $query->where('language_id', $language_id);
+                                }]);
+                            }])
                             ->find($id);
 
         return response()->json($property);

@@ -63,7 +63,13 @@ class Property extends Model
     }
 
     public function actorCanReadEntTypes() {
-        return $this->belongsToMany('App\ActorCanReadEntType', 'actor_can_read_ent_type', 'property_need', 'ent_type_info')->withPivot('created_at','updated_at','deleted_at');
+        //return $this->belongsToMany('App\ActorCanReadEntType', 'actor_can_read_ent_type', 'property_need', 'ent_type_info');
+        return $this->hasMany('App\ActorCanReadEntType', 'property_need', 'id');
+    }
+
+    public function actorCanReadPropperty() {
+        //return $this->belongsToMany('App\ActorCanReadEntType', 'actor_can_read_ent_type', 'property_need', 'ent_type_info');
+        return $this->hasMany('App\ActorCanReadProperty', 'property_need', 'id');
     }
 
     public function actorCanReadPropperty_need() {

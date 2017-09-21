@@ -240,6 +240,25 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                         $scope.property = response.data;
                         $scope.changes();
                         $("[name=entity_type]").prop('disabled', 'disabled');
+
+                        // Adicionar a select2 as entidades associadas a propriedade
+                        var entidades = $scope.property.actor_can_read_ent_types,
+                            lenght    = entidades.length;
+
+                        for (var i = 0; i < lenght; i++) {
+                            var newOption = new Option(entidades[i].ent_type.language[0].pivot.name, entidades[i].ent_type_info, true, true);
+                            $('#ent_types_select').append(newOption);
+                        }
+
+                        // Adicionar a select2 as propriedades associadas a propriedade
+                        var props  = $scope.property.actor_can_read_propperty,
+                            lenght = props.length;
+
+                        for (var i = 0; i < lenght; i++) {
+                            var newOption = new Option(props[i].property.language[0].pivot.name, props[i].property_info, true, true);
+                            $('#propselect').append(newOption);
+                        }
+
                     });
                 break;
             default:
@@ -297,7 +316,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         console.log(valueType);
 
         if (valueType == "") {
-            valueType = $scope.property.valueType;
+            valueType = $scope.property.value_type;
         }
 
         $http.get('/properties/get_all_Ents').then(function(response) {

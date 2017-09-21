@@ -24,6 +24,10 @@ class ActorCanReadProperty extends Model
 
     protected $guarded = [];
 
+    public function property() {
+        return $this->belongsTo('App\Property', 'property_info', 'id');
+    }
+
     public function updatedBy() {
 
         return $this->belongsTo('App\Users', 'updated_by', 'id');
