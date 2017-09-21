@@ -13,6 +13,8 @@ use App\Property;
 use App\PropertyName;
 use App\PropUnitType;
 use App\Language;
+use App\ActorCanReadProperty;
+use App\ActorCanReadEntType;
 use Illuminate\Support\Facades\Log;
 
 class PropertiesOfEntitiesController extends Controller {
@@ -65,6 +67,11 @@ class PropertiesOfEntitiesController extends Controller {
  
             $ruleEntTypeInfo = ['integer'];
             $rulePropInfo = ['integer'];
+
+            //Remover o number por causa das validações
+            if (isset($data['reference_entity']) && $data['reference_entity'] != '') {
+                $data['reference_entity'] = str_replace('number:', '', $data['reference_entity']);
+            }
 
             if(isset($data['property_valueType']) && $data['property_valueType'] == 'text') {
                 //$rulesFieldType = 'required|regex:((text)|(textbox))';
@@ -125,8 +132,18 @@ class PropertiesOfEntitiesController extends Controller {
                 $data['fk_property'] = NULL;
             } 
 
-            //\Log::debug($data['fk_property']);
-            //\Log::debug($data['reference_entity']);
+            if(isset($data['property_valueType']) && $data['property_valueType'] == 'ent_ref') {
+                $data['fk_property'     ] = NULL;
+                $data['propselect'      ] = [];
+                $data['ent_types_select'] = [];
+            } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'prop_ref') {
+                $data['reference_entity'] = NULL;
+                $data['propselect'      ] = [];
+                $data['ent_types_select'] = [];
+            } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
+                $data['reference_entity'] = NULL;
+                $data['fk_property'     ] = NULL;
+            }
 
             //Buscar o nr de propriedades de uma relação, porque o form_field_order vai ser o nr de props que tem +1
             $countPropEnt = Property::where('ent_type_id', '=', $data['entity_type'])->count();
@@ -143,9 +160,10 @@ class PropertiesOfEntitiesController extends Controller {
                 'state'            => $data['property_state'          ],
                 'fk_ent_type_id'   => $data['reference_entity'        ],
                 'fk_property_id'   => $data['fk_property'             ],
+                'can_edit'         => '1'
             );
 
-            \Log::debug($data1);
+            //\Log::debug($data1);
 
             $newProp   = Property::create($data1);
             // pegar o id da nova propriedade inserida
@@ -178,20 +196,43 @@ class PropertiesOfEntitiesController extends Controller {
             if(isset($data['propselect']) && $data['propselect']) {
                 $propselect = explode(',', $data['propselect']);
                 
-                //\Log::debug("Nova propriedade: " . $idNewProp);
+                \Log::debug("Nova propriedade: " . $idNewProp);
                 //\Log::debug("Associação das propriedades: ");
+
                 foreach($propselect as $prop){
                     $prop_id = str_replace('number:', '', $prop);
-                    //\Log::debug($prop_id);
-                    /*$relation = $actor->actorRole()->where('role_id', $roleid)->first();
+                    
+                    //Verificar se a propriedade já está associada com a nova propriedade
+                    $count = ActorCanReadProperty::where('property_need', $idNewProp)->where('property_info', $prop_id)
+                                                ->get()->count();
 
-                    if (is_null($relation)) {
-                        $roleactor = new RoleHasActor();
-                        $roleactor->role_id = $roleid;
-                        $roleactor->actor_id = $request->input('actor_id');
-                        $roleactor->updated_by = 1;
-                        $roleactor->save();
-                    }*/
+                    //Se for igual a zero, significa que não está ainda associada..
+                    //Logo será necessário associar
+
+                    if($count == 0) {
+                        ActorCanReadProperty::create(['property_need' => $idNewProp, 'property_info' => $prop_id]);
+                    }
+                }
+            }
+
+            //Adicionar entidades na nova propriedade
+            if (isset($data['ent_types_select']) && $data['ent_types_select']) {
+                $ent_types_select = explode(',', $data['ent_types_select']);
+
+                //Percorrer cada uma das entidades e associar com a nova propriedade
+                foreach ($ent_types_select as $enti) {
+                    $enti_id = str_replace('number:', '', $enti);
+
+                    //Verificar se a entidade já está associada com a nova propriedade
+                    $count = ActorCanReadEntType::where('property_need', $idNewProp)->where('ent_type_info', $enti_id)
+                                                ->get()->count();
+
+                    //Se for igual a zero, significa que não está ainda associada..
+                    //Logo será necessário associar
+
+                    if ($count == 0) {
+                        ActorCanReadEntType::create(['property_need' => $idNewProp, 'ent_type_info' => $enti_id]);
+                    }
                 }
             }
 
@@ -218,6 +259,15 @@ class PropertiesOfEntitiesController extends Controller {
 
         $rulesFieldType = ['required'];
         $rulesEntRef = ['integer'];
+        $rulePropRef = ['integer'];
+
+        $ruleEntTypeInfo = ['integer'];
+        $rulePropInfo = ['integer'];
+
+       //Remover o number por causa das validações (tem de ser inteiro)
+        if (isset($data['reference_entity']) && $data['reference_entity'] != '') {
+            $data['reference_entity'] = str_replace('number:', '', $data['reference_entity']);
+        }
 
         if(isset($data['property_valueType']) && $data['property_valueType'] == 'text') {
             //$rulesFieldType = 'required|regex:((text)|(textbox))';
@@ -229,6 +279,15 @@ class PropertiesOfEntitiesController extends Controller {
         } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'ent_ref') {
             $rulesFieldType = ['required', Rule::in(['selectbox']),];
             $rulesEntRef = ['required', 'integer'];
+        } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'prop_ref') {
+            $rulesFieldType = ['required', Rule::in(['selectbox']),];
+            $rulePropRef = ['required', 'integer'];
+        } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'file') {
+            $rulesFieldType = ['required', Rule::in(['file']),];
+        } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
+            $rulesFieldType = ['required', Rule::in(['text']),];
+            $ruleEntTypeInfo = 'required_without_all:propselect';
+            $rulePropInfo = 'required_without_all:ent_types_select';
         } else {
             $rulesFieldType = ['required', Rule::in(['text']),];
         }
@@ -242,7 +301,10 @@ class PropertiesOfEntitiesController extends Controller {
             //'property_fieldOrder' => ['required', 'integer', 'min:1'],
             'unites_names'        => ['integer'],
             'property_fieldSize'  => $propertyFieldSize,
-            'reference_entity'    => $rulesEntRef
+            'reference_entity'    => $rulesEntRef,
+            'fk_property'         => $rulePropRef,
+            'ent_types_select'    => $ruleEntTypeInfo, //'required_without_all:propselect',
+            'propselect'          => $rulePropInfo //'required_without_all:ent_types_select'
 
         ];
 
@@ -254,12 +316,16 @@ class PropertiesOfEntitiesController extends Controller {
             return response()->json(['error' => $resultado], 400);
         }
 
-        if(!isset($data['unites_names']) || (isset($data['unites_names']) && $data['unites_names'] == "0")) {
+        if(!isset($data['unites_names']) || (isset($data['unites_names']) && $data['unites_names'] == "")) {
             $data['unites_names'] = NULL;
         }
 
-        if(!isset($data['reference_entity']) || (isset($data['reference_entity']) && $data['reference_entity'] == "0")) {
+        if(!isset($data['reference_entity']) || (isset($data['reference_entity']) && $data['reference_entity'] == "")) {
             $data['reference_entity'] = NULL;
+        } 
+
+        if(!isset($data['fk_property']) || (isset($data['fk_property']) && $data['fk_property'] == "")) {
+            $data['fk_property'] = NULL;
         }
 
 
@@ -271,7 +337,9 @@ class PropertiesOfEntitiesController extends Controller {
             'form_field_size'  => $data['property_fieldSize'      ],
             'mandatory'        => $data['property_mandatory'      ],
             'state'            => $data['property_state'          ],
-            'fk_ent_type_id'   => $data['reference_entity'        ]
+            'fk_ent_type_id'   => $data['reference_entity'        ],
+            'fk_property_id'   => $data['fk_property'             ],
+            'can_edit'         => '1'
         );
 
         Property::where('id', $id)
@@ -284,6 +352,63 @@ class PropertiesOfEntitiesController extends Controller {
         PropertyName::where('property_id', $id)
                     ->where('language_id', 1)
                     ->update($dataName);
+
+
+        // Editar propriedades na nova propriedade
+        if(isset($data['propselect']) && $data['propselect']) {
+            $propselect = explode(',', $data['propselect']);
+
+            foreach($propselect as $prop){
+                $prop_id = str_replace('number:', '', $prop);
+                
+                //Verificar se a propriedade já está associada com a nova propriedade
+                $count = ActorCanReadProperty::where('property_need', $id)->where('property_info', $prop_id)
+                                            ->get()->count();
+
+                //Se for igual a zero, significa que não está ainda associada..
+                //Logo será necessário associar
+
+                if($count == 0) {
+
+                    $dataSelectProp = [
+                        'property_info' => $prop_id
+
+                    ];
+
+                    ActorCanReadProperty::where('property_need', $id)
+                                        ->update($dataSelectProp);
+                }
+            }
+        }
+
+        //Adicionar entidades na nova propriedade
+        if (isset($data['ent_types_select']) && $data['ent_types_select']) {
+            $ent_types_select = explode(',', $data['ent_types_select']);
+
+            //Percorrer cada uma das entidades e associar com a nova propriedade
+            foreach ($ent_types_select as $enti) {
+                $enti_id = str_replace('number:', '', $enti);
+
+                //Verificar se a entidade já está associada com a nova propriedade
+                $count = ActorCanReadEntType::where('property_need', $id)->where('ent_type_info', $enti_id)
+                                            ->get()->count();
+
+                //Se for igual a zero, significa que não está ainda associada..
+                //Logo será necessário associar
+
+                if ($count == 0) {
+
+                    $dataSelectEnt = [
+                        'ent_type_info' => $enti_id
+
+                    ];
+
+                    ActorCanReadProperty::where('property_need', $id)
+                                        ->update($dataSelectEnt);
+                }
+            }
+        }
+
 
 
         return response()->json([]);

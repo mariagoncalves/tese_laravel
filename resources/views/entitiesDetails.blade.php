@@ -58,6 +58,12 @@
 							        	</select>
 							        	<input type="text" name="doubleET[[property.id]]">
 									</div>
+									<div ng-switch-when="prop_ref"> 
+										<input type="text" name="doubleER[[ property.id ]]">
+									</div>
+									<div ng-switch-default> 
+							        	<!-- <input type="text" name="doubleER[[ property.id ]]"> -->
+									</div>
 								</div>
 		                    </td> 
 		                </tr>
@@ -126,6 +132,12 @@
 										        	</select>
 										        	<input type="text" name="doubleVT[[ propOfEnt.id ]]">
 												</div>
+												<div ng-switch-when="prop_ref"> 
+													<input type="text" name="doubleER[[ property.id ]]">
+												</div>
+												<div ng-switch-default> 
+										        	<!-- <input type="text" name="doubleER[[ property.id ]]"> -->
+												</div>
 											</div>
 					                    </td>
 				                	</tr>
@@ -189,6 +201,12 @@
 							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 							        	</select>
 							        	<input type="text" name="doubleRL">
+									</div>
+									<div ng-switch-when="prop_ref"> 
+										<input type="text" name="doubleER[[ property.id ]]">
+									</div>
+									<div ng-switch-default> 
+							        	<!-- <input type="text" name="doubleER[[ property.id ]]"> -->
 									</div>
 								</div>
 		                    </td>
@@ -264,6 +282,12 @@
 								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 								        	</select>
 								        	<input type="text" name="doubleER[[ property.id ]]">
+										</div>
+										<div ng-switch-when="prop_ref"> 
+											<input type="text" name="doubleER[[ property.id ]]">
+										</div>
+										<div ng-switch-default> 
+								        	<!-- <input type="text" name="doubleER[[ property.id ]]"> -->
 										</div>
 									</div>
 			                    </td>

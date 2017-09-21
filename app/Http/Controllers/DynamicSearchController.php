@@ -205,10 +205,68 @@ class DynamicSearchController extends Controller
 
     public function pesquisa ($id)  {
 
-        \Log::debug($id);
+        //\Log::debug($id);
 
+        //VARIAVEIS DE SESSAÕ ???
+        if (isset($_SESSION['ER'])) {
+            $numeroDechecksImpressos = $_SESSION['ER'];
+        }
+        else {
+            $numeroDechecksImpressos = 0;
+        }
+
+        \Log::debug($numeroDechecksImpressos); //0
+
+        // control variables count the number of checkboxes selected by type
+        $checkSelected = 0;
+        $checkSelectedET = 0;
+        $checkSelectedVT = 0;
+        $checkSelectedRL = 0;
+        $checkSelectedER = 0;
+        // arrays that retains the id of the refered entities, relations and related
+        // entities wich properties where selected fo the search
+        $arrayVT = array();
+        $arrayRL = array();
+        $arrayER = array();
+        //control variables that indicates if any property of the entity or relation was already used
+        $vtExiste = false;
+        $relExiste = false;
+        $i = 0;
+
+        // cycles to count the number of checks selected by each category
+        $erro = false;
+        while( $i <=  $numeroDechecksImpressos) {
+            if(isset($_REQUEST['checkET'.$i])) {
+                //significa que foi selecionada
+                $checkSelectedET++;
+                $checkSelected++;
+            }
+            else if(isset($_REQUEST['checkVT'.$i])) {
+                //significa que foi selecionada
+                $checkSelectedVT++;
+                $checkSelected++;
+            }
+            else if(isset($_REQUEST['checkRL'.$i])){
+                //significa que foi selecionada
+                $checkSelectedRL++;
+                $checkSelected++;
+            }
+            else if(isset($_REQUEST['checkER'.$i])){
+                //significa que foi selecionada
+                $checkSelectedER++;
+                $checkSelected++;
+            }
+            $i++;
+        }
+
+        //já tenho um método que me faz isso
+        /*$language_id = '1';
         
+        $ent = EntType::with(['language' => function ($query) use ($language_id){
+            $query->where('language_id', $language_id);
+        }])->where('id', $id);*/
 
-        return response()->json();
+        return response()->json($id);
+
     }
 }

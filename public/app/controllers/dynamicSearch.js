@@ -124,7 +124,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
     $scope.getPropsEntRelated = function (id) {
 
-        console.log("IDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD da entidade relacionada: " + id);
+        console.log("ID da entidade relacionada: " + id);
 
         $http.get(API_URL + '/dynamicSearch/getPropsEntRelated/' + id).then(function(response) {
             $scope.propsEntRelated = response.data[0];
@@ -135,7 +135,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
     $scope.pesquisa = function (id) {
 
-        console.log("IDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD da PESQUISAAA: " + id);
+        console.log("ID da PESQUISAAA: " + id);
 
         $http.get(API_URL + '/dynamicSearch/pesquisa/' + id).then(function(response) {
             $scope.information = response.data[0];

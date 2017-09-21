@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">[[ "THEADER1" | translate]]:</label>
                 <div class="col-sm-9">
-                    <select class="form-control" name="entity_type" ng-model="entity_type">
+                    <select id = "entity_type" class="form-control" name="entity_type" ng-model="entity_type" >
                         <option value=""></option>
                         <option ng-repeat="entity in entities" value="[[ entity.id ]]" ng-selected="entity.id == property.ent_type_id">[[ entity.language[0].pivot.name ]]</option>
                     </select>
@@ -58,7 +58,7 @@
             <div class="form-group" ng-init="getValueTypes()">
                 <label class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
                 <div class="col-sm-9">
-                    <select class="form-control" name="property_valueType" ng-model="property_valueType" ng-change = "changes()">
+                    <select class="form-control" id="property_valueType" name="property_valueType" ng-model="property_valueType" ng-change = "changes()">
                         <option value=""></option>
                         <option ng-repeat="valueType in valueTypes" value="[[ valueType ]]" ng-selected="valueType == property.value_type">[[ valueType ]]</option>
                     </select>
