@@ -354,10 +354,14 @@ class PropertiesOfEntitiesController extends Controller {
                     ->update($dataName);
 
 
+
+         ActorCanReadProperty::where('property_need', $id)->delete();
+         ActorCanReadEntType::where('property_need', $id)->delete();
+
         // Editar propriedades na nova propriedade
         if(isset($data['propselect']) && $data['propselect']) {
 
-            ActorCanReadProperty::where('property_need', $id)->delete();
+            //ActorCanReadProperty::where('property_need', $id)->delete();
 
             $propselect = explode(',', $data['propselect']);
 
@@ -373,7 +377,7 @@ class PropertiesOfEntitiesController extends Controller {
         //Editar entidades na nova propriedade
          if(isset($data['ent_types_select']) && $data['ent_types_select']) {
 
-            ActorCanReadEntType::where('property_need', $id)->delete();
+            //ActorCanReadEntType::where('property_need', $id)->delete();
 
             $ent_types_select = explode(',', $data['ent_types_select']);
 
