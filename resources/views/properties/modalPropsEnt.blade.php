@@ -129,7 +129,7 @@
                 </div>
             </div>
 
-            <!-- Aqui é só um select para selecionar apenas um -->
+            <!-- Aqui é só um select para selecionar apenas uma entidade -->
             <div class="form-group">
                 <label for="reference_entity" class="col-sm-3 control-label"> Fk_entity_type:</label>
                 <div class="col-sm-9">
@@ -137,12 +137,13 @@
                         <option value=""></option>
                         <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.fk_ent_type_id">[[ entity.language[0].pivot.name ]]</option>
                     </select>
-                    <!-- <input type = "text" class="form-control" name = "reference_entity" id = "reference_entity"> -->
                     <ul ng-repeat="error in errors.reference_entity" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
                     </ul>
                 </div>
             </div>
+
+            <!-- Aqui é só um select para selecionar apenas uma propriedade -->
             <div class="form-group">
                 <label for="fk_property" class="col-sm-3 control-label"> Fk_property:</label>
                 <div class="col-sm-9">
@@ -155,7 +156,7 @@
                     </ul>
                 </div>
             </div>
-            <!-- Fazer o multiselect nestes dois campos -->
+            <!-- Multiselect de entidades -->
             <div class="form-group">
                 <label for="ent_types_select" class="col-sm-3 control-label">Entity_type_info:</label>
                 <div class="col-sm-9">
@@ -165,7 +166,7 @@
                             allowClear: true
                         });
                     </script>
-                    <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" ng-disabled="true" name="ent_types_select" ng-model="ent_types_select" ng-options="ent.id as ent.language[0].pivot.name for ent in select2Ents">
+                    <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" name="ent_types_select" ng-model="ent_types_select" ng-options="ent.id as ent.language[0].pivot.name for ent in select2Ents">
                     </select>
 
                     <ul ng-repeat="error in errors.ent_types_select" style="padding-left: 15px;">
@@ -174,7 +175,7 @@
                 </div>
             </div>
 
-            <!-- Exemplo de multiselect -->
+            <!-- Multiselect de propriedades -->
             <div class="form-group">
                 <label for="propselect" class="col-sm-3 control-label">Property_info:</label>
                 <div class="col-sm-9">
@@ -184,13 +185,31 @@
                             allowClear: true
                         });
                     </script>
-                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" ng-disabled="true" name="propselect" ng-model="propselect" ng-options="propEntity.id as propEntity.language[0].pivot.name for propEntity in select2PropEntity.properties">
+                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect" ng-options="propEntity.id as propEntity.language[0].pivot.name for propEntity in select2PropEntity.properties">
                     </select>
                     <ul ng-repeat="error in errors.propselect" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
                     </ul>
                 </div>
             </div>
+
+            <!-- <div class="form-group">
+                <label for="propselect" class="col-sm-3 control-label">TESTANDO</label>
+                <div class="col-sm-9">
+                    <script type="text/javascript">
+                        $("#entselecting").select2({
+                            placeholder: "Properties",
+                            allowClear: true
+                        });
+                    </script>
+                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect" ng-options="propEntity.id as propEntity.language[0].pivot.name for propEntity in select2PropEntity.properties">
+                    </select>
+                    <ul ng-repeat="error in errors.propselect" style="padding-left: 15px;">
+                        <li>[[ error ]]</li>
+                    </ul>
+                </div>
+            </div> -->
+
         </form>
     </div>
     <div class="modal-footer">

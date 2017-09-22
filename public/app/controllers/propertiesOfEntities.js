@@ -221,11 +221,6 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         $scope.property = null;
         $scope.modalstate = modalstate;
 
-        //Porque que não funciona aqui e tem de ser dentro do pedido ajax?
-        /*if (modalstate == 'edit') {
-            $("[name=entity_type]").prop('disabled', 'disabled');
-        }*/
-
         switch (modalstate) {
             case 'add':
                 $scope.id = id;
@@ -327,73 +322,19 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
 
         if (valueType == 'ent_ref') {
-            $("[name=fk_property]").prop('disabled', 'disabled');
-            $("#propselect").prop('disabled', 'disabled');
 
             $("[name=reference_entity]").removeAttr("disabled");
-
-            //Não sei se é para desbloquear
-            //$("[name=ent_types_select]").removeAttr("disabled");
-            //Se for para desbloquear
-            $("[name=ent_types_select]").prop('disabled', 'disabled');
-
-            //$("#checkProps").remove();
-            //$("#checkEnts").remove();
-
+            $("[name=fk_property]").prop('disabled', 'disabled');
 
         } else if (valueType == 'prop_ref') {
            
-            //Multiselect de entidades fica bloqueado
-            $("[name=ent_types_select]").prop('disabled', 'disabled');
-
-            //Este fica desbloqueado para servir como filtro
-            $("[name=reference_entity]").removeAttr("disabled");
-
-            //Não sei se é para desbloquear
-            //$("#propselect").removeAttr("disabled");
-            //Se for para fica bloqueado
-            $("#propselect").prop('disabled', 'disabled');
-
             $("[name=fk_property]").removeAttr("disabled");
-
-
-
-            //$("input type:checkbox[name=checkProps]").remove();
-            //$("#checkProps").remove();
-            //$("#checkEnts").remove();
-
-        } else if (valueType == 'info') {
-
-            //Desbloquear
-            $("[name=ent_types_select]").removeAttr("disabled");
-            $("#propselect").removeAttr("disabled");
-            $("[name=reference_entity]").removeAttr("disabled");
-
-            //Bloquear
-            $("[name=fk_property]").prop('disabled', 'disabled');
-
-            //Acrescentar coisas
-            //$("#propselect").before("<input type = 'checkbox' name = 'checkProps' id = 'checkProps'>");
-            //$("#propselect").prepend("Alguma coisa");
-            //$("#ent_types_select").before("<input type = 'checkbox' name = 'checkEnts'  id = 'checkEnts'>");
-
-
-
-
-            //var en = $("#checkEnts").is(":checked");
-            //console.log("Valor do en: ");
-            //console.log(en);
-            //var en2 = $("#checkProps").is(":checked");
+            $("[name=reference_entity]").prop('disabled', 'disabled');
 
         } else {
 
             $("[name=fk_property]").prop('disabled', 'disabled');
-            $("#propselect").prop('disabled', 'disabled');
             $("[name=reference_entity]").prop('disabled', 'disabled');
-            $("[name=ent_types_select]").prop('disabled', 'disabled');
-
-            //$("#checkProps").remove();
-            //$("#checkEnts").remove();
         }
         
     };
