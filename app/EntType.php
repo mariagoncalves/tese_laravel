@@ -3,17 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EntType extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'ent_type';
 
     public $timestamps = true;
 
     protected $fillable = [
         'state',
-        'has_child',
-        'has_par',
         'transaction_type_id',
         'par_ent_type_id',
         'par_prop_type_val',
@@ -59,9 +60,17 @@ class EntType extends Model
         return $this->hasMany('App\Property', 'ent_type_id', 'id');
     }
 
-    /*public function entTypeName() {
+    public function entTypeName() {
         return $this->hasMany('App\EntTypeName', 'ent_type_id', 'id');
-    }*/
+    }
+	
+	public function customForm() {
+        return $this->belongsToMany('App\CustomForm', 'custom_form_has_ent_type', 'ent_type_id', 'custom_form_id')->withPivot('field_order','mandatory_form','created_at','updated_at','deleted_at');
+    }
+
+    public function providingEntTypes() {
+        return $this->belongsToMany('App\PropertyCanReadEntType', 'property_can_read_ent_type', 'providing_ent_type', 'reading_property')->withPivot('created_at','updated_at','deleted_at');
+    }
 
     public function language() {
         return $this->belongsToMany('App\Language', 'ent_type_name', 'ent_type_id', 'language_id')->withPivot('name','created_at','updated_at','deleted_at');

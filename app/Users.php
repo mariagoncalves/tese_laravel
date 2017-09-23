@@ -447,4 +447,24 @@ class Users extends Authenticatable
     public function userRole() {
         return $this->hasMany('App\RoleHasUser', 'user_id', 'id');
     }
+
+    public function updatedPropertyCanReadProperty() {
+
+        return $this->hasMany('App\PropertyCanReadProperty', 'updated_by', 'id');
+    }
+
+    public function deletedPropertyCanReadProperty() {
+
+        return $this->hasMany('App\PropertyCanReadProperty', 'deleted_by', 'id');
+    }
+
+    public function updatedPropertyCanReadEntType() {
+
+        return $this->hasMany('App\PropertyCanReadEntType', 'updated_by', 'id');
+    }
+
+    public function deletedPropertyCanReadEntType() {
+
+        return $this->hasMany('App\PropertyCanReadEntType', 'deleted_by', 'id');
+    }
 }

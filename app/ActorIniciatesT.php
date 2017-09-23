@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ActorIniciatesT extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'actor_iniciates_t';
 
     public $timestamps = true;

@@ -17,6 +17,8 @@ class CreateTransactionStateTable extends Migration
 //            $table->timestamp('updated_on');
             $table->integer('transaction_id')->unsigned();
             $table->integer('t_state_id')->unsigned();
+            $table->integer('d_init_state_id')->nullable()->unsigned();
+            $table->integer('d_exec_state_id')->nullable()->unsigned();
             //ligação?
 //            $table->integer('user_id')->nullable()->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();

@@ -18,6 +18,7 @@ class CreateRelationTable extends Migration
             //falta relação?
             $table->integer('entity1_id')->unsigned();
             $table->integer('entity2_id')->unsigned();
+            $table->integer('transaction_state_id')->unsigned();
 //            $table->string('relation_name', 255)->nullable();
             $table->enum('state', ['active', 'inactive']);
 //            $table->timestamp('updated_on');

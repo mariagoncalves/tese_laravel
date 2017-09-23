@@ -3,15 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Process extends Model
 {
+    use SoftDeletes;
+
      protected $table = 'process';
 
     public $timestamps = true;
 
     protected $fillable = [
         'process_type_id',
+		'proc_state',
         'state',
 		'updated_by',
         'deleted_by'

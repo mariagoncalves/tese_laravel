@@ -16,6 +16,7 @@ class CreateProcessTable extends Migration
             $table->increments('id');
             $table->integer('process_type_id')->unsigned();
 //            $table->string('process_name', 255)->nullable();
+			$table->enum('proc_state', ['execution', 'finished']);
             $table->enum('state', ['active', 'inactive']);
 //            $table->timestamp('updated_on');
             $table->integer('updated_by')->nullable()->unsigned();

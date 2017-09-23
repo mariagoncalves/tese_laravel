@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomFormHasPropTable extends Migration
+class CreateCustomFormHasEntTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class CreateCustomFormHasPropTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom_form_has_prop', function (Blueprint $table) {
-            $table->integer('property_id')->unsigned();
+        Schema::create('custom_form_has_ent_type', function (Blueprint $table) {
+            $table->integer('ent_type_id')->unsigned();
             $table->integer('custom_form_id')->unsigned();
             $table->integer('field_order')->nullable();
             $table->integer('mandatory_form');
@@ -34,6 +34,6 @@ class CreateCustomFormHasPropTable extends Migration
      */
     public function down()
     {
-        Schema::drop('custom_form_has_prop');
+        Schema::drop('custom_form_has_ent_type');
     }
 }

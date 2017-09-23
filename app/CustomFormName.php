@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CustomFormName extends Model
 {
+    use SoftDeletes;
+
      protected $table = 'custom_form_name';
 
     public $timestamps = true;

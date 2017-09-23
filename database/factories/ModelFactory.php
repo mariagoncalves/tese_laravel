@@ -143,18 +143,49 @@ $factory->define(App\ActorName::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\RoleHasActor::class, function (Faker\Generator $faker) {
+    $result = true;
+    $count  = 0;
+
+    while ($result) {
+        $role_id = App\Role::all()->random()->id;
+        $actor_id = App\Actor::all()->random()->id;
+
+        $res = App\RoleHasActor::where('role_id', $role_id)->where('actor_id', $actor_id)->get()->count();
+
+        if ($res == 0 || $count == 10) {
+            $result = false;
+        }
+        $count++;
+    }
+
     return [
-        'role_id'	  => App\Role::all()->random()->id,
-        'actor_id'    => App\Actor::all()->random()->id,
+        'role_id'	  => $role_id,
+        'actor_id'    => $actor_id,
         'updated_by'  => App\Users::all()->random()->id,
         'deleted_by'  => NULL,
     ];
 });
 
 $factory->define(App\RoleHasUser::class, function (Faker\Generator $faker) {
+    $result = true;
+    $count  = 0;
+
+    while ($result) {
+        $role_id = App\Role::all()->random()->id;
+        $user_id = App\Users::all()->random()->id;
+
+        $res = App\RoleHasUser::where('role_id', $role_id)->where('user_id', $user_id)->get()->count();
+
+        if ($res == 0 || $count == 10) {
+            $result = false;
+        }
+        $count++;
+    }
+
+
     return [
-        'role_id'	  => App\Role::all()->random()->id,
-        'user_id'     => App\Users::all()->random()->id,
+        'role_id'	  => $role_id,
+        'user_id'     => $user_id,
         'updated_by'  => App\Users::all()->random()->id,
         'deleted_by'  => NULL,
     ];
@@ -186,9 +217,26 @@ $factory->define(App\TState::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\TStateName::class, function (Faker\Generator $faker) {
+
+    $result = true;
+    $count  = 0;
+
+    while ($result) {
+        $t_state_id = App\TState::all()->random()->id;
+        $language_id = App\Language::where('slug', 'pt')->first()->id;
+
+        $res = App\TStateName::where('t_state_id', $t_state_id)->where('language_id', $language_id)->get()->count();
+
+        if ($res == 0 || $count == 10) {
+            $result = false;
+        }
+        $count++;
+    }
+
+
     return [
-        't_state_id'  => App\TState::all()->random()->id,
-        'language_id' => App\Language::where('slug', 'pt')->first()->id,
+        't_state_id'  => $t_state_id,
+        'language_id' => $language_id,
         'name'		  => $faker->name,
         'updated_by'  => App\Users::all()->random()->id,
         'deleted_by'  => NULL,
@@ -210,7 +258,11 @@ $factory->define(App\TransactionType::class, function (Faker\Generator $faker, $
     return [
         'state'  		  => 'active',
         'process_type_id' => App\ProcessType::all()->random()->id,
+        'init_proc'       => '1',
         'executer'		  => $actor,
+        'auto_activate'   => '1',
+        'freq_activate'   => '1 ano',
+        'when_activate'   => date('H:i:s'),
         'updated_by'      => $user,
         'deleted_by'  => NULL,
     ];
@@ -230,8 +282,6 @@ $factory->define(App\TransactionTypeName::class, function (Faker\Generator $fake
 $factory->define(App\EntType::class, function (Faker\Generator $faker) {
     return [
     	'state' 			  => 'active',
-		'has_child' 		  => '0',
-		'has_par' 			  => '0',
 		'transaction_type_id' => App\TransactionType::all()->random()->id,
 		'par_ent_type_id' 	  => NULL,
 		'par_prop_type_val'   => NULL,
@@ -255,6 +305,7 @@ $factory->define(App\Entity::class, function (Faker\Generator $faker) {
     return [
     	'ent_type_id' => App\EntType::all()->random()->id,
 		'state' 	  => 'active',
+        'transaction_state_id' => App\TransactionState::all()->random()->id,
         'updated_by'  => App\Users::all()->random()->id,
         'deleted_by'  => NULL,
     ];
@@ -317,6 +368,8 @@ $factory->define(App\TransactionState::class, function (Faker\Generator $faker) 
     return [
     	'transaction_id' => App\Transaction::all()->random()->id,
 		't_state_id' 	 => App\TState::all()->random()->id,
+        'd_init_state_id'=> '1',
+        'd_exec_state_id'=> '1',
         'updated_by'     => App\Users::all()->random()->id,
         'deleted_by'     => NULL,
     ];

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RoleHasUser extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'role_has_user';
 
     public $timestamps = true;

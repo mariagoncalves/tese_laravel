@@ -37,6 +37,10 @@ class DatabaseSeeder extends Seeder
         $this->call(EntTypeTableSeeder::class);
         // $this->call(EntTypeNameTableSeeder::class); (Remover)
 
+        $this->call(TransactionTableSeeder::class);
+        $this->call(TransactionStateTableSeeder::class);
+        $this->call(TransactionAckTableSeeder::class);
+
         $this->call(EntityTableSeeder::class);
         // $this->call(EntityNameTableSeeder::class); (Remover)
 
@@ -46,9 +50,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RelationTableSeeder::class); // (Falta Alterar)
         $this->call(RelationNameTableSeeder::class); // (Falta Alterar)
 
-        $this->call(TransactionTableSeeder::class);
-        $this->call(TransactionStateTableSeeder::class);
-        $this->call(TransactionAckTableSeeder::class);
+        //$this->call(TransactionTableSeeder::class);
+        //$this->call(TransactionStateTableSeeder::class);
+        //$this->call(TransactionAckTableSeeder::class);
 
         //$this->call(ActorIniciatesTTableSeeder::class); // (Falta Alterar)
         

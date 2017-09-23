@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PropAllowedValueName extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'prop_allowed_value_name';
 
     public $timestamps = true;

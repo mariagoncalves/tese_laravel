@@ -18,8 +18,12 @@ class CreateTransactionTypeTable extends Migration
             $table->enum('state', ['active', 'inactive']);
 //            $table->timestamp('updated_on');
             $table->integer('process_type_id')->unsigned();
+			$table->boolean('init_proc');
 //            $table->string('result_type', 500);
             $table->integer('executer')->unsigned();
+            $table->boolean('auto_activate');
+            $table->string('freq_activate', 45)->nullable();
+            $table->time('when_activate')->nullable();
             $table->integer('updated_by')->nullable()->unsigned();
             $table->integer('deleted_by')->nullable()->unsigned();
             $table->timestamps();

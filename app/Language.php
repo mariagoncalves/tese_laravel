@@ -16,7 +16,6 @@ class Language extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'id',
         'name',
         'slug',
         'state',

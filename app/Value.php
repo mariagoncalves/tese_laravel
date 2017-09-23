@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Value extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'value';
 
     public $timestamps = true;
@@ -13,7 +16,7 @@ class Value extends Model
     protected $fillable = [
         'entity_id',
         'property_id',
-        'id_producer',
+        'value',
         'relation_id',
         'state',
 		'updated_by',

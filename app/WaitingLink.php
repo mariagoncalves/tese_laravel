@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WaitingLink extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'waiting_link';
 
     public $timestamps = true;

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TransactionType extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'transaction_type';
 
     public $timestamps = true;
@@ -13,7 +16,11 @@ class TransactionType extends Model
     protected $fillable = [
         'state',
         'process_type_id',
+		'init_proc',
         'executer',
+        'auto_activate',
+        'freq_activate',
+        'when_activate',
 		'updated_by',
         'deleted_by'
     ];

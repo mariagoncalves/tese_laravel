@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProcessTypeName extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'process_type_name';
 
     public $timestamps = true;

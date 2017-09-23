@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PropAllowedValue extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'prop_allowed_value';
 
     public $timestamps = true;
@@ -21,6 +24,10 @@ class PropAllowedValue extends Model
 
     public function property() {
         return $this->belongsTo('App\Property', 'property_id', 'id');
+    }
+
+    public function entType() {
+        return $this->hasMany('App\EntType', 'par_prop_type_val', 'id');
     }
 
     public function language() {

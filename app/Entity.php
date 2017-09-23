@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Entity extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'entity';
 
     public $timestamps = true;
@@ -13,6 +16,7 @@ class Entity extends Model
     protected $fillable = [
         'ent_type_id',
         'state',
+		'transaction_state_id',
 		'updated_by',
         'deleted_by'
     ];
@@ -21,6 +25,10 @@ class Entity extends Model
 
     public function entType() {
         return $this->belongsTo('App\EntType', 'ent_type_id', 'id');
+    }
+	
+	public function transactionState() {
+        return $this->belongsTo('App\TransactionState', 'transaction_state_id', 'id');
     }
 
     public function values() {
@@ -51,6 +59,10 @@ class Entity extends Model
 
     public function entityName() {
         return $this->hasMany('App\EntityName', 'entity_id', 'id');
+    }
+
+    public function users() {
+        return $this->hasMany('App\User', 'entity_id', 'id');
     }
 
 }

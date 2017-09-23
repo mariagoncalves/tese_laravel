@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Property extends Model
 {
+    use SoftDeletes;
+
      protected $table = 'property';
 
     public $timestamps = true;
@@ -62,22 +65,16 @@ class Property extends Model
         return $this->hasMany('App\PropAllowedValue', 'property_id', 'id');
     }
 
-    public function actorCanReadEntTypes() {
-        //return $this->belongsToMany('App\ActorCanReadEntType', 'actor_can_read_ent_type', 'property_need', 'ent_type_info');
-        return $this->hasMany('App\ActorCanReadEntType', 'property_need', 'id');
+    public function readingEntTypes() {
+        return $this->belongsToMany('App\PropertyCanReadEntType', 'property_can_read_ent_type', 'reading_property', 'providing_ent_type')->withPivot('created_at','updated_at','deleted_at');
     }
 
-    public function actorCanReadPropperty() {
-        //return $this->belongsToMany('App\ActorCanReadEntType', 'actor_can_read_ent_type', 'property_need', 'ent_type_info');
-        return $this->hasMany('App\ActorCanReadProperty', 'property_need', 'id');
+    public function propertiesReading() {
+        return $this->belongsToMany('App\PropertyCanReadProperty', 'property_can_read_property', 'reading_property', 'providing_property')->withPivot('created_at','updated_at','deleted_at');
     }
 
-    public function actorCanReadPropperty_need() {
-        return $this->belongsToMany('App\ActorCanReadProperty', 'actor_can_read_property', 'property_need', 'property_info')->withPivot('created_at','updated_at','deleted_at');
-    }
-
-    public function actorCanReadPropperty_info() {
-        return $this->belongsToMany('App\ActorCanReadProperty', 'actor_can_read_property', 'property_info', 'property_need')->withPivot('created_at','updated_at','deleted_at');
+    public function propertiesProviding() {
+        return $this->belongsToMany('App\PropertyCanReadProperty', 'property_can_read_property', 'providing_property', 'reading_property')->withPivot('created_at','updated_at','deleted_at');
     }
 
     public function language() {

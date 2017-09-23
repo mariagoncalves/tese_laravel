@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TState extends Model
 {
+    use SoftDeletes;
+
     protected $table = 't_state';
 
     public $timestamps = true;
@@ -35,6 +38,14 @@ class TState extends Model
 
     public function transactionsState() {
         return $this->hasMany('App\TransactionState', 't_state_id', 'id');
+    }
+
+    public function dInitStateTransactionsState() {
+        return $this->hasMany('App\TransactionState', 'd_init_state_id', 'id');
+    }
+
+    public function dExecStateTransactionsState() {
+        return $this->hasMany('App\TransactionState', 'd_exec_state_id', 'id');
     }
 
     public function language() {

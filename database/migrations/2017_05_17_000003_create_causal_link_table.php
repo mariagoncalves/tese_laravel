@@ -17,8 +17,8 @@ class CreateCausalLinkTable extends Migration
             $table->integer('causing_t')->unsigned();
             $table->integer('t_state_id')->unsigned();
             $table->integer('caused_t')->unsigned();
-            $table->integer('min');
-            $table->integer('max');
+            $table->string('min', 45);
+            $table->string('max', 45);
             $table->integer('updated_by')->nullable()->unsigned();
             $table->integer('deleted_by')->nullable()->unsigned();
             $table->timestamps();

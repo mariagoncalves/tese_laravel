@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EntityName extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'entity_name';
 
     public $timestamps = true;

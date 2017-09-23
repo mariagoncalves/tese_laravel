@@ -18,6 +18,7 @@ class CreateEntityTable extends Migration
 //            $table->string('entity_name', 256)->nullable();
             $table->enum('state', ['active', 'inactive']);
 //            $table->timestamp('updated_on');
+			$table->integer('transaction_state_id')->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();
             $table->integer('deleted_by')->nullable()->unsigned();
             $table->timestamps();

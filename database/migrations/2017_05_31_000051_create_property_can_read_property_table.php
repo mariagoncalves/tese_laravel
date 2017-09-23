@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActorCanReadPropertyTable extends Migration
+class CreatePropertyCanReadPropertyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class CreateActorCanReadPropertyTable extends Migration
      */
     public function up()
     {
-        Schema::create('actor_can_read_property', function (Blueprint $table) {
-            $table->integer('property_need')->unsigned();
-            $table->integer('property_info')->unsigned();
+        Schema::create('property_can_read_property', function (Blueprint $table) {
+            $table->integer('reading_property')->unsigned();
+            $table->integer('providing_property')->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();
             $table->integer('deleted_by')->nullable()->unsigned();
             $table->timestamps();
@@ -33,6 +33,6 @@ class CreateActorCanReadPropertyTable extends Migration
      */
     public function down()
     {
-        Schema::table('actor_can_read_property');
+        Schema::table('property_can_read_property');
     }
 }

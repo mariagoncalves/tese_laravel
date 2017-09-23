@@ -16,8 +16,6 @@ class CreateEntTypeTable extends Migration
             $table->increments('id');
 //            $table->string('name', 128);
             $table->enum('state', ['active','inactive']);
-            $table->boolean('has_child');
-            $table->boolean('has_par');
 //            $table->timestamp('updated_on');
             $table->integer('transaction_type_id')->unsigned();
             $table->integer('par_ent_type_id')->nullable()->unsigned();

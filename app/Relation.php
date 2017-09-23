@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Relation extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'relation';
 
     public $timestamps = true;
@@ -14,6 +17,7 @@ class Relation extends Model
         'rel_type_id',
         'entity1_id',
         'entity2_id',
+        'transaction_state_id',
         'state',
 		'updated_by',
         'deleted_by'

@@ -9,8 +9,6 @@ class RelTypeName extends Model
 {
     use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
-
     protected $table = 'rel_type_name';
 
     public $timestamps = true;

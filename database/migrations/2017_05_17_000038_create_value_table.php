@@ -17,7 +17,7 @@ class CreateValueTable extends Migration
             $table->integer('entity_id')->nullable()->unsigned();
             $table->integer('property_id')->unsigned();
 //            $table->string('value', 8192);
-            $table->integer('id_producer')->unsigned();
+            $table->text('value', 65535);
             $table->integer('relation_id')->nullable()->unsigned();
 //            $table->timestamp('updated_on');
             $table->enum('state', ['active', 'inactive']);

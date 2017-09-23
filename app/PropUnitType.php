@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PropUnitType extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'prop_unit_type';
 
     public $timestamps = true;
