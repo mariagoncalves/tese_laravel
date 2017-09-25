@@ -33,6 +33,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
+
     $scope.getEntitiesData = function (id) {
 
         console.log(id);
@@ -133,17 +134,59 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
-    $scope.pesquisa = function (id) {
+    $scope.pesquisa = function (idEntityType) {
+        console.log("ID DA ENTIDADE: " + idEntityType);
 
-        console.log("ID da PESQUISAAA: " + id);
+        var formData   = JSON.parse(JSON.stringify($('#dynamic-search').serializeArray())),
+            numChecked = $('#dynamic-search').find('[type=checkbox]:checked').length,
+            numTableET = 0,
+            numTableVT = 0,
+            numTableRL = 0,
+            numTableER = 0;
 
-        var en2 = $("#checkProps").is(":checked");
+        // Para saber quantas propriedades tem em cada tabela
+        if ($scope.ents.properties != '' && $scope.ents.properties != undefined) {
+            numTableET = $scope.ents.properties.length;
+        }
+        if ($scope.propsOfEnts[idEntityType] != '' && $scope.propsOfEnts[idEntityType] != undefined) {
+            numTableVT = $scope.propsOfEnts[idEntityType].length;
+        }
+        if ($scope.relsWithEnt != '' && $scope.relsWithEnt != undefined) {
+            var len = $scope.relsWithEnt.length;
+            for (var i = 0; i < len; i++) {
+                numTableRL = numTableRL + $scope.relsWithEnt[i].properties.length;
+            }
+        }
+        if ($scope.entsRelated != '' && $scope.entsRelated != undefined) {
+            var len = $scope.entsRelated.length;
+            for (var i = 0; i < len; i++) {
+                numTableER = numTableER + $scope.entsRelated[i].properties.length;
+            }
+        }
 
-        $http.get(API_URL + '/dynamicSearch/pesquisa/' + id).then(function(response) {
-            $scope.information = response.data[0];
-            console.log("Dados information");
-            console.log($scope.information);
+        formData.push({'name': 'numTableET', 'value': numTableET});
+        formData.push({'name': 'numTableVT', 'value': numTableVT});
+        formData.push({'name': 'numTableRL', 'value': numTableRL});
+        formData.push({'name': 'numTableER', 'value': numTableER});
+        formData.push({'name': 'numChecked', 'value': numChecked});
+
+        console.log(formData);
+        $("#dynamic-search").hide();
+        $("#dynamic-search-presentation").show();
+
+        $http({
+            method: 'POST',
+            url: API_URL + "dynamicSearch/pesquisa/" + idEntityType,
+            data: $.param(formData),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function(response) {
+            console.log("RESUL FINAL");
         });
+    }
+
+    $scope.voltar = function() {
+        $("#dynamic-search").show();
+        $("#dynamic-search-presentation").hide();
     }
 
 
