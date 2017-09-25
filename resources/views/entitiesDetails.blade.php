@@ -42,7 +42,6 @@
 							        		<option></option>
 							        		<option ng-repeat = "inst in fkEnt[property.id].fk_ent_type.entity" value = "[[ inst.id ]]"> [[ inst.language[0].pivot.name ]] </option>
 							        	</select>
-
 									</div>
 							        <div ng-switch-when="int"> 
 										<select name = "operatorsET[[ key1 ]]" ng-init = "getOperators()">
@@ -51,18 +50,17 @@
 							        	</select>
 							        	<input type="text" name="intET[[ key1 ]]">
 									</div>
-									<div ng-switch-default> 
+									<div ng-switch-when="double"> 
 										<select name = "operatorsET[[ key1 ]]" ng-init = "getOperators()">
 							        		<option></option>
 							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 							        	</select>
 							        	<input type="text" name="doubleET[[ key1 ]]">
 									</div>
-									<div ng-switch-when="prop_ref"> 
-										<input type="text" name="doubleET[[ key1 ]]">
-									</div>
+									<div ng-switch-when="file"> <input type="text" name="fileET[[ key1 ]]"> </div>
+									<!-- Não sei se é para por o prop-ref -->
 									<div ng-switch-default> 
-							        	<!-- <input type="text" name="doubleET[[ key1 ]]"> -->
+							        	<input type="text" name="propRefET[[ key1 ]]">
 									</div>
 								</div>
 		                    </td> 
@@ -132,11 +130,12 @@
 										        	</select>
 										        	<input type="text" name="doubleVT[[ key2 ]]">
 												</div>
-												<div ng-switch-when="prop_ref"> 
-													<input type="text" name="doubleVT[[ key2 ]]">
+												<div ng-switch-when="file"> 
+													<input type="text" name="fileVT[[ key2 ]]">
 												</div>
+												<!-- Não sei se é para por o prop-ref -->
 												<div ng-switch-default> 
-										        	<!-- <input type="text" name="doubleVT[[ key2 ]]"> -->
+										        	<input type="text" name="propRefVT[[ key2 ]]">
 												</div>
 											</div>
 					                    </td>
@@ -202,11 +201,12 @@
 							        	</select>
 							        	<input type="text" name="doubleRL[[ key3 ]]">
 									</div>
-									<div ng-switch-when="prop_ref"> 
-										<input type="text" name="doubleRL[[ key3 ]]">
+									<div ng-switch-when="file"> 
+										<input type="text" name="fileRL[[ key3 ]]">
 									</div>
+									<!-- Não sei se é para por o prop-ref -->
 									<div ng-switch-default> 
-							        	<!-- <input type="text" name="doubleRL[[ key3 ]]"> -->
+							        	<input type="text" name="propRefRL[[ key3 ]]">
 									</div>
 								</div>
 		                    </td>
@@ -283,8 +283,12 @@
 								        	</select>
 								        	<input type="text" name="doubleER[[ property.key ]]">
 										</div>
-										<div ng-switch-when="prop_ref"> 
-											<input type="text" name="doubleER[[ property.key ]]">
+										<div ng-switch-when="file"> 
+											<input type="text" name="fileER[[ property.key ]]">
+										</div>
+										<!-- Não sei se é para por o prop-ref -->
+										<div ng-switch-default> 
+								        	<input type="text" name="propRefER[[ key3 ]]">
 										</div>
 									</div>
 			                    </td>

@@ -74,7 +74,6 @@ class PropertiesOfEntitiesController extends Controller {
             }
 
             if(isset($data['property_valueType']) && $data['property_valueType'] == 'text') {
-                //$rulesFieldType = 'required|regex:((text)|(textbox))';
                 $rulesFieldType = ['required', Rule::in(['text','textbox']),];
             } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'bool') {
                 $rulesFieldType = ['required', Rule::in(['radio','selectbox']),];
@@ -88,12 +87,12 @@ class PropertiesOfEntitiesController extends Controller {
                 $rulePropRef = ['required', 'integer'];
             } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'file') {
                 $rulesFieldType = ['required', Rule::in(['file']),];
-            } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
+            } /*else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
                 $rulesFieldType = ['required', Rule::in(['text']),];
                 $ruleEntTypeInfo = 'required_without_all:propselect';
                 $rulePropInfo = 'required_without_all:ent_types_select';
-            } else {
-                $rulesFieldType = ['required', Rule::in(['text']),];
+            }*/ else {
+                $rulesFieldType = ['required', Rule::in(['number']),];
             }
 
             $rules = [
@@ -263,12 +262,12 @@ class PropertiesOfEntitiesController extends Controller {
             $rulePropRef = ['required', 'integer'];
         } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'file') {
             $rulesFieldType = ['required', Rule::in(['file']),];
-        } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
+        } /*else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
             $rulesFieldType = ['required', Rule::in(['text']),];
             $ruleEntTypeInfo = 'required_without_all:propselect';
             $rulePropInfo = 'required_without_all:ent_types_select';
-        } else {
-            $rulesFieldType = ['required', Rule::in(['text']),];
+        }*/ else {
+            $rulesFieldType = ['required', Rule::in(['number']),];
         }
 
         $rules = [
