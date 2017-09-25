@@ -174,6 +174,7 @@ Route::get('/properties/get_props_ents', 'PropertiesOfEntitiesController@getAllE
 
 Route::post('/PropertyEnt', 'PropertiesOfEntitiesController@insertPropsEnt');
 Route::post('/PropertyEnt/{id?}', 'PropertiesOfEntitiesController@updatePropsEnt');
+Route::get('/properties/getPropsEntity', 'PropertiesOfEntitiesController@getAllPropsEntities');
 Route::get('/properties/getPropsEntity/{id?}', 'PropertiesOfEntitiesController@getPropsEntities');
 Route::post('/updateOrderEnt', 'PropertiesOfEntitiesController@updateOrderPropsEnt');
 Route::get('/modalPropsEnt', function () {

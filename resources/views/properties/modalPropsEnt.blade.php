@@ -30,7 +30,7 @@
             </div>
 
             <div class="form-group" ng-init="getStates()">
-                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER10" | translate]]:</label>
+                <label for="property_state" class="col-sm-3 control-label">[[ "THEADER10" | translate]]:</label>
                 <div class="col-sm-9">
                     <label class="radio-inline state" ng-repeat="state in states">
                         <input type="radio" name="property_state" value="[[ state ]]" ng-checked="state == property.state">[[ state ]]
@@ -105,7 +105,7 @@
             </div> -->
 
            <div class="form-group">
-                <label for="inputfieldSize" class="col-sm-3 control-label">[[ "THEADER8" | translate]]:</label>
+                <label for="property_fieldSize" class="col-sm-3 control-label">[[ "THEADER8" | translate]]:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="property_fieldSize" name="property_fieldSize"  ng-value="property.form_field_size">
                     <ul ng-repeat="error in errors.property_fieldSize" style="padding-left: 15px;">
@@ -115,7 +115,7 @@
             </div>
 
             <div class="form-group">
-                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER9" | translate]]:</label>
+                <label for="property_mandatory" class="col-sm-3 control-label">[[ "THEADER9" | translate]]:</label>
                 <div class="col-sm-9">
                     <label for="" class="radio-inline mandatory">
                         <input type="radio" name="property_mandatory" value="1" ng-checked="1 == property.mandatory" required>Yes
@@ -149,7 +149,7 @@
                 <div class="col-sm-9">
                     <select class="form-control" name="fk_property" ng-disabled="true">
                         <option value=""></option>
-                        <option ng-repeat="property in propEntity.properties" ng-value="property.id">[[ property.language[0].pivot.name ]]</option>
+                        <option ng-repeat="prop in propEntity.properties" ng-value="prop.id" ng-selected = "prop.id == property.fk_property_id">[[ prop.language[0].pivot.name ]]</option>
                     </select>
                     <ul ng-repeat="error in errors.fk_property" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
@@ -160,13 +160,14 @@
             <div class="form-group">
                 <label for="ent_types_select" class="col-sm-3 control-label">Entity_type_info:</label>
                 <div class="col-sm-9">
-                    <script type="text/javascript">
+                    <!-- pra apafar -->
+                    <!-- <script type="text/javascript">
                         $(".entselecting").select2({
                             placeholder: "Entity Types",
                             allowClear: true
                         });
-                    </script>
-                    <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" name="ent_types_select" ng-model="ent_types_select" ng-options="ent.id as ent.language[0].pivot.name for ent in select2Ents">
+                    </script> -->
+                    <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" name="ent_types_select" ng-model="ent_types_select">
                     </select>
 
                     <ul ng-repeat="error in errors.ent_types_select" style="padding-left: 15px;">
@@ -179,37 +180,19 @@
             <div class="form-group">
                 <label for="propselect" class="col-sm-3 control-label">Property_info:</label>
                 <div class="col-sm-9">
-                    <script type="text/javascript">
+                    <!-- <script type="text/javascript">
                         $(".propselecting").select2({
                             placeholder: "Properties",
                             allowClear: true
                         });
-                    </script>
-                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect" ng-options="propEntity.id as propEntity.language[0].pivot.name for propEntity in select2PropEntity.properties">
+                    </script> -->
+                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect">
                     </select>
                     <ul ng-repeat="error in errors.propselect" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
                     </ul>
                 </div>
             </div>
-
-            <!-- <div class="form-group">
-                <label for="propselect" class="col-sm-3 control-label">TESTANDO</label>
-                <div class="col-sm-9">
-                    <script type="text/javascript">
-                        $("#entselecting").select2({
-                            placeholder: "Properties",
-                            allowClear: true
-                        });
-                    </script>
-                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect" ng-options="propEntity.id as propEntity.language[0].pivot.name for propEntity in select2PropEntity.properties">
-                    </select>
-                    <ul ng-repeat="error in errors.propselect" style="padding-left: 15px;">
-                        <li>[[ error ]]</li>
-                    </ul>
-                </div>
-            </div> -->
-
         </form>
     </div>
     <div class="modal-footer">

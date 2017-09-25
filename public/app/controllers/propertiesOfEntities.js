@@ -23,8 +23,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
     $scope.errors = [];
     $scope.propsEnt = [];
     $scope.propEntity = [];
-    $scope.select2PropEntity = [];
-    //$scope.languages = [];
+    //$scope.select2PropEntity = [];
     $scope.props = [];
 
     $scope.getEntities = function(pageNumber) {
@@ -217,49 +216,6 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
 
     $scope.openModalPropsEnt = function (size, modalstate, id, parentSelector) {
 
-        //$('#formProperty')[0].reset();
-        $scope.property = null;
-        $scope.modalstate = modalstate;
-
-        switch (modalstate) {
-            case 'add':
-                $scope.id = id;
-                $scope.form_title = "Add New Property";
-                break;
-            case 'edit':
-                $scope.form_title = "Edit Property";
-                $scope.id = id;
-
-                $http.get(API_URL + '/properties/get_property/' + id)
-                    .then(function(response) {
-                        $scope.property = response.data;
-                        $scope.changes();
-                        $("[name=entity_type]").prop('disabled', 'disabled');
-
-                        // Adicionar a select2 as entidades associadas a propriedade
-                        var entidades = $scope.property.actor_can_read_ent_types,
-                            lenght    = entidades.length;
-
-                        for (var i = 0; i < lenght; i++) {
-                            var newOption = new Option(entidades[i].ent_type.language[0].pivot.name, entidades[i].ent_type_info, true, true);
-                            $('#ent_types_select').append(newOption);
-                        }
-
-                        // Adicionar a select2 as propriedades associadas a propriedade
-                        var props  = $scope.property.actor_can_read_propperty,
-                            lenght = props.length;
-
-                        for (var i = 0; i < lenght; i++) {
-                            var newOption = new Option(props[i].property.language[0].pivot.name, props[i].property_info, true, true);
-                            $('#propselect').append(newOption);
-                        }
-
-                    });
-                break;
-            default:
-                break;
-        }
-
         var modalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -268,38 +224,135 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             controller: 'ModalInstanceCtrl1',
             scope: $scope,
             size: size,
-            //appendTo: parentElem,
-            resolve: {
-            }
-        }).closed.then(function() {
-            //handle ur close event here
-            //alert("modal closed");
+            resolve: {}
+        }).rendered.then(function() {
+            $scope.property = null;
+            $scope.modalstate = modalstate;
+
+            switch (modalstate) {
+            case 'add':
+                $scope.id = id;
+                $scope.form_title = "Add New Property";
+                $scope.selectsProperty([], []);
+                break;
+            case 'edit':
+                $scope.form_title = "Edit Property";
+                $scope.id = id;
+                console.log("ID" + id);
+
+                var asssa = "";
+
+                $http.get(API_URL + '/properties/get_property/' + id)
+                    .then(function(response) {
+                        $scope.property = response.data;
+                        console.log("DADOS DA PROPRIEDADE: ");
+                        console.log(response.data);
+
+                        $scope.changes();
+                        $("[name=entity_type]").prop('disabled', 'disabled');
+
+                        if ($scope.property.fk_property_id && $scope.property.fk_property_id != '') {
+                            dados = {properties: [$scope.property.fk_property]};
+                            $scope.propEntity = dados;
+                        }
+
+                        console.log("DADOS");
+                        console.log($scope.propEntity);
+
+                        //Adicionar a select2 as entidades associadas a propriedade
+                        var entidades      = $scope.property.reading_ent_types,
+                            lenght         = entidades.length,
+                            selectEntities = [];
+
+                            console.log('TAMANHOOOO');
+                            console.log(lenght);
+
+                        for (var i = 0; i < lenght; i++) {
+                            selectEntities.push(entidades[i].pivot.providing_ent_type);
+                        }
+
+
+                        // Adicionar a select2 as propriedades associadas a propriedade
+                        var props            = $scope.property.property_can_read_property,
+                            lenght           = props.length,
+                            selectProperties = [];
+
+                            console.log("TAMANHO PROPS");
+                            console.log(lenght);
+
+                        for (var i = 0; i < lenght; i++) {
+                            selectProperties.push(props[i].pivot.providing_property);
+                        }
+                        $scope.selectsProperty(selectEntities, selectProperties);
+
+                    });
+                break;
+            default:
+                break;
+        }
+
+
         });
+
     };
 
-    /*$scope.changedSelectEntitiesValue = function() {
-        console.log("Alterou");
-        var value = $("[name=entity_type]").val();
-        console.log(value);
-        //value = value.split(":")[1];
+    $scope.selectsProperty = function(selectEntities, selectProperties) {
+        console.log("TESTE SELECTS2: ");
+        console.log(selectProperties);
+        console.log(selectEntities);
 
-        if (value == '' || value == undefined) {
-            $("[name=fk_property]").prop('disabled', 'disabled');
-            $("#propselect").prop('disabled', 'disabled');
+        $http.get('/properties/getPropsEntity').then(function(response) {
+            var entidades = response.data,
+                lenght    = entidades.length,
+                entTypes  = [],
+                allEntType = [];
 
-            $scope.propEntity = [];
-            $scope.select2PropEntity = [];
-        } else {
-            $("[name=fk_property]").removeAttr("disabled");
-            $("#propselect").removeAttr("disabled");
+                console.log("ENTIDADESSS:");
+                console.log(entidades);
 
-            $http.get('/properties/getPropsEntity/' + value).then(function(response) {
-                console.log(response.data);
-                $scope.propEntity = response.data;
-                $scope.select2PropEntity = response.data;
+            for (var i = 0; i < lenght; i++) {
+                var props = [];
+
+                var propriedades = entidades[i].properties,
+                    lenghtProp   = propriedades.length;
+
+                    console.log("tamanho das props das ents");
+                    console.log(lenghtProp);
+
+                for (var j = 0; j < lenghtProp; j++) {
+                    if(jQuery.inArray(propriedades[j].id, selectProperties) !== -1) {
+                        props.push({'id': propriedades[j].id, 'text': propriedades[j].language[0].pivot.name, 'selected': true});
+                    } else {
+                        props.push({'id': propriedades[j].id, 'text': propriedades[j].language[0].pivot.name});
+                    }
+                }
+
+                if (props.length != 0) {
+                    entTypes.push({'text': entidades[i].language[0].pivot.name, 'children': props});
+                }
+
+                if(jQuery.inArray(entidades[i].id, selectEntities) !== -1) {
+                    allEntType.push({'id': entidades[i].id, 'text': entidades[i].language[0].pivot.name, 'selected': true});
+                } else {
+                    allEntType.push({'id': entidades[i].id, 'text': entidades[i].language[0].pivot.name});
+                }
+            }
+
+            $("#propselect").select2({
+                placeholder: "Properties",
+                allowClear: true,
+                data: entTypes
             });
-       }
-    };*/
+
+            $("#ent_types_select").select2({
+                placeholder: "Entities Type",
+                allowClear: true,
+                data: allEntType
+            });
+        });
+    }
+
+
 
     $scope.changes = function() {
 
@@ -314,12 +367,13 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             valueType = $scope.property.value_type;
         }
 
-        $http.get('/properties/get_all_Ents').then(function(response) {
+        //para apagar
+        /*$http.get('/properties/get_all_Ents').then(function(response) {
             console.log("VALOR DO PEDIDO");
             console.log(response.data);
             $scope.ents = response.data;
             $scope.select2Ents = response.data;
-        });
+        });*/
 
         if (valueType == 'ent_ref') {
 
@@ -329,7 +383,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         } else if (valueType == 'prop_ref') {
            
             $("[name=fk_property]").removeAttr("disabled");
-            $("[name=reference_entity]").prop('disabled', 'disabled');
+            $("[name=reference_entity]").removeAttr("disabled");
 
         } else {
 
@@ -349,9 +403,11 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         console.log(value);
 
         $http.get('/properties/getPropsEntity/' + value).then(function(response) {
+            $scope.propEntity = [];
             console.log(response.data);
             $scope.propEntity = response.data;
-            $scope.select2PropEntity = response.data;
+            //para apgar
+            //$scope.select2PropEntity = response.data;
         });
 
         //var teste = $("#fk_ent_type option:selected").val();

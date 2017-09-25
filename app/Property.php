@@ -66,16 +66,28 @@ class Property extends Model
     }
 
     public function readingEntTypes() {
-        return $this->belongsToMany('App\PropertyCanReadEntType', 'property_can_read_ent_type', 'reading_property', 'providing_ent_type')->withPivot('created_at','updated_at','deleted_at');
+        //return $this->belongsToMany('App\PropertyCanReadEntType', 'property_can_read_ent_type', 'reading_property', 'providing_ent_type')->withPivot('created_at','updated_at','deleted_at');
+        //return $this->hasMany('App\PropertyCanReadEntType', 'reading_property', 'id');
+        //Relação maria N->N
+        return $this->belongsToMany('App\EntType', 'property_can_read_ent_type', 'reading_property', 'providing_ent_type')->withPivot('created_at','updated_at','deleted_at');
     }
 
-    public function propertiesReading() {
+    public function propertyCanReadProperty () {
+        return $this->belongsToMany('App\Property', 'property_can_read_property', 'reading_property', 'providing_property')->withPivot('created_at','updated_at','deleted_at');
+    }
+
+    //NOVA???
+    /*public function propertyCanReadProperty() {
+        return $this->hasMany('App\PropertyCanReadProperty', 'reading_property', 'id');
+    }*/
+
+    /*public function propertiesReading() {
         return $this->belongsToMany('App\PropertyCanReadProperty', 'property_can_read_property', 'reading_property', 'providing_property')->withPivot('created_at','updated_at','deleted_at');
     }
 
     public function propertiesProviding() {
         return $this->belongsToMany('App\PropertyCanReadProperty', 'property_can_read_property', 'providing_property', 'reading_property')->withPivot('created_at','updated_at','deleted_at');
-    }
+    }*/
 
     public function language() {
         return $this->belongsToMany('App\Language', 'property_name', 'property_id', 'language_id')->withPivot('name','form_field_name','created_at','updated_at','deleted_at');
