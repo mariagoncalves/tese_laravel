@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Relation;
+use App\RelationName;
 
 class RelationTableSeeder extends Seeder
 {
@@ -12,32 +13,11 @@ class RelationTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
-        	[
-        		'id'          => '1',
-                'rel_type_id' => '1',
-                'entity1_id'  => '1',
-                'entity2_id'  => '2',
-                'transaction_state_id' => '1',
-                'state'       => 'active',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-
-        	],
-        	[
-        		'id'          => '2',
-                'rel_type_id' => '2',
-                'entity1_id'  => '1',
-                'entity2_id'  => '3',
-                'transaction_state_id' => '2',
-                'state'       => 'active',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	]
-        ];
-
-        foreach ($dados as $value) {
-            Relation::create($value);
-        }
+        factory(Relation::class, 6)->create()->each(function($new) {
+            factory(RelationName::class, 1)->create([
+                'relation_id' => $new->id, 
+                'updated_by'  => $new->updated_by,
+            ]);
+        });
     }
 }

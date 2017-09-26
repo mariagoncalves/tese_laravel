@@ -47,26 +47,22 @@ class DatabaseSeeder extends Seeder
         $this->call(RelTypeTableSeeder::class);
         // $this->call(RelTypeNameTableSeeder::class); (Remover)
         
-        $this->call(RelationTableSeeder::class); // (Falta Alterar)
-        $this->call(RelationNameTableSeeder::class); // (Falta Alterar)
+        $this->call(RelationTableSeeder::class);
+        // $this->call(RelationNameTableSeeder::class); (Remover)
 
-        //$this->call(TransactionTableSeeder::class);
-        //$this->call(TransactionStateTableSeeder::class);
-        //$this->call(TransactionAckTableSeeder::class);
-
-        //$this->call(ActorIniciatesTTableSeeder::class); // (Falta Alterar)
+        $this->call(ActorIniciatesTTableSeeder::class); 
         
         $this->call(PropertyTableSeeder::class);
         // $this->call(PropertyNameTableSeeder::class); (Remover)
 
-        /*
-        $this->call(PropertyTableSeeder::class);
-        $this->call(PropertyNameTableSeeder::class);
         $this->call(ValueTableSeeder::class);
-        $this->call(ValueNameTableSeeder::class);
+        // $this->call(ValueNameTableSeeder::class); (Remover)
+
         $this->call(PropAllowedValueTableSeeder::class);
-        $this->call(PropAllowedValueNameTableSeeder::class);
-        $this->call(CustomFormHasPropTableSeeder::class);
+        // $this->call(PropAllowedValueNameTableSeeder::class); (Remover)
+
+        /*
+        $this->call(CustomFormHasPropTableSeeder::class); (Verificar se a tabela existe ainda, parece que foi alterado para o customFormHasEntType)
         $this->call(CausalLinkTableSeeder::class);
         $this->call(WaitingLinkTableSeeder::class);*/
     }

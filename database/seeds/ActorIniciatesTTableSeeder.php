@@ -12,28 +12,6 @@ class ActorIniciatesTTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
-        	[
-        		'transaction_type_id' => '1',
-        		'actor_id'            => '1',
-                'updated_by'          => '1',
-                'deleted_by'          => '1'
-        	],
-        	[	'transaction_type_id' => '2',
-        		'actor_id'            => '1',
-                'updated_by'          => '1',
-                'deleted_by'          => '1'
-        	],
-        	[
-        		'transaction_type_id' => '3',
-        		'actor_id'            => '1',
-                'updated_by'          => '1',
-                'deleted_by'          => '1'
-        	]
-        ];
-
-        foreach ($dados as $value) {
-            ActorIniciatesT::create($value);
-        }
+        factory(ActorIniciatesT::class, 2)->create();
     }
 }

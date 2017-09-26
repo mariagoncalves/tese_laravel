@@ -26,7 +26,7 @@ class ActorTableSeeder extends Seeder
             ]);
         }
 
-        factory(Actor::class, 2)->create()->each(function($new) {
+        factory(Actor::class, 5)->create()->each(function($new) {
             factory(ActorName::class, 1)->create([
                 'actor_id'    => $new->id, 
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,

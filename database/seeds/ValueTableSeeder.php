@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Value;
+use App\ValueName;
 
 class ValueTableSeeder extends Seeder
 {
@@ -12,41 +13,12 @@ class ValueTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
-        	[
-        		'id'          => '1',
-                'entity_id'   => '1',
-                'property_id' => '1',
-                'id_producer' => '1' ,
-                'relation_id' => NULL,
-                'state'       => 'active',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'id'          => '2',
-                'entity_id'   => '2',
-                'property_id' => '2',
-                'id_producer' => '1' ,
-                'relation_id' => NULL,
-                'state'       => 'active',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'id'          => '3',
-                'entity_id'   => '3',
-                'property_id' => '3',
-                'id_producer' => '1' ,
-                'relation_id' => NULL,
-                'state'       => 'active',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	]
-        ];
+        factory(Value::class, 5)->create()->each(function($new) {
+            factory(ValueName::class, 1)->create([
+                'value_id'   => $new->id, 
+                'updated_by' => $new->updated_by,
+            ]);
+        });
 
-        foreach ($dados as $value) {
-            Value::create($value);
-        }
     }
 }

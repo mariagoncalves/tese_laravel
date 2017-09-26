@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\PropAllowedValue;
+use App\PropAllowedValueName;
+use App\Property;
 
 class PropAllowedValueTableSeeder extends Seeder
 {
@@ -12,25 +14,15 @@ class PropAllowedValueTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
-        	[
-        		'id'          => '1',
-        		'property_id' => '4',
-        		'state'       => 'active',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'id'          => '2',
-        		'property_id' => '5',
-        		'state'       => 'active',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	]
-        ];
+        $properties = Property::where('value_type', 'enum')->get();
 
-        foreach ($dados as $value) {
-            PropAllowedValue::create($value);
+        foreach ($properties as $prop) {
+            factory(PropAllowedValue::class, 5)->create(['property_id' => $prop->id])->each(function($new) {
+                factory(PropAllowedValueName::class, 1)->create([
+                    'p_a_v_id'   => $new->id, 
+                    'updated_by' => $new->updated_by,
+                ]);
+            });
         }
     }
 }

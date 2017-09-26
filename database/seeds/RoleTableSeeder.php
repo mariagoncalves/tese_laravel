@@ -26,7 +26,7 @@ class RoleTableSeeder extends Seeder
             ]);
         }
 
-        factory(Role::class, 2)->create()->each(function($new) {
+        factory(Role::class, 4)->create()->each(function($new) {
             factory(RoleName::class, 1)->create([
                 'role_id'     => $new->id, 
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
