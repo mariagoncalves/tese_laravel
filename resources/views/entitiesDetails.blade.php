@@ -2,7 +2,7 @@
 @section('content')
 
 <!-- <p> Isto é o id recebido: <?= $id ?> </p> -->
-<p> Isto é o id recebido com angular: {{$id}}</p>
+<!--<p> Isto é o id recebido com angular: {{$id}}</p>  -->
 
 <div ng-controller="dynamicSearchControllerJs"> 
 	<form id="dynamic-search">
@@ -168,21 +168,21 @@
 
 		                <tr ng-repeat="(key3, prop) in relWithEnt.properties" >
 		                    <td>[[ prop.language[0].pivot.name ]]</td>
-		                    <td> <input type="checkbox" name="checkRL[[ key3 ]]" value="[[ prop.id ]]"> </td>
+		                    <td> <input type="checkbox" name="checkRL[[ prop.key ]]" value="[[ prop.id ]]"> </td>
 		                    <td>
 		                    	<div ng-switch on="prop.value_type">
-							        <div ng-switch-when="text"> <input type="text" name="textRL[[ key3 ]]"> </div>
+							        <div ng-switch-when="text"> <input type="text" name="textRL[[ prop.key ]]"> </div>
 							        <div ng-switch-when="bool"> 
-							        	<input type="radio" name="radioRL[[ key3 ]]" value="true">True
-										<input type="radio" name="radioRL[[ key3 ]]" value="false">False 
+							        	<input type="radio" name="radioRL[[ prop.key ]]" value="true">True
+										<input type="radio" name="radioRL[[ prop.key ]]" value="false">False 
 									</div>
 									<div ng-switch-when="enum">
-										<select name = "selectRL[[ key3 ]]" ng-init = "getEnumValues(prop.id)">
+										<select name = "selectRL[[ prop.key ]]" ng-init = "getEnumValues(prop.id)">
 							        		<option ng-repeat = "propAllowedValue in propAllowedValues[prop.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
 							        	</select>
 									</div>
 									<div ng-switch-when="ent_ref"> 
-										<select name = "ent_refRL[[ key3 ]]" ng-init = "getEntityInstances(ents.id, prop.id)">
+										<select name = "ent_refRL[[ prop.key ]]" ng-init = "getEntityInstances(ents.id, prop.id)">
 							        		<option></option>
 							        		<option ng-repeat = "inst in fkEnt.fk_ent_type.entity"> [[ inst.language[0].pivot.name ]] </option>
 							        	</select>
@@ -192,21 +192,21 @@
 							        		<option></option>
 							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 							        	</select>
-							        	<input type="text" name="intRL[[ key3 ]]">
+							        	<input type="text" name="intRL[[ prop.key ]]">
 									</div>
 									<div ng-switch-when="double"> 
-										<select name = "operatorsRL[[ key3 ]]" ng-init = "getOperators()">
+										<select name = "operatorsRL[[ prop.key ]]" ng-init = "getOperators()">
 							        		<option></option>
 							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 							        	</select>
-							        	<input type="text" name="doubleRL[[ key3 ]]">
+							        	<input type="text" name="doubleRL[[ prop.key ]]">
 									</div>
 									<div ng-switch-when="file"> 
-										<input type="text" name="fileRL[[ key3 ]]">
+										<input type="text" name="fileRL[[ prop.key ]]">
 									</div>
 									<!-- Não sei se é para por o prop-ref -->
 									<div ng-switch-default> 
-							        	<input type="text" name="propRefRL[[ key3 ]]">
+							        	<input type="text" name="propRefRL[[ prop.key ]]">
 									</div>
 								</div>
 		                    </td>
@@ -230,23 +230,21 @@
 	                        <th>Seleção</th>
 	                        <th>Valor</th>
 	                    </thead>
-	                    <tbody ng-repeat="entRelated in entsRelated" >
+	                    <tbody>
 
-	                    	<!-- <tr ng-repeat-start="entRelated in entsRelated" ng-if="false" ng-init="innerIndex = $index"></tr>
+	                    	<tr ng-repeat-start="(position, entRelated) in entsRelated" ng-if="false" ng-init="innerIndex = $index"></tr>
 
-			                <td rowspan="[[ entRelated.properties.length + 1 ]] ">
-			                    [[ entRelated.language[0].pivot.name ]]
-			                </td> -->
+			                <td ng-if="entRelated.properties.length != 0 && entRelated.ent_type1_id == ents.id" rowspan="[[ entRelated.properties.length + 1 ]] ">
+			                    [[ entRelated.ent2.language[0].pivot.name ]]
+			                </td>
 
-			               <!--  <td ng-if="entRelated.properties.length == 0" colspan="3"> Ent Não tem props </td> -->
+			                <td ng-if="entRelated.properties.length != 0 && entRelated.ent_type2_id == ents.id" rowspan="[[ entRelated.properties.length + 1 ]] ">
+			                    [[ entRelated.ent1.language[0].pivot.name ]]
+			                </td>
+
+			                <td ng-if="entRelated.properties.length == 0 && position == 0" colspan="4"> Não tem props </td>
 
 			               	<tr ng-repeat="property in entRelated.properties" >
-			               		<td ng-if = "entRelated.ent_type1_id == ents.id" >
-			               				[[ entRelated.ent2.language[0].pivot.name ]]
-								</td>
-		               			<td ng-if = "entRelated.ent_type2_id == ents.id" > 
-		               				[[ entRelated.ent1.language[0].pivot.name ]]
-		               			</td>
 			                    <td>[[ property.language[0].pivot.name ]]</td>
 			                    <td> <input type="checkbox" name="checkER[[ property.key ]]" value="[[ property.id ]]"> </td>
 			                    <td>	
@@ -292,6 +290,7 @@
 										</div>
 									</div>
 			                    </td>
+			                    <tr ng-repeat-end ng-if="false"></tr>
 			                </tr>
 	                    </tbody> 
 	                </table>
@@ -302,8 +301,13 @@
 	</form>
 
 	<div id="dynamic-search-presentation" style="display: none;">
-		<h3>Resultado</h3>
-
+		<h3>Pesquisa</h3>
+		<div id="false-de-pesquisa" style="padding: 15px 0px;">
+			<dl>
+			  <dt>[[ resultDynamincSearch.frase[0] ]]:</dt>
+			  <dd ng-repeat = "(key, frase) in resultDynamincSearch.frase" ng-if="key != 0">[[ frase ]]</dd>
+			</dl>
+		</div>
 		<button type="button" class="btn btn-md btn-primary" ng-click="voltar()"> Voltar </button>
 	</div>
 </div>

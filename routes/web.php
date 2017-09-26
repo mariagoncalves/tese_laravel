@@ -232,7 +232,7 @@ Route::get('/dynamicSearch/getEntsRelated/{idRelType?}/{idEntType}', 'DynamicSea
 Route::get('/dynamicSearch/getPropsEntRelated/{id?}', 'DynamicSearchController@getPropsEntRelated');
 
 
-Route::get('/dynamicSearch/pesquisa/{id?}', 'DynamicSearchController@pesquisa');
+Route::post('/dynamicSearch/pesquisa/{id?}', 'DynamicSearchController@pesquisa');
 
 
 

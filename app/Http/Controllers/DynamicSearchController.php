@@ -156,9 +156,17 @@ class DynamicSearchController extends Controller
                             }])
                         ->where('ent_type1_id', $id)
                         ->orWhere('ent_type2_id', $id)
-                        ->get();
+                        ->get()
+                        ->toArray();
 
-        //\Log::debug($relsWithEnt);
+        $count = 0;
+        foreach ($relsWithEnt as $key => $rel) {
+            
+            foreach ($rel['properties'] as $key1 => $prop) {
+                $relsWithEnt[$key]['properties'][$key1]['key'] = $count;
+                $count++;
+            }
+        }
 
         return response()->json($relsWithEnt);
     }
@@ -214,14 +222,16 @@ class DynamicSearchController extends Controller
         return view('dynamicSearchPresentation');
     }
 
-    public function pesquisa (Request $request, $idEntityType) {
+    public function pesquisa(Request $request, $idEntityType) {
         $data = $request->all();
+        $resultado = [];
         \Log::debug($data);
 
         $frase = $this->formarFrase($idEntityType, $data);
         \Log::debug($frase);
-
-        return response()->json($idEntityType);
+        $resultado['frase'] = $frase;
+        
+        return response()->json($resultado);
     }
 
     public function formarFrase($idEntityType, $data) {

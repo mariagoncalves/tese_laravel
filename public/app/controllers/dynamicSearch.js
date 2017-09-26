@@ -23,6 +23,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.entsRelated = [];
     $scope.propsEntRelated = [];
     $scope.information = [];
+    $scope.resultDynamincSearch = [];
 
 
     $scope.getEntities = function () {
@@ -180,8 +181,6 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         formData.push({'name': 'numChecked', 'value': numChecked});
 
         console.log(formData);
-        $("#dynamic-search").hide();
-        $("#dynamic-search-presentation").show();
 
         $http({
             method: 'POST',
@@ -190,6 +189,10 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function(response) {
             console.log("RESUL FINAL");
+            console.log(response);
+            $scope.resultDynamincSearch = response.data;
+            $("#dynamic-search").hide();
+            $("#dynamic-search-presentation").show();
         });
     }
 
