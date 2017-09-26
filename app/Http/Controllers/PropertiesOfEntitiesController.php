@@ -132,12 +132,12 @@ class PropertiesOfEntitiesController extends Controller {
 
             if(isset($data['property_valueType']) && $data['property_valueType'] == 'ent_ref') {
                 $data['fk_property'     ] = NULL;
-                $data['propselect'      ] = [];
-                $data['ent_types_select'] = [];
+                //$data['propselect'      ] = [];
+                //$data['ent_types_select'] = [];
             } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'prop_ref') {
                 $data['reference_entity'] = NULL;
-                $data['propselect'      ] = [];
-                $data['ent_types_select'] = [];
+                //$data['propselect'      ] = [];
+                //$data['ent_types_select'] = [];
             }
 
             //Buscar o nr de propriedades de uma relação, porque o form_field_order vai ser o nr de props que tem +1
