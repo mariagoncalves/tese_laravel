@@ -191,7 +191,6 @@ Route::get('/modalConfirm', function () {
     return view('properties/modalConfirm');
 });
 
-Route::get('/properties/get_all_Ents', 'PropertiesOfEntitiesController@getAllEnts');
 
 
 

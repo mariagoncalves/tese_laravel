@@ -9,7 +9,7 @@
 
         <!-- Tabela utilizando o ng-table -->
 
-        <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
+        <!-- <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
             <colgroup>
                 <col width="60%" />
                 <col width="20%" />
@@ -23,7 +23,7 @@
                     </a>
                 </td>
             </tr>
-           <!--  <tr ng-hide="group.$hideRows" ng-repeat="relation in group.data" ng-repeat-end>
+            <tr ng-hide="group.$hideRows" ng-repeat="relation in group.data" ng-repeat-end>
                 <td sortable="'name'" filter="{name: 'text'}" data-title="'THEADER5' | translate" groupable="'name'">
                     [[relation.language[0].pivot.name]]
                 </td>
@@ -62,8 +62,8 @@
                     <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                     <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
                 </td>
-            </tr> -->
-        </table> 
+            </tr> 
+        </table> -->
  
 
 

@@ -50,88 +50,6 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
     };
 
-    /*$scope.toggle = function(modalstate, id) {
-        $('#formProperty')[0].reset();
-        $scope.property = null;
-        $scope.modalstate = modalstate;
-
-        if(modalstate == "edit") {
-            $('#myModal select:first').prop('disabled', true);
-        } else {
-            $('#myModal select:first').prop('disabled', false);
-        }
-
-        switch (modalstate) {
-            case 'add':
-                $scope.id = id;
-                $scope.form_title = "Add New Property";
-                break;
-            case 'edit':
-                $scope.form_title = "Edit Property";
-                $scope.id = id;
-                $http.get(API_URL + '/properties/get_property/' + id)
-                    .then(function(response) {
-                        $scope.property = response.data;
-                    });
-                break;
-            default:
-                break;
-        }
-        $('#myModal').modal('show');
-        $scope.errors = null;
-        $scope.process = null;
-    };*/
-
-    /*$scope.save = function(modalstate, id) {
-        var url      = API_URL + "PropertyEnt";
-
-
-        console.log(jQuery('#formProperty').serializeArray());
-
-        var formData = JSON.parse(JSON.stringify(jQuery('#formProperty').serializeArray()));
-
-        console.log(formData);
-
-        if (modalstate === 'edit') {
-            url += "/" + id ;
-        }
-
-        $http({
-            method: 'POST',
-            url: url,
-            data: $.param(formData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function(response) {
-            //First function handles success
-            $scope.errors = [];
-            $scope.getEntities();
-            $('#myModal').modal('hide');
-
-            $('#myModal select:first').prop('disabled', false);
-            $('#formProperty')[0].reset();
-
-
-            if(modalstate == "add") {
-                growl.success('SAVE_SUCCESS_MESSAGE',{title: 'SUCCESS'});
-            } else {
-                growl.success('EDIT_SUCCESS_MESSAGE',{title: 'SUCCESS'});
-            }
-        }, function(response) {
-            //Second function handles error
-            if (response.status == 400) {
-                $scope.errors = response.data.error;
-            } else if (response.status == 500) {
-
-
-                $('#myModal').modal('hide');
-                $('#formProperty')[0].reset();
-
-
-                growl.error(response.data.error, {title: 'error!'});
-            }
-        });
-    };*/
-
     $scope.showDragDropWindowEnt = function(id) {
 
         $scope.id = id;
@@ -240,8 +158,6 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 $scope.id = id;
                 console.log("ID" + id);
 
-                var asssa = "";
-
                 $http.get(API_URL + '/properties/get_property/' + id)
                     .then(function(response) {
                         $scope.property = response.data;
@@ -264,21 +180,14 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                             lenght         = entidades.length,
                             selectEntities = [];
 
-                            console.log('TAMANHOOOO');
-                            console.log(lenght);
-
                         for (var i = 0; i < lenght; i++) {
                             selectEntities.push(entidades[i].pivot.providing_ent_type);
                         }
-
 
                         // Adicionar a select2 as propriedades associadas a propriedade
                         var props            = $scope.property.property_can_read_property,
                             lenght           = props.length,
                             selectProperties = [];
-
-                            console.log("TAMANHO PROPS");
-                            console.log(lenght);
 
                         for (var i = 0; i < lenght; i++) {
                             selectProperties.push(props[i].pivot.providing_property);
@@ -307,17 +216,11 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 entTypes  = [],
                 allEntType = [];
 
-                console.log("ENTIDADESSS:");
-                console.log(entidades);
-
             for (var i = 0; i < lenght; i++) {
                 var props = [];
 
                 var propriedades = entidades[i].properties,
                     lenghtProp   = propriedades.length;
-
-                    console.log("tamanho das props das ents");
-                    console.log(lenghtProp);
 
                 for (var j = 0; j < lenghtProp; j++) {
                     if(jQuery.inArray(propriedades[j].id, selectProperties) !== -1) {
@@ -352,12 +255,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
     }
 
-
-
     $scope.changes = function() {
-
-        console.log("Chegou aqui hello");
-        //console.log(valueType);
 
         var valueType = $("[name=property_valueType]").val();
         console.log("Valor do valueType:");
@@ -366,14 +264,6 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         if (valueType == "") {
             valueType = $scope.property.value_type;
         }
-
-        //para apagar
-        /*$http.get('/properties/get_all_Ents').then(function(response) {
-            console.log("VALOR DO PEDIDO");
-            console.log(response.data);
-            $scope.ents = response.data;
-            $scope.select2Ents = response.data;
-        });*/
 
         if (valueType == 'ent_ref') {
 
@@ -395,31 +285,21 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
 
     $scope.getPropsByEnt = function () {
 
-        console.log("Tá a chegar ao teste");
-
         var value = $("[name=reference_entity]").val();
         value = value.split(":")[1];
-        //var value = $("[name=entity_type]").val();
         console.log(value);
 
         $http.get('/properties/getPropsEntity/' + value).then(function(response) {
             $scope.propEntity = [];
             console.log(response.data);
             $scope.propEntity = response.data;
-            //para apgar
-            //$scope.select2PropEntity = response.data;
         });
-
-        //var teste = $("#fk_ent_type option:selected").val();
-        //console.log(teste);
-
-        //var entSel = $("reference_entity").val();
-        //console.log(entSel);
     };
 
     $scope.ModalInstanceCtrl1 = function ($scope, $uibModalInstance) {
 
         $scope.save = function(modalstate, id) {
+
             var url      = API_URL + "PropertyEnt";
 
             console.log(jQuery('#formProperty').serializeArray());
@@ -446,12 +326,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 //First function handles success
                 $scope.errors = [];
                 $scope.getEntities();
-               // $('#myModal').modal('hide');
-               $scope.cancel();
-
-                $('#myModal select:first').prop('disabled', false);
-                //$('#formProperty')[0].reset();
-
+                $scope.cancel();
 
                 if(modalstate == "add") {
                     growl.success('SAVE_SUCCESS_MESSAGE',{title: 'SUCCESS'});
@@ -464,8 +339,6 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                     $scope.errors = response.data.error;
                 } else if (response.status == 500) {
 
-                    //$('#myModal').modal('hide');
-                    //$('#formProperty')[0].reset();
                     $scope.cancel();
 
                     growl.error(response.data.error, {title: 'error!'});

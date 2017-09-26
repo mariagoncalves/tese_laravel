@@ -49,7 +49,7 @@ class PropertiesController extends Controller {
                                 $query->where('language_id', $language_id);
                             }])
                             ->with(['fkProperty' => function ($query) use ($language_id) {
-                               $query->with(['entType.language' => function($query) use ($language_id) {
+                                $query->with(['entType.language' => function($query) use ($language_id) {
                                     $query->where('language_id', $language_id);
                                 }]);
                             }])

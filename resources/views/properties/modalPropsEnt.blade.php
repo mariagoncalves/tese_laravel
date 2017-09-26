@@ -94,16 +94,6 @@
                 </div>
             </div>
 
-            <!-- <div class="form-group">
-                <label for="inputfieldOrder" class="col-sm-3 control-label">{{trans("messages.fieldOrder")}}:</label>
-                <div class="col-sm-9">
-                    <input type="number" class="form-control" id="property_fieldOrder" name="property_fieldOrder" ng-value="property.form_field_order" >
-                    <ul ng-repeat="error in errors.property_fieldOrder" style="padding-left: 15px;">
-                        <li>[[ error ]]</li>
-                    </ul>
-                </div>
-            </div> -->
-
            <div class="form-group">
                 <label for="property_fieldSize" class="col-sm-3 control-label">[[ "THEADER8" | translate]]:</label>
                 <div class="col-sm-9">

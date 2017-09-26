@@ -101,7 +101,6 @@ class PropertiesOfEntitiesController extends Controller {
                 'property_valueType'       => ['required'],
                 'property_fieldType'       => $rulesFieldType,
                 'property_mandatory'       => ['required'],
-                //'property_fieldOrder'      => ['required', 'integer', 'min:1'],
                 'unites_names'             => ['integer'],
                 'property_fieldSize'       => $propertyFieldSize,
                 'property_state'           => ['required'],
@@ -139,10 +138,7 @@ class PropertiesOfEntitiesController extends Controller {
                 $data['reference_entity'] = NULL;
                 $data['propselect'      ] = [];
                 $data['ent_types_select'] = [];
-            } /*else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
-                $data['reference_entity'] = NULL;
-                $data['fk_property'     ] = NULL;
-            }*/
+            }
 
             //Buscar o nr de propriedades de uma relação, porque o form_field_order vai ser o nr de props que tem +1
             $countPropEnt = Property::where('ent_type_id', '=', $data['entity_type'])->count();
@@ -169,13 +165,9 @@ class PropertiesOfEntitiesController extends Controller {
             $idNewProp = $newProp->id;
 
             //Criar o form_field_name
-            //Obter o nome da relação onde a propriedade vai ser inserida
+            //Obter o nome da entidade onde a propriedade vai ser inserida
             $entity          = EntType::find($data['entity_type']);
-
             $entity_name     = $entity->language->first()->pivot->name;
-            //\Log::debug($entity_name);
-            //\Log::debug($entity_name);
-
             $ent             = substr($entity_name, 0 , 3);
             $dash            = '-';
             $field_name      = preg_replace('/[^a-z0-9_ ]/i', '', $data['property_name']);
@@ -420,19 +412,5 @@ class PropertiesOfEntitiesController extends Controller {
         }
 
         return response()->json(['error' => 'An error occurred. Try later.'], 500);
-    }
-
-    public function getAllEnts() {
-
-        $language_id = '1';
-
-        $allEnts = EntType::with(['language' => function ($query) use ($language_id) {
-                        $query->where('language_id', $language_id);
-                    }])
-                ->get();
-
-        //\Log::debug($allEnts);
-
-        return response()->json($allEnts);
     }
 }
