@@ -53,7 +53,6 @@
                 </div>
             </div> -->
 
-
             <!-- Teste com select em vez de radio-->
             <div class="form-group" ng-init="getValueTypes()">
                 <label class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
@@ -150,13 +149,6 @@
             <div class="form-group">
                 <label for="ent_types_select" class="col-sm-3 control-label">Entity_type_info:</label>
                 <div class="col-sm-9">
-                    <!-- pra apafar -->
-                    <!-- <script type="text/javascript">
-                        $(".entselecting").select2({
-                            placeholder: "Entity Types",
-                            allowClear: true
-                        });
-                    </script> -->
                     <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" name="ent_types_select" ng-model="ent_types_select">
                     </select>
 
@@ -170,12 +162,6 @@
             <div class="form-group">
                 <label for="propselect" class="col-sm-3 control-label">Property_info:</label>
                 <div class="col-sm-9">
-                    <!-- <script type="text/javascript">
-                        $(".propselecting").select2({
-                            placeholder: "Properties",
-                            allowClear: true
-                        });
-                    </script> -->
                     <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect">
                     </select>
                     <ul ng-repeat="error in errors.propselect" style="padding-left: 15px;">

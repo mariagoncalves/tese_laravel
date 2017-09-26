@@ -76,10 +76,9 @@ class Property extends Model
         return $this->belongsToMany('App\Property', 'property_can_read_property', 'reading_property', 'providing_property')->withPivot('created_at','updated_at','deleted_at');
     }
 
-    //NOVA???
-    /*public function propertyCanReadProperty() {
-        return $this->hasMany('App\PropertyCanReadProperty', 'reading_property', 'id');
-    }*/
+    public function propertiesProviding() {
+        return $this->belongsToMany('App\Property', 'property_can_read_property', 'providing_property', 'reading_property')->withPivot('created_at','updated_at','deleted_at');
+    }
 
     /*public function propertiesReading() {
         return $this->belongsToMany('App\PropertyCanReadProperty', 'property_can_read_property', 'reading_property', 'providing_property')->withPivot('created_at','updated_at','deleted_at');
