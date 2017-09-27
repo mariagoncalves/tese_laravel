@@ -173,6 +173,8 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                         }
 
                         console.log("DADOS");
+                        console.log(dados);
+                        console.log("PROP ENTITY");
                         console.log($scope.propEntity);
 
                         //Adicionar a select2 as entidades associadas a propriedade

@@ -100,7 +100,7 @@ class DynamicSearchController extends Controller
         return response()->json($fkEnt);
     }
 
-    public function getEntRefs($id) {
+    public function getEntRefs($idEntity) {
 
         $language_id = '1';
 
@@ -111,7 +111,7 @@ class DynamicSearchController extends Controller
                                 $query->where('language_id', $language_id);
                             }])*/
                         ->where('property.value_type', 'ent_ref')
-                        ->where('property.fk_ent_type_id', $id)
+                        ->where('property.fk_ent_type_id', $idEntity)
                         ->get();
 
         //\Log::debug($entRefs);
@@ -222,19 +222,19 @@ class DynamicSearchController extends Controller
         return view('dynamicSearchPresentation');
     }
 
-    public function pesquisa(Request $request, $idEntityType) {
+    public function search(Request $request, $idEntityType) {
         $data = $request->all();
-        $resultado = [];
+        $result = [];
         \Log::debug($data);
 
-        $frase = $this->formarFrase($idEntityType, $data);
-        \Log::debug($frase);
-        $resultado['frase'] = $frase;
+        $phrase = $this->formPhrase($idEntityType, $data);
+        \Log::debug($phrase);
+        $result['phrase'] = $phrase;
         
-        return response()->json($resultado);
+        return response()->json($result);
     }
 
-    public function formarFrase($idEntityType, $data) {
+    public function formPhrase($idEntityType, $data) {
         $language_id = 1;
         $arrayVT = [];
         $arrayRL = [];
@@ -244,40 +244,40 @@ class DynamicSearchController extends Controller
                         $query->where('language_id', $language_id);
                     }])->find($idEntityType);
 
-        $frase[] = "Pesquisa de todas as entidades do tipo ".$ent->language->first()->pivot->name;
+        $phrase[] = "Pesquisa de todas as entidades do tipo ".$ent->language->first()->pivot->name;
 
         // Formar a frase da tabela 1
         for ($i=0; $i < $data['numTableET']; $i++) { 
             if (isset($data['checkET'.$i])) {
-                $this->formarFraseTipoTabela($data, $_REQUEST['checkET'.$i], 'ET', $i, $frase);
+                $this->formPhraseTableType($data, $_REQUEST['checkET'.$i], 'ET', $i, $phrase);
             }
         }
 
         // Formar a frase da tabela 2
         for ($i=0; $i < $data['numTableVT']; $i++) { 
             if (isset($data['checkVT'.$i])) {                
-                $this->formarFraseTipoTabela($data, $data['checkVT'.$i], 'VT', $i, $frase);
+                $this->formPhraseTableType($data, $data['checkVT'.$i], 'VT', $i, $phrase);
             }
         }
 
         // Formar a frase da tabela 3
         for ($i=0; $i < $data['numTableRL']; $i++) { 
             if (isset($data['checkRL'.$i])) {                
-                $this->formarFraseTipoTabela($data, $data['checkRL'.$i], 'RL', $i, $frase);
+                $this->formPhraseTableType($data, $data['checkRL'.$i], 'RL', $i, $phrase);
             }
         }
 
         // Formar a frase da tabela 4
         for ($i=0; $i < $data['numTableER']; $i++) { 
             if (isset($data['checkER'.$i])) {                
-                $this->formarFraseTipoTabela($data, $data['checkER'.$i], 'ER', $i, $frase);
+                $this->formPhraseTableType($data, $data['checkER'.$i], 'ER', $i, $phrase);
             }
         }
 
-        return $frase;
+        return $phrase;
     }
 
-    public function formarFraseTipoTabela($data, $idProperty, $type, $position, &$frase) {
+    public function formPhraseTableType($data, $idProperty, $type, $position, &$phrase) {
         $language_id = '1';
 
         $property = Property::with(['language' => function($query) use ($language_id) {
@@ -295,35 +295,35 @@ class DynamicSearchController extends Controller
                             }])
                             ->find($idProperty);
 
-        $nomeProp  = $property->language->first()->pivot->name;
-        $tipoValor = $property->value_type;
+        $nameProp  = $property->language->first()->pivot->name;
+        $valueType = $property->value_type;
 
         if ($type == 'ET') {
-            $auxFrase  = '- Propriedade '.$nomeProp.' é ';
+            $auxPhrase  = '- Propriedade '.$nameProp.' é ';
         } elseif ($type == 'VT') {
-            $nameEntidade = $property->entType->language->first()->pivot->name;
-            $auxFrase = "- Referencie uma entidade do tipo ".$nameEntidade." cuja propriedade ".$nomeProp." é ";
+            $nameEntity = $property->entType->language->first()->pivot->name;
+            $auxPhrase = "- Referencie uma entidade do tipo ".$nameEntity." cuja propriedade ".$nameProp." é ";
         } else {
             $nameEntType1 = $this->getNameEntType($property->relType->ent_type1_id);
             $nameEntType2 = $this->getNameEntType($property->relType->ent_type2_id);
 
             if ($type == 'RL') {
-                $auxFrase = "- Está presente na relação do tipo ".$nameEntType1." - ".$nameEntType2." cuja propriedade ".$nomeProp." é ";
+                $auxPhrase = "- Está presente na relação do tipo ".$nameEntType1." - ".$nameEntType2." cuja propriedade ".$nameProp." é ";
             } else {
-                $auxFrase = "- Têm uma relação com a entidade do tipo ".$nameEntType2." cuja propriedade ".$nomeProp." é ";
+                $auxPhrase = "- Têm uma relação com a entidade do tipo ".$nameEntType2." cuja propriedade ".$nameProp." é ";
             }
         } 
 
-        if ($tipoValor == "int") {
-            $frase[] = $auxFrase . $data['operators'.$type.$position].' '.$data['int'.$type.$position].';';
-        }  else if ($tipoValor == "double") {
-            $frase[] = $auxFrase . $data['operators'.$type.$position].' '.$data['double'.$type.$position].';';
-        } else  if ($tipoValor == "text") {
-            $frase[] = $auxFrase . $data['text'.$type.$position].';';
-        } else  if ($tipoValor == "enum") {  
-            $frase[] = $auxFrase . $data['select'.$type.$position].';';
-        } else  if ($tipoValor == "bool") {
-            $frase[] = $auxFrase . $data['radio'.$type.$position].';';
+        if ($valueType == "int") {
+            $phrase[] = $auxPhrase . $data['operators'.$type.$position].' '.$data['int'.$type.$position].';';
+        }  else if ($valueType == "double") {
+            $phrase[] = $auxPhrase . $data['operators'.$type.$position].' '.$data['double'.$type.$position].';';
+        } else  if ($valueType == "text") {
+            $phrase[] = $auxPhrase . $data['text'.$type.$position].';';
+        } else  if ($valueType == "enum") {  
+            $phrase[] = $auxPhrase . $data['select'.$type.$position].';';
+        } else  if ($valueType == "bool") {
+            $phrase[] = $auxPhrase . $data['radio'.$type.$position].';';
         }
     }
 

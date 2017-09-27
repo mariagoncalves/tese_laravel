@@ -135,7 +135,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
-    $scope.pesquisa = function (idEntityType) {
+    $scope.search = function (idEntityType) {
         console.log("ID DA ENTIDADE: " + idEntityType);
 
         var formData   = JSON.parse(JSON.stringify($('#dynamic-search').serializeArray())),
@@ -145,6 +145,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             numTableRL = 0,
             numTableER = 0;
 
+        console.log("Valores do form DATA");
+        console.log(formData);
         console.log("Numero de checks");
         console.log(numChecked);
 
@@ -184,7 +186,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
         $http({
             method: 'POST',
-            url: API_URL + "dynamicSearch/pesquisa/" + idEntityType,
+            url: API_URL + "dynamicSearch/search/" + idEntityType,
             data: $.param(formData),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function(response) {

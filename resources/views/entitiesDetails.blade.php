@@ -296,7 +296,7 @@
 	                </table>
                 </div>
             </div>
-            <button type="button" class="btn btn-md btn-primary" ng-click="pesquisa(ents.id)"> Pesquisar </button>
+            <button type="button" class="btn btn-md btn-primary" ng-click="search(ents.id)"> Pesquisar </button>
 		</div>
 	</form>
 
@@ -304,8 +304,8 @@
 		<h3>Pesquisa</h3>
 		<div id="false-de-pesquisa" style="padding: 15px 0px;">
 			<dl>
-			  <dt>[[ resultDynamincSearch.frase[0] ]]:</dt>
-			  <dd ng-repeat = "(key, frase) in resultDynamincSearch.frase" ng-if="key != 0">[[ frase ]]</dd>
+			  <dt>[[ resultDynamincSearch.phrase[0] ]]:</dt>
+			  <dd ng-repeat = "(key, phrase) in resultDynamincSearch.phrase" ng-if="key != 0">[[ phrase ]]</dd>
 			</dl>
 		</div>
 		<button type="button" class="btn btn-md btn-primary" ng-click="voltar()"> Voltar </button>
