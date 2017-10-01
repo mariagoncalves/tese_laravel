@@ -168,14 +168,10 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                         $("[name=entity_type]").prop('disabled', 'disabled');
 
                         if ($scope.property.fk_property_id && $scope.property.fk_property_id != '') {
-                            dados = {properties: [$scope.property.fk_property]};
-                            $scope.propEntity = dados;
+                            //dados = {properties: [$scope.property.fk_property]};
+                            //$scope.propEntity = dados;
+                            $scope.propEntity = {properties: [$scope.property.fk_property]};
                         }
-
-                        console.log("DADOS");
-                        console.log(dados);
-                        console.log("PROP ENTITY");
-                        console.log($scope.propEntity);
 
                         //Adicionar a select2 as entidades associadas a propriedade
                         var entidades      = $scope.property.reading_ent_types,
@@ -183,7 +179,9 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                             selectEntities = [];
 
                         for (var i = 0; i < lenght; i++) {
-                            selectEntities.push(entidades[i].pivot.providing_ent_type);
+                            if (entidades[i].pivot.deleted_at == null) {
+                                selectEntities.push(entidades[i].pivot.providing_ent_type);
+                            }
                         }
 
                         // Adicionar a select2 as propriedades associadas a propriedade
@@ -192,7 +190,9 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                             selectProperties = [];
 
                         for (var i = 0; i < lenght; i++) {
-                            selectProperties.push(props[i].pivot.providing_property);
+                            if(props[i].pivot.deleted_at == null) {
+                                selectProperties.push(props[i].pivot.providing_property);
+                            }
                         }
                         $scope.selectsProperty(selectEntities, selectProperties);
 
