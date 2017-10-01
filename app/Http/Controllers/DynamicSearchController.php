@@ -107,21 +107,40 @@ class DynamicSearchController extends Controller
         $entRefs = Property::with(['entType.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
-                        /*->with(['language' => function ($query) use ($language_id) {
+                            ->where('property.value_type', 'ent_ref')
+                            ->where('property.fk_ent_type_id', $idEntity)
+                            ->get()->toArray();
+
+        $count        = 0;
+        $dadosEntRefs = [];
+        foreach ($entRefs as $entRef) {
+            $dadosEntRef = $entRef;
+            $dadosEntRef['properties'] = [];
+
+            $propsOfEnts = Property::with(['language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
-                            }])*/
-                        ->where('property.value_type', 'ent_ref')
-                        ->where('property.fk_ent_type_id', $idEntity)
-                        ->get();
+                            }])
+                            ->where('ent_type_id', $entRef['ent_type_id'])
+                            ->where('value_type', '!=', 'ent_ref') //Evita a verificação na vista
+                            ->get()->toArray();
 
-        //\Log::debug($entRefs);
+            foreach ($propsOfEnts as $key => $prop) {
+                $dadosProp = $prop;
+                $dadosProp['key'] = $count;
+                $dadosEntRef['properties'][] = $dadosProp;
 
-        return response()->json($entRefs);
+                $count = $count + 1;
+            }
+
+            $dadosEntRefs[] = $dadosEntRef;
+        }
+
+        return response()->json($dadosEntRefs);
     }
 
     public function getPropsOfEnts($id) {
 
-        $language_id = '1';
+        /*$language_id = '1';
 
         $propsOfEnts = Property::with(['language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
@@ -130,9 +149,7 @@ class DynamicSearchController extends Controller
                         ->where('property.value_type', '!=', 'ent_ref') //Evita a verificação na vista
                         ->get();
 
-        //\Log::debug($propsOfEnts);
-
-        return response()->json($propsOfEnts);
+        return response()->json($propsOfEnts);*/
     }
 
     public function getRelsWithEnt($id) {
@@ -239,6 +256,8 @@ class DynamicSearchController extends Controller
         $arrayVT = [];
         $arrayRL = [];
         $arrayER = [];
+
+        \Log::debug($data);
 
         $ent = EntType::with(['language' => function($query) use ($language_id) {
                         $query->where('language_id', $language_id);

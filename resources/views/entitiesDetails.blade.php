@@ -93,20 +93,22 @@
 				                </tr>
 				            </thead>
 					        <tbody>
-				                <div ng-init = "getPropsOfEnts(entRef.ent_type_id)">
-					                <tr ng-repeat="(key2, propOfEnt) in propsOfEnts[entRef.ent_type_id]" >
+				                <div>
+				                	<td ng-if="entRef.properties.length == 0" colspan="4"> Não tem props </td>
+
+					                <tr ng-repeat="propOfEnt in entRef.properties" >
 					                    <td>[[ propOfEnt.id ]]</td>
 					                    <td>[[ propOfEnt.language[0].pivot.name ]]</td>
-					                    <td><input type="checkbox" name = "checkVT[[ key2 ]]" value = "[[ propOfEnt.id ]]"> </td>
+					                    <td><input type="checkbox" name = "checkVT[[ propOfEnt.key ]]" value = "[[ propOfEnt.id ]]"> </td>
 					                    <td>
 					                    	<div ng-switch on="propOfEnt.value_type">
-										        <div ng-switch-when="text"> <input type="text" name="textVT[[ key2 ]]"> </div>
+										        <div ng-switch-when="text"> <input type="text" name="textVT[[ propOfEnt.key  ]]"> </div>
 										        <div ng-switch-when="bool"> 
-										        	<input type="radio" name="radioVT[[ key2 ]]" value="true">True
-													<input type="radio" name="radioVT[[ key2 ]]" value="false">False 
+										        	<input type="radio" name="radioVT[[ propOfEnt.key  ]]" value="true">True
+													<input type="radio" name="radioVT[[ propOfEnt.key  ]]" value="false">False 
 												</div>
 												<div ng-switch-when="enum">
-													<select name = "selectVT[[ key2 ]]" ng-init = "getEnumValues(propOfEnt.id)">
+													<select name = "selectVT[[ propOfEnt.key  ]]" ng-init = "getEnumValues(propOfEnt.id)">
 										        		<option ng-repeat = "propAllowedValue in propAllowedValues[propOfEnt.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
 										        	</select>
 												</div>
@@ -117,25 +119,25 @@
 										        	</select>
 												</div> -->
 										        <div ng-switch-when="int"> 
-													<select name = "operatorsVT[[ key2 ]]" ng-init = "getOperators()">
+													<select name = "operatorsVT[[ propOfEnt.key  ]]" ng-init = "getOperators()">
 										        		<option></option>
 										        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 										        	</select>
-										        	<input type="text" name="intVT[[ key2 ]]">
+										        	<input type="text" name="intVT[[ propOfEnt.key  ]]">
 												</div>
 												<div ng-switch-when="double"> 
-													<select name = "operatorsVT[[ key2 ]]" ng-init = "getOperators()">
+													<select name = "operatorsVT[[ propOfEnt.key  ]]" ng-init = "getOperators()">
 										        		<option></option>
 										        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 										        	</select>
-										        	<input type="text" name="doubleVT[[ key2 ]]">
+										        	<input type="text" name="doubleVT[[ propOfEnt.key  ]]">
 												</div>
 												<div ng-switch-when="file"> 
-													<input type="text" name="fileVT[[ key2 ]]">
+													<input type="text" name="fileVT[[ propOfEnt.key  ]]">
 												</div>
 												<!-- Não sei se é para por o prop-ref -->
 												<div ng-switch-default> 
-										        	<input type="text" name="propRefVT[[ key2 ]]">
+										        	<input type="text" name="propRefVT[[ propOfEnt.key ]]">
 												</div>
 											</div>
 					                    </td>

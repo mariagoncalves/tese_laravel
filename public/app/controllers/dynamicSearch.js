@@ -92,13 +92,13 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
     $scope.getPropsOfEnts = function (id) {
 
-        console.log("teste com id getPropsOfEnts: " + id);
+        /*console.log("teste com id getPropsOfEnts: " + id);
 
         $http.get(API_URL + '/dynamicSearch/getPropsOfEnts/' + id).then(function(response) {
             $scope.propsOfEnts[id] = response.data;
             console.log("Ddos getPropsOfEnts");
             console.log($scope.propsOfEnts);
-        });
+        });*/
     }
 
     $scope.getRelsWithEnt = function (id) {
@@ -154,8 +154,11 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         if ($scope.ents.properties != '' && $scope.ents.properties != undefined) {
             numTableET = $scope.ents.properties.length;
         }
-        if ($scope.propsOfEnts[idEntityType] != '' && $scope.propsOfEnts[idEntityType] != undefined) {
-            numTableVT = $scope.propsOfEnts[idEntityType].length;
+        if ($scope.entRefs != '' && $scope.entRefs != undefined) {
+            var len = $scope.entRefs.length;
+            for (var i = 0; i < len; i++) {
+                numTableVT = numTableVT + $scope.entRefs[i].properties.length;
+            }
         }
         if ($scope.relsWithEnt != '' && $scope.relsWithEnt != undefined) {
             var len = $scope.relsWithEnt.length;
