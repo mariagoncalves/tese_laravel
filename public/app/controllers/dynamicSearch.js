@@ -92,13 +92,13 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
     $scope.getPropsOfEnts = function (id) {
 
-        /*console.log("teste com id getPropsOfEnts: " + id);
+        console.log("teste com id getPropsOfEnts: " + id);
 
         $http.get(API_URL + '/dynamicSearch/getPropsOfEnts/' + id).then(function(response) {
             $scope.propsOfEnts[id] = response.data;
             console.log("Ddos getPropsOfEnts");
             console.log($scope.propsOfEnts);
-        });*/
+        });
     }
 
     $scope.getRelsWithEnt = function (id) {

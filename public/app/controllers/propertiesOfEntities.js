@@ -246,12 +246,14 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             $("#propselect").select2({
                 placeholder: "Properties",
                 allowClear: true,
+                closeOnSelect: false,
                 data: entTypes
             });
 
             $("#ent_types_select").select2({
                 placeholder: "Entities Type",
                 allowClear: true,
+                closeOnSelect: false,
                 data: allEntType
             });
         });

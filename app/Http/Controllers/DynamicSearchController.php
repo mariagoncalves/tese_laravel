@@ -122,6 +122,7 @@ class DynamicSearchController extends Controller
                             }])
                             ->where('ent_type_id', $entRef['ent_type_id'])
                             ->where('value_type', '!=', 'ent_ref') //Evita a verificação na vista
+                            ->where('value_type', '!=', 'prop_ref')
                             ->get()->toArray();
 
             foreach ($propsOfEnts as $key => $prop) {

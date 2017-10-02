@@ -66,9 +66,6 @@ class Property extends Model
     }
 
     public function readingEntTypes() {
-        //return $this->belongsToMany('App\PropertyCanReadEntType', 'property_can_read_ent_type', 'reading_property', 'providing_ent_type')->withPivot('created_at','updated_at','deleted_at');
-        //return $this->hasMany('App\PropertyCanReadEntType', 'reading_property', 'id');
-        //Relação maria N->N
         return $this->belongsToMany('App\EntType', 'property_can_read_ent_type', 'reading_property', 'providing_ent_type')->withPivot('created_at','updated_at','deleted_at');
     }
 
