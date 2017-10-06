@@ -403,8 +403,8 @@ $factory->define(App\Property::class, function (Faker\Generator $faker, $attribu
         $rel = App\RelType::all()->random()->id;
     }
 
-    $valuesType = ['text', 'bool', 'int', 'ent_ref', 'double', 'enum', 'prof_ref', 'info'];
-    $fieldType  = ['text', 'textbox', 'radio', 'checkbox', 'selectbox'];
+    $valuesType = ['text', 'bool', 'int', 'ent_ref', 'double', 'enum', 'prof_ref', 'file'];
+    $fieldType  = ['text', 'textbox', 'radio', 'checkbox', 'selectbox', 'number', 'file'];
     $state      = ['active', 'inactive'];
 
     $values_type = $valuesType[rand(0, 7)];
@@ -412,9 +412,21 @@ $factory->define(App\Property::class, function (Faker\Generator $faker, $attribu
         $values_type = $attributes['value_type'];
     }
 
-    $field_Type = $fieldType[rand(0, 4)];
-    if (isset($attributes['form_field_type']) && $attributes['form_field_type'] != "") {
-        $field_Type = $attributes['form_field_type'];
+    if ($values_type == 'int' || $values_type == 'double') {
+        $field_Type = 'number';
+    } elseif ($values_type == 'text') {
+        $fieldType  = ['text', 'textbox'];
+        $field_Type = $fieldType[rand(0, 1)];
+    } elseif ($values_type == 'bool') {
+        $fieldType  = ['radio', 'selectbox'];
+        $field_Type = $fieldType[rand(0, 1)];
+    } elseif ($values_type == 'ent_ref' || $values_type == 'prof_ref') {
+        $field_Type = 'selectbox';
+    } elseif ($values_type == 'enum') {
+        $fieldType  = ['radio', 'checkbox', 'selectbox'];
+        $field_Type = $fieldType[rand(0, 2)];
+    } elseif ($values_type == 'file') {
+        $field_Type = 'file';
     }
 
     $fk_ent_type_id = NULL;

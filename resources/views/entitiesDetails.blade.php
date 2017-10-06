@@ -308,7 +308,44 @@
 			<dl>
 			  <dt>[[ resultDynamincSearch.phrase[0] ]]:</dt>
 			  <dd ng-repeat = "(key, phrase) in resultDynamincSearch.phrase" ng-if="key != 0">[[ phrase ]]</dd>
+			  <dd ng-if="resultDynamincSearch.phrase.length == 1 ">- Nenhuma pesquisa efetuada.</dd>	
 			</dl>
+		</div>
+
+		<div>
+			<table class="table" border = "1px solid">
+	            <thead>
+	                <th>Instância</th>
+	                <th>Estado da Instância</th>
+	                <th>Propriedade</th>
+	                <th>Valor</th>
+	                <th>Estado do Valor</th>
+	                <th>Ação</th>
+	            </thead>
+	            <tbody>
+	            	<td ng-if="resultDynamincSearch.result.length == 0 " colspan="6">Não existem entidades que respeitem a pesquisa efetuada.</td>
+
+	                <tr ng-repeat-start="entity in resultDynamincSearch.result" ng-if="false" ng-init="innerIndex = $index"></tr>
+
+	                <td rowspan="[[ entity.values.length + 1 ]] ">
+	                	[[ entity.language[0].pivot.name ]]
+	                </td>
+
+	                <td rowspan="[[ entity.values.length + 1 ]] ">
+	                	[[ entity.state == 'active' ? 'Ativo' : 'Inativo' ]]
+	                </td>
+
+	                <td ng-if="entity.values.length == 0" colspan="4">Não existe propriedades.</td>
+
+	                <tr ng-repeat="value in entity.values" >
+	                    <td>[[ value.property.language[0].pivot.name ]]</td>
+	                    <td>[[ value.state == 'active' ? (value.value == '' ? 'Sem Valor Atribuído' : value.value) : '-' ]]</td>
+	                    <td>[[ value.state == 'active' ? 'Ativo' : 'Inativo' ]]</td>
+	                    <td>Ação</td>
+	                    <tr ng-repeat-end ng-if="false"></tr>
+	                </tr>
+	            </tbody>
+	        </table>
 		</div>
 		<button type="button" class="btn btn-md btn-primary" ng-click="voltar()"> Voltar </button>
 	</div>
