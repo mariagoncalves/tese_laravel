@@ -147,8 +147,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
         console.log("Valores do form DATA");
         console.log(formData);
-        console.log("Numero de checks");
-        console.log(numChecked);
+        //console.log("Numero de checks");
+        //console.log(numChecked);
 
         // Para saber quantas propriedades tem em cada tabela
         if ($scope.ents.properties != '' && $scope.ents.properties != undefined) {
@@ -179,12 +179,14 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         console.log(numTableRL);
         console.log(numTableER);
 
+        //Acrescento ao form data o nr de propriedades existente em cada tabela
         formData.push({'name': 'numTableET', 'value': numTableET});
         formData.push({'name': 'numTableVT', 'value': numTableVT});
         formData.push({'name': 'numTableRL', 'value': numTableRL});
         formData.push({'name': 'numTableER', 'value': numTableER});
         formData.push({'name': 'numChecked', 'value': numChecked});
 
+        console.log("SEGUNDOS VALORES DO FORMDATA");
         console.log(formData);
 
         $http({

@@ -49,7 +49,8 @@ class DynamicSearchController extends Controller
                             }])
         				->with(['properties.language' => function($query) use ($language_id) {
         						$query->where('language_id', $language_id);
-        					}])->find($id);
+        					}])
+                        ->find($id);
 
         //\Log::debug($ents);
 
@@ -172,8 +173,10 @@ class DynamicSearchController extends Controller
                         ->with(['ent2.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
-                        ->where('ent_type1_id', $id)
-                        ->orWhere('ent_type2_id', $id)
+                        //TER ATENÇAO
+                        ->where(function($query){
+                            $query->where('ent_type1_id', $id)->orWhere('ent_type2_id', $id);
+                        })
                         ->get()
                         ->toArray();
 
@@ -269,7 +272,7 @@ class DynamicSearchController extends Controller
         // Formar a frase da tabela 1
         for ($i=0; $i < $data['numTableET']; $i++) { 
             if (isset($data['checkET'.$i])) {
-                $this->formPhraseTableType($data, $_REQUEST['checkET'.$i], 'ET', $i, $phrase);
+                $this->formPhraseTableType($data, $data['checkET'.$i], 'ET', $i, $phrase);
             }
         }
 
@@ -319,16 +322,16 @@ class DynamicSearchController extends Controller
         $valueType = $property->value_type;
 
         if ($type == 'ET') {
-            $auxPhrase  = '- Propriedade '.$nameProp.' é ';
+            $auxPhrase  = '- Cuja propriedade '.$nameProp.' é ';
         } elseif ($type == 'VT') {
             $nameEntity = $property->entType->language->first()->pivot->name;
-            $auxPhrase = "- Referencie uma entidade do tipo ".$nameEntity." cuja propriedade ".$nameProp." é ";
+            $auxPhrase = "- Que referencie uma entidade do tipo ".$nameEntity." cuja propriedade ".$nameProp." é ";
         } else {
             $nameEntType1 = $this->getNameEntType($property->relType->ent_type1_id);
             $nameEntType2 = $this->getNameEntType($property->relType->ent_type2_id);
 
             if ($type == 'RL') {
-                $auxPhrase = "- Está presente na relação do tipo ".$nameEntType1." - ".$nameEntType2." cuja propriedade ".$nameProp." é ";
+                $auxPhrase = "- Que está presente na relação do tipo ".$nameEntType1." - ".$nameEntType2." cuja propriedade ".$nameProp." é ";
             } else {
                 $auxPhrase = "- Têm uma relação com a entidade do tipo ".$nameEntType2." cuja propriedade ".$nameProp." é ";
             }
