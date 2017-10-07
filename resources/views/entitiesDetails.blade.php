@@ -6,6 +6,7 @@
 
 <div ng-controller="dynamicSearchControllerJs"> 
 	<form id="dynamic-search">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div ng-init = "getEntitiesData({{$id}})">
 			<h3>Lista de propriedades da entidade [[ents.language[0].pivot.name ]] </h3>
 			<table class="table table-striped" border = "1px solid">

@@ -173,11 +173,9 @@ class DynamicSearchController extends Controller
                         ->with(['ent2.language' => function ($query) use ($language_id) {
                                 $query->where('language_id', $language_id);
                             }])
-                        ->where('ent_type1_id', $id)
-                        ->orWhere('ent_type2_id', $id)
-                        /*->where(function($query){
+                        ->where(function($query) use ($id){
                             $query->where('ent_type1_id', $id)->orWhere('ent_type2_id', $id);
-                        })*/
+                        })
                         ->get()
                         ->toArray();
 
@@ -248,12 +246,11 @@ class DynamicSearchController extends Controller
         $data        = $request->all();
         $language_id = '1';
         $result      = [];
-        $numChecked  = $data['numChecked'];
         $query       = [];
 
         \Log::debug($data);
 
-        // Formar a query para apresentar os dados..
+        // Formar a query para apresentar os dados na tabela
         $query = Entity::where('ent_type_id', $idEntityType)
                         ->with(['language' => function($query) use ($language_id) {
                             $query->where('language_id', $language_id);
@@ -268,8 +265,8 @@ class DynamicSearchController extends Controller
                             $query->where('language_id', $language_id);
                         }]);
 
-        // Formar a frase de acordo com a pesquisa..
-        $phrase = $this->formPhrase($idEntityType, $data, $query);
+        // Formar a frase e realizar pesquisa de acordo com a pesquisa..
+        $phrase = $this->formPhraseAndQuery($idEntityType, $data, $query);
 
         $result['phrase'] = $phrase;
         $result['result'] = $query->get()->toArray();
@@ -277,7 +274,7 @@ class DynamicSearchController extends Controller
         return response()->json($result);
     }
 
-    public function formPhrase($idEntityType, $data, &$query) {
+    public function formPhraseAndQuery($idEntityType, $data, &$query) {
         $language_id = 1;
 
         $ent = EntType::with(['language' => function($query) use ($language_id) {
@@ -286,38 +283,38 @@ class DynamicSearchController extends Controller
 
         $phrase[] = "Pesquisa de todas as entidades do tipo ".$ent->language->first()->pivot->name;
 
-        // Formar a frase da tabela 1
+        // Formar a frase da tabela 1 e pesaquisar de acordo com a pesquisa efetuada na tabela 1
         for ($i=0; $i < $data['numTableET']; $i++) { 
             if (isset($data['checkET'.$i])) {
-                $phrase = $this->formPhraseTableType($data, $data['checkET'.$i], 'ET', $i, $phrase, $query);
+                $phrase = $this->formPhraseAndQueryTableType($data, $data['checkET'.$i], 'ET', $i, $phrase, $query);
             }
         }
 
         // Formar a frase da tabela 2
         for ($i=0; $i < $data['numTableVT']; $i++) { 
             if (isset($data['checkVT'.$i])) {                
-                $phrase = $this->formPhraseTableType($data, $data['checkVT'.$i], 'VT', $i, $phrase, $query);
+                $phrase = $this->formPhraseAndQueryTableType($data, $data['checkVT'.$i], 'VT', $i, $phrase, $query);
             }
         }
 
         // Formar a frase da tabela 3
         for ($i=0; $i < $data['numTableRL']; $i++) { 
             if (isset($data['checkRL'.$i])) {                
-                $phrase = $this->formPhraseTableType($data, $data['checkRL'.$i], 'RL', $i, $phrase, $query);
+                $phrase = $this->formPhraseAndQueryTableType($data, $data['checkRL'.$i], 'RL', $i, $phrase, $query);
             }
         }
 
         // Formar a frase da tabela 4
         for ($i=0; $i < $data['numTableER']; $i++) { 
             if (isset($data['checkER'.$i])) {                
-                $phrase = $this->formPhraseTableType($data, $data['checkER'.$i], 'ER', $i, $phrase, $query);
+                $phrase = $this->formPhraseAndQueryTableType($data, $data['checkER'.$i], 'ER', $i, $phrase, $query);
             }
         }
 
         return $phrase;
     }
 
-    public function formPhraseTableType($data, $idProperty, $type, $position, $phrase, &$query1) {
+    public function formPhraseAndQueryTableType($data, $idProperty, $type, $position, $phrase, &$query1) {
         $language_id = '1';
 
         $property = Property::with(['language' => function($query) use ($language_id) {
@@ -354,10 +351,11 @@ class DynamicSearchController extends Controller
                     $auxPhrase = "- Que tem uma relação com a entidade do tipo ".$nameEntType2." cuja propriedade ".$nameProp." é ";
                 }
             } else {
-                $auxPhrase  = '- Propriedade '.$nameProp.' é ';
+                $auxPhrase  = '- Cuja propriedade '.$nameProp.' é ';
             }
         } 
 
+        //Construir a frase conforme o value_type
         $valueQuery    = '';
         $operatorQuery = '=';
         if ($valueType == "int") {
@@ -384,7 +382,7 @@ class DynamicSearchController extends Controller
             $phrase[] = $auxPhrase . $valueQuery.';';
         }
 
-        // Formar a query
+        // Adicionar a query filtros de pesquisa de acordo com as opções selecionadas
         $query1 = $query1->whereHas('values', function($q) use ($operatorQuery, $valueQuery, $idProperty) {
                             $q->where('value', $operatorQuery, $valueQuery)->where('property_id', $idProperty);
                         }); 
