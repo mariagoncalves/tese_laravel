@@ -6,7 +6,6 @@
 
 <div ng-controller="dynamicSearchControllerJs"> 
 	<form id="dynamic-search">
-		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div ng-init = "getEntitiesData({{$id}})">
 			<h3>Lista de propriedades da entidade [[ents.language[0].pivot.name ]] </h3>
 			<table class="table table-striped" border = "1px solid">
@@ -314,19 +313,24 @@
 		</div>
 
 		<div>
+			 <div growl></div>
 			<table class="table" border = "1px solid">
 	            <thead>
+	            	<th>Ação</th>
 	                <th>Instância</th>
-	                <th>Estado da Instância</th>
+	                <th width="85px">Estado da Instância</th>
 	                <th>Propriedade</th>
 	                <th>Valor</th>
-	                <th>Estado do Valor</th>
-	                <th>Ação</th>
+	                <th width="80px">Estado do Valor</th>
 	            </thead>
 	            <tbody>
 	            	<td ng-if="resultDynamincSearch.result.length == 0 " colspan="6">Não existem entidades que respeitem a pesquisa efetuada.</td>
 
 	                <tr ng-repeat-start="entity in resultDynamincSearch.result" ng-if="false" ng-init="innerIndex = $index"></tr>
+
+	               	<td rowspan="[[ entity.values.length + 1 ]] ">
+	                    <button type="button" class="btn btn-xs btn-warning" ng-click="inactiveActive(entity.id)"> [[ entity.state == 'active' ? 'Desativar' : 'Ativar' ]] </button>
+	                </td>
 
 	                <td rowspan="[[ entity.values.length + 1 ]] ">
 	                	[[ entity.language[0].pivot.name ]]
@@ -342,7 +346,6 @@
 	                    <td>[[ value.property.language[0].pivot.name ]]</td>
 	                    <td>[[ value.state == 'active' ? (value.value == '' ? 'Sem Valor Atribuído' : value.value) : '-' ]]</td>
 	                    <td>[[ value.state == 'active' ? 'Ativo' : 'Inativo' ]]</td>
-	                    <td>Ação</td>
 	                    <tr ng-repeat-end ng-if="false"></tr>
 	                </tr>
 	            </tbody>

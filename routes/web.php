@@ -235,9 +235,7 @@ Route::get('/dynamicSearch/getPropsEntRelated/{id?}', 'DynamicSearchController@g
 Route::post('/dynamicSearch/search/{id?}', 'DynamicSearchController@search');
 
 
-
-
-
+Route::post('/dynamicSearch/inactiveActive/{id?}', 'DynamicSearchController@inactiveActive');
 
 
 

@@ -401,4 +401,32 @@ class DynamicSearchController extends Controller
         return $entType->language->first()->pivot->name;
     }
 
+    public function inactiveActive ($idEntity) {
+
+        \Log::debug($idEntity);
+
+        $stateEntity = Entity::where('id', $idEntity)->select(['state'])->first();
+        \Log::debug($stateEntity->state);
+
+        /*$stateEntity = Entity::where('id', $idEntity)->get();
+        \Log::debug($stateEntity);
+        $state = $stateEntity->first()->state;
+        \Log::debug($state);*/
+
+        if ($stateEntity->state == 'active') {
+
+            //$data = ['state' => 'inactive'];
+
+            Entity::where('id', $idEntity)
+                    ->update(['state' => 'inactive']);
+
+        } else {
+
+           Entity::where('id', $idEntity)
+                   ->update(['state' => 'active']);
+        }
+
+        return response()->json([]);
+    } 
+
 }

@@ -24,6 +24,9 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.propsEntRelated = [];
     $scope.information = [];
     $scope.resultDynamincSearch = [];
+    //Porque vou precisar do id da ent_Type no método inactiveActive
+    $scope.idEntityType = [];
+
 
 
     $scope.getEntities = function () {
@@ -136,6 +139,9 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     }
 
     $scope.search = function (idEntityType) {
+
+        $scope.idEntityType = idEntityType;
+
         console.log("ID DA ENTIDADE: " + idEntityType);
 
         var formData   = JSON.parse(JSON.stringify($('#dynamic-search').serializeArray())),
@@ -206,6 +212,23 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.voltar = function() {
         $("#dynamic-search").show();
         $("#dynamic-search-presentation").hide();
+    }
+
+     
+    $scope.inactiveActive = function(idEntity) {
+
+        console.log("Id da entidadeeee");
+        console.log(idEntity);
+
+        $http.post(API_URL + '/dynamicSearch/inactiveActive/' + idEntity).then(function(response) {
+            console.log("Chegoui");
+            console.log(response.data);
+            $scope.search($scope.idEntityType);
+            //$scope.result = response.data;
+            growl.success('ALTERADOOO.',{title: 'Success!'});
+            //console.log("Dados propsEntRelated");
+            //console.log($scope.result);
+        });
     }
 
 
