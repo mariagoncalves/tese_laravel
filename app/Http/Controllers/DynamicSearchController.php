@@ -8,6 +8,7 @@ use App\PropAllowedValue;
 use App\Property;
 use App\RelType;
 use App\Entity;
+use App\Relation;
 
 class DynamicSearchController extends Controller
 {
@@ -237,10 +238,10 @@ class DynamicSearchController extends Controller
         return response()->json($entsRelated);
     }
 
-    public function viewDynamicSearch() {
+    /*public function viewDynamicSearch() {
 
         return view('dynamicSearchPresentation');
-    }
+    }*/
 
     public function search(Request $request, $idEntityType) {
         $data        = $request->all();
@@ -265,7 +266,7 @@ class DynamicSearchController extends Controller
                             $query->where('language_id', $language_id);
                         }]);
 
-        // Formar a frase e realizar pesquisa de acordo com a pesquisa..
+        //Formar a frase e realizar pesquisa de acordo com a pesquisa..
         $phrase = $this->formPhraseAndQuery($idEntityType, $data, $query);
 
         $result['phrase'] = $phrase;
@@ -299,7 +300,8 @@ class DynamicSearchController extends Controller
 
         // Formar a frase da tabela 3
         for ($i=0; $i < $data['numTableRL']; $i++) { 
-            if (isset($data['checkRL'.$i])) {                
+            if (isset($data['checkRL'.$i])) {
+
                 $phrase = $this->formPhraseAndQueryTableType($data, $data['checkRL'.$i], 'RL', $i, $phrase, $query);
             }
         }
@@ -347,8 +349,10 @@ class DynamicSearchController extends Controller
 
                 if ($type == 'RL') {
                     $auxPhrase = "- Que está presente na relação do tipo ".$nameEntType1." - ".$nameEntType2." cuja propriedade ".$nameProp." é ";
+
                 } else {
                     $auxPhrase = "- Que tem uma relação com a entidade do tipo ".$nameEntType2." cuja propriedade ".$nameProp." é ";
+
                 }
             } else {
                 $auxPhrase  = '- Cuja propriedade '.$nameProp.' é ';
@@ -382,10 +386,14 @@ class DynamicSearchController extends Controller
             $phrase[] = $auxPhrase . $valueQuery.';';
         }
 
-        // Adicionar a query filtros de pesquisa de acordo com as opções selecionadas
-        $query1 = $query1->whereHas('values', function($q) use ($operatorQuery, $valueQuery, $idProperty) {
-                            $q->where('value', $operatorQuery, $valueQuery)->where('property_id', $idProperty);
-                        }); 
+        if ($valueQuery != "") {
+
+            // Adicionar a query filtros de pesquisa de acordo com as opções selecionadas
+            $query1 = $query1->whereHas('values', function($q) use ($operatorQuery, $valueQuery, $idProperty) {
+                $q->where('value', $operatorQuery, $valueQuery)->where('property_id', $idProperty);
+            }); 
+
+        }
 
         return $phrase;
     }

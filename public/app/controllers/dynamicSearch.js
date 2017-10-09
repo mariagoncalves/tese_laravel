@@ -221,13 +221,10 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         console.log(idEntity);
 
         $http.post(API_URL + '/dynamicSearch/inactiveActive/' + idEntity).then(function(response) {
-            console.log("Chegoui");
+            console.log("Chegou");
             console.log(response.data);
             $scope.search($scope.idEntityType);
-            //$scope.result = response.data;
-            growl.success('ALTERADOOO.',{title: 'Success!'});
-            //console.log("Dados propsEntRelated");
-            //console.log($scope.result);
+            growl.success('Estado da instância alterado',{title: 'Success!'});
         });
     }
 
