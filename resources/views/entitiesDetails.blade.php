@@ -48,14 +48,14 @@
 							        		<option></option>
 							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 							        	</select>
-							        	<input type="text" name="intET[[ key1 ]]">
+							        	<input type="number" name="intET[[ key1 ]]">
 									</div>
 									<div ng-switch-when="double"> 
 										<select name = "operatorsET[[ key1 ]]" ng-init = "getOperators()">
 							        		<option></option>
 							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 							        	</select>
-							        	<input type="text" name="doubleET[[ key1 ]]">
+							        	<input type="number" name="doubleET[[ key1 ]]">
 									</div>
 									<div ng-switch-when="file"> <input type="text" name="fileET[[ key1 ]]"> </div>
 									<!-- Não sei se é para por o prop-ref -->
@@ -123,14 +123,14 @@
 										        		<option></option>
 										        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 										        	</select>
-										        	<input type="text" name="intVT[[ propOfEnt.key  ]]">
+										        	<input type="number" name="intVT[[ propOfEnt.key  ]]">
 												</div>
 												<div ng-switch-when="double"> 
 													<select name = "operatorsVT[[ propOfEnt.key  ]]" ng-init = "getOperators()">
 										        		<option></option>
 										        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 										        	</select>
-										        	<input type="text" name="doubleVT[[ propOfEnt.key  ]]">
+										        	<input type="number" name="doubleVT[[ propOfEnt.key  ]]">
 												</div>
 												<div ng-switch-when="file"> 
 													<input type="text" name="fileVT[[ propOfEnt.key  ]]">
@@ -194,14 +194,14 @@
 							        		<option></option>
 							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 							        	</select>
-							        	<input type="text" name="intRL[[ prop.key ]]">
+							        	<input type="number" name="intRL[[ prop.key ]]">
 									</div>
 									<div ng-switch-when="double"> 
 										<select name = "operatorsRL[[ prop.key ]]" ng-init = "getOperators()">
 							        		<option></option>
 							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 							        	</select>
-							        	<input type="text" name="doubleRL[[ prop.key ]]">
+							        	<input type="number" name="doubleRL[[ prop.key ]]">
 									</div>
 									<div ng-switch-when="file"> 
 										<input type="text" name="fileRL[[ prop.key ]]">
@@ -274,14 +274,14 @@
 								        		<option></option>
 								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 								        	</select>
-								        	<input type="text" name="intER[[ property.key ]]">
+								        	<input type="number" name="intER[[ property.key ]]">
 										</div>
 										<div ng-switch-when="double"> 
 											<select name = "operatorsER[[ property.key ]]" ng-init = "getOperators()">
 								        		<option></option>
 								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
 								        	</select>
-								        	<input type="text" name="doubleER[[ property.key ]]">
+								        	<input type="number" name="doubleER[[ property.key ]]">
 										</div>
 										<div ng-switch-when="file"> 
 											<input type="text" name="fileER[[ property.key ]]">

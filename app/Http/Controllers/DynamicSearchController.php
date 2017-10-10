@@ -252,6 +252,7 @@ class DynamicSearchController extends Controller
         \Log::debug($data);
 
         // Formar a query para apresentar os dados na tabela
+        //Query base para a pesquisa
         $query = Entity::where('ent_type_id', $idEntityType)
                         ->with(['language' => function($query) use ($language_id) {
                             $query->where('language_id', $language_id);
@@ -284,7 +285,7 @@ class DynamicSearchController extends Controller
 
         $phrase[] = "Pesquisa de todas as entidades do tipo ".$ent->language->first()->pivot->name;
 
-        // Formar a frase da tabela 1 e pesaquisar de acordo com a pesquisa efetuada na tabela 1
+        // Formar a frase da tabela 1 e pesquisar de acordo com a pesquisa efetuada na tabela 1
         for ($i=0; $i < $data['numTableET']; $i++) { 
             if (isset($data['checkET'.$i])) {
                 $phrase = $this->formPhraseAndQueryTableType($data, $data['checkET'.$i], 'ET', $i, $phrase, $query);
@@ -434,7 +435,7 @@ class DynamicSearchController extends Controller
                    ->update(['state' => 'active']);
         }
 
-        return response()->json([]);
+        return response()->json([$stateEntity->state]);
     } 
 
 }

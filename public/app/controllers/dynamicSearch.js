@@ -26,6 +26,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.resultDynamincSearch = [];
     //Porque vou precisar do id da ent_Type no método inactiveActive
     $scope.idEntityType = [];
+    $scope.state = [];
 
 
 
@@ -223,8 +224,9 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         $http.post(API_URL + '/dynamicSearch/inactiveActive/' + idEntity).then(function(response) {
             console.log("Chegou");
             console.log(response.data);
+            $scope.state = response.data;
             $scope.search($scope.idEntityType);
-            growl.success('Estado da instância alterado',{title: 'Success!'});
+            growl.success('A instância foi ' + ($scope.state == 'active' ? 'Desativada' : 'Ativada' + '.'),{title: 'Success!'});
         });
     }
 
