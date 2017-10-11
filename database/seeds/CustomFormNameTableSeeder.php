@@ -12,48 +12,35 @@ class CustomFormNameTableSeeder extends Seeder
      */
     public function run()
     {
+        //Fazendo seeds ao modo antigo
         $dados = [
         	[
         		'custom_form_id' => '1',
         		'language_id'    => '1',
         		'name'           => 'Formulário de Cedência de Transporte',
                 'updated_by'     => '1',
-                'deleted_by'     => '1'
-        	],
-        	[
-        		'custom_form_id' => '1',
-        		'language_id'    => '2',
-        		'name'           => 'Transport Form',
-                'updated_by'     => '1',
-                'deleted_by'     => '1'
+                'deleted_by'     => NULL
         	],
         	[
         		'custom_form_id' => '2',
         		'language_id'    => '1',
-        		'name'           => 'Formulário de Apoios',
+        		'name'           => 'Formulário participar em Concurso',
                 'updated_by'     => '1',
-                'deleted_by'     => '1'
-        	],
-        	[
-        		'custom_form_id' => '2',
-        		'language_id'    => '2',
-        		'name'           => 'Support Form',
-                'updated_by'     => '1',
-                'deleted_by'     => '1'
+                'deleted_by'     => NULL
         	],
         	[
         		'custom_form_id' => '3',
         		'language_id'    => '1',
-        		'name'           => 'Formulário de Concursos',
+        		'name'           => 'Formulário de pedido de apoios',
                 'updated_by'     => '1',
-                'deleted_by'     => '1'
+                'deleted_by'     => NULL
         	],
         	[
-        		'custom_form_id' => '3',
-        		'language_id'    => '2',
-        		'name'           => 'Contest Form',
+        		'custom_form_id' => '4',
+        		'language_id'    => '1',
+        		'name'           => 'Formulário dados pessoais',
                 'updated_by'     => '1',
-                'deleted_by'     => '1'
+                'deleted_by'     => NULL
         	]
         ];
 

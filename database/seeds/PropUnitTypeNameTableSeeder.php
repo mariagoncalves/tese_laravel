@@ -16,59 +16,31 @@ class PropUnitTypeNameTableSeeder extends Seeder
         	[
         		'prop_unit_type_id' => '1',
         		'language_id'       => '1',
-        		'name'              => 'quilograma',
+        		'name'              => 'kg',
                 'updated_by'        => '1',
-                'deleted_by'        => '1'
-        	],
-        	[
-        		'prop_unit_type_id' => '1',
-        		'language_id'       => '2',
-        		'name'              => 'kilogram',
-                'updated_by'        => '1',
-                'deleted_by'        => '1'
+                'deleted_by'        => NULL
         	],
         	[
         		'prop_unit_type_id' => '2',
         		'language_id'       => '1',
-        		'name'              => 'metros',
+        		'name'              => 'mg',
                 'updated_by'        => '1',
-                'deleted_by'        => '1'
-        	],
-        	[
-        		'prop_unit_type_id' => '2',
-        		'language_id'       => '2',
-        		'name'              => 'meters',
-                'updated_by'        => '1',
-                'deleted_by'        => '1'
+                'deleted_by'        => NULL
         	],
         	[
         		'prop_unit_type_id' => '3',
         		'language_id'       => '1',
-        		'name'              => 'polegadas',
+        		'name'              => 'cm',
                 'updated_by'        => '1',
-                'deleted_by'        => '1'
-        	],
-        	[
-        		'prop_unit_type_id' => '3',
-        		'language_id'       => '2',
-        		'name'              => 'inches',
-                'updated_by'        => '1',
-                'deleted_by'        => '1'
+                'deleted_by'        => NULL
         	],
         	[
         		'prop_unit_type_id' => '4',
         		'language_id'       => '1',
-        		'name'              => 'libras',
+        		'name'              => 'm',
                 'updated_by'        => '1',
-                'deleted_by'        => '1'
+                'deleted_by'        => NULL
         	],
-        	[
-        		'prop_unit_type_id' => '4',
-        		'language_id'       => '2',
-        		'name'              => 'pounds',
-                'updated_by'        => '1',
-                'deleted_by'        => '1'
-        	]
         ];
 
         foreach ($dados as $value) {

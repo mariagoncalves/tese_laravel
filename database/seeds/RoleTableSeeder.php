@@ -33,5 +33,23 @@ class RoleTableSeeder extends Seeder
                 'updated_by'  => $new->updated_by,
             ]);
         });
+
+        //Fazendo seeds ao modo antigo
+        $dados = [
+            [
+                'id'         => '1',
+                'updated_by' => '1',
+                'deleted_by' => NULL
+            ],
+            [
+                'id'         => '2',
+                'updated_by' => '1',
+                'deleted_by' => NULL
+            ]
+        ];
+
+        foreach ($dados as $value) {
+            Role::create($value);
+        }
     }
 }

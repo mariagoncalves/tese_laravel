@@ -12,47 +12,22 @@ class RoleNameTableSeeder extends Seeder
      */
     public function run()
     {
+        //Fazendo seeds ao modo antigo
         $dados = [
-        	[
-        		'role_id'     => '1',
-        		'language_id' => '1',
-        		'name'        => 'Administrador',
+            [
+                'role_id'     => '1',
+                'language_id' => '1',
+                'name'        => 'Administrador',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'role_id'     => '1',
-        		'language_id' => '2',
-        		'name'        => 'Admin',
+                'deleted_by'  => NULL
+            ],
+            [
+                'role_id'     => '2',
+                'language_id' => '1',
+                'name'        => 'Munícipe',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[	'role_id'     => '2',
-        		'language_id' => '1',
-        		'name'        => 'Munícipe',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'role_id'     => '2',
-        		'language_id' => '2',
-        		'name'        => 'Citizen',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'role_id'     => '3',
-        		'language_id' => '1',
-        		'name'        => 'Administrativo',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[	'role_id'     => '3',
-        		'language_id' => '2',
-        		'name'        => 'Administrative',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	]
+                'deleted_by'  => NULL
+            ]
         ];
 
         foreach ($dados as $value) {

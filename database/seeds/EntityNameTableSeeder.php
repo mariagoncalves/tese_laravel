@@ -12,47 +12,69 @@ class EntityNameTableSeeder extends Seeder
      */
     public function run()
     {
+        //Fazendo seeds ao modo antigo
         $dados = [
         	[
         		'entity_id'   => '1',
         		'language_id' => '1',
         		'name'        => 'Transporte Crianças de escola',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
-        	[	'entity_id'   => '1',
-        		'language_id' => '2',
-        		'name'        => 'Transportation School children',
+        	[	'entity_id'   => '2',
+                'language_id' => '1',
+                'name'        => 'Apoio para concerto',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'entity_id'   => '2',
-        		'language_id' => '1',
-        		'name'        => 'Apoio para concerto',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'entity_id'   => '2',
-        		'language_id' => '2',
-        		'name'        => 'Concert Support',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[	'entity_id'   => '3',
-        		'language_id' => '1',
-        		'name'        => 'Concurso Cidade Florida 2017',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
         	[
         		'entity_id'   => '3',
-        		'language_id' => '2',
-        		'name'        => 'Contest Cidade Florida 2017',
+                'language_id' => '1',
+                'name'        => 'Concurso Funchal Cidade Florida 2017',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	]
+                'deleted_by'  => NULL
+        	],
+        	[
+        		'entity_id'   => '4',
+                'language_id' => '1',
+                'name'        => 'Transporte escolar 2017',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+        	],
+        	[	'entity_id'   => '5',
+                'language_id' => '1',
+                'name'        => 'Santo António',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+        	],
+        	[
+        		'entity_id'   => '6',
+                'language_id' => '1',
+                'name'        => 'Santo da Serra',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+        	],
+            [
+                'entity_id'   => '7',
+                'language_id' => '1',
+                'name'        => 'Sé',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [   'entity_id'   => '8',
+                'language_id' => '1',
+                'name'        => 'Municipe nº 1234',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'entity_id'   => '9',
+                'language_id' => '1',
+                'name'        => 'Municipe nº 1235',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ]
+
         ];
 
         foreach ($dados as $value) {

@@ -34,5 +34,22 @@ class ProcessTableSeeder extends Seeder
                 'updated_by'  => $new->updated_by,
             ]);
         });
+
+
+        //Fazendo seeds ao modo antigo
+        /*$dados = [
+            [
+                'id'              => '1',           
+                'process_type_id' => '1',
+                'proc_state'      => 'execution',
+                'state'           => 'active',
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ]
+        ];
+
+        foreach ($dados as $value) {
+            Process::create($value);
+        }*/
     }
 }

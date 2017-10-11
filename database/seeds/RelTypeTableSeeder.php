@@ -25,5 +25,20 @@ class RelTypeTableSeeder extends Seeder
                 'updated_by'  => $new->updated_by,
             ]);
         }
+
+        //Fazendo seeds ao modo antigo
+        $dados = [
+            [
+                'entity_id'   => '1',
+                'language_id' => '1',
+                'name'        => 'Transporte Crianças de escola',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ]
+        ];
+
+        foreach ($dados as $value) {
+            RelType::create($value);
+        }
     }
 }

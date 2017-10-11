@@ -250,6 +250,12 @@ class DynamicSearchController extends Controller
         $query       = [];
 
         \Log::debug($data);
+        /*\Log::debug("Id da propriedade");
+        \Log::debug($data['checkET']);
+
+        $query1 = $query1->whereHas('values', function($q) use ($operatorQuery, $valueQuery, $idProperty) {
+            $q->where('value', $operatorQuery, $valueQuery)->where('property_id', $idProperty);
+        }); */
 
         // Formar a query para apresentar os dados na tabela
         //Query base para a pesquisa
@@ -387,14 +393,14 @@ class DynamicSearchController extends Controller
             $phrase[] = $auxPhrase . $valueQuery.';';
         }
 
-        if ($valueQuery != "") {
+        //if ($valueQuery != "") {
 
             // Adicionar a query filtros de pesquisa de acordo com as opções selecionadas
             $query1 = $query1->whereHas('values', function($q) use ($operatorQuery, $valueQuery, $idProperty) {
                 $q->where('value', $operatorQuery, $valueQuery)->where('property_id', $idProperty);
             }); 
 
-        }
+        //}
 
         return $phrase;
     }

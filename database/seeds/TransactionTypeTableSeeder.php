@@ -30,5 +30,47 @@ class TransactionTypeTableSeeder extends Seeder
                 'updated_by'  => $new->updated_by,
             ]);
         }
+
+        //Fazendo seeds ao modo antigo
+        $dados = [
+            [
+                'id'              => '1',
+                'state'           => 'active',
+                'process_type_id' => '1',
+                'init_proc'       => '1',
+                'executer'        => '1',
+                'auto_activate'   => '1',
+                'freq_activate'   => '1 ano',
+                'when_activate'   => '16:21:05',
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [   'id'              => '2',
+                'state'           => 'active',
+                'process_type_id' => '1',
+                'init_proc'       => '1',
+                'executer'        => '1',
+                'auto_activate'   => '1',
+                'freq_activate'   => '1 ano',
+                'when_activate'   => '16:21:05',
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [   'id'              => '3',
+                'state'           => 'active',
+                'process_type_id' => '1',
+                'init_proc'       => '1',
+                'executer'        => '2',
+                'auto_activate'   => '1',
+                'freq_activate'   => '1 ano',
+                'when_activate'   => '16:21:05',
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ]
+        ];
+
+        foreach ($dados as $value) {
+            TransactionType::create($value);
+        }
     }
 }

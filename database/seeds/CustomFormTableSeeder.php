@@ -33,5 +33,37 @@ class CustomFormTableSeeder extends Seeder
                 'updated_by'     => $newForm->updated_by,
             ]);
         });
+
+        //Fazendo seeds ao modo antigo
+        /*$dados = [
+            [
+                'id'         => '1',
+                'state'      => 'active',
+                'updated_by' => '1',
+                'deleted_by' => NULL
+            ],
+            [
+                'id'         => '1',
+                'state'      => 'active',
+                'updated_by' => '1',
+                'deleted_by' => NULL
+            ],
+            [
+                'id'         => '1',
+                'state'      => 'active',
+                'updated_by' => '1',
+                'deleted_by' => NULL
+            ],
+            [
+                'id'         => '1',
+                'state'      => 'active',
+                'updated_by' => '1',
+                'deleted_by' => NULL
+            ]
+        ];
+
+        foreach ($dados as $value) {
+            CustomForm::create($value);
+        }*/
     }
 }

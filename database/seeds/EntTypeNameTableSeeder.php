@@ -12,47 +12,42 @@ class EntTypeNameTableSeeder extends Seeder
      */
     public function run()
     {
+        //Fazendo seeds ao modo antigo
         $dados = [
         	[
         		'ent_type_id' => '1',
         		'language_id' => '1',
         		'name'        => 'Transporte',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[	'ent_type_id' => '1',
-        		'language_id' => '2',
-        		'name'        => 'Transport',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
         	[
         		'ent_type_id' => '2',
-        		'language_id' => '1',
-        		'name'        => 'Apoios',
+                'language_id' => '1',
+                'name'        => 'Concurso',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'ent_type_id' => '2',
-        		'language_id' => '2',
-        		'name'        => 'Supports',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
         	[	'ent_type_id' => '3',
-        		'language_id' => '1',
-        		'name'        => 'Concurso',
+                'language_id' => '1',
+                'name'        => 'Apoios',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
         	[
-        		'ent_type_id' => '3',
-        		'language_id' => '2',
-        		'name'        => 'Contests',
+        		'ent_type_id' => '4',
+                'language_id' => '1',
+                'name'        => 'Pessoa',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	]
+                'deleted_by'  => NULL
+        	],
+            [
+                'ent_type_id' => '5',
+                'language_id' => '1',
+                'name'        => 'Freguesia',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ]
         ];
 
         foreach ($dados as $value) {

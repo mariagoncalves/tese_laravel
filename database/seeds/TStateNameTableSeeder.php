@@ -12,71 +12,40 @@ class TStateNameTableSeeder extends Seeder
      */
     public function run()
     {
+        //Fazendo seeds ao modo antigo
         $dados = [
         	[
         		't_state_id'  => '1',
         		'language_id' => '1',
         		'name'        => 'Pedido',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		't_state_id'  => '1',
-        		'language_id' => '2',
-        		'name'        => 'Request',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
         	[	't_state_id'  => '2',
         		'language_id' => '1',
         		'name'        => 'Promessa',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[	't_state_id'  => '2',
-        		'language_id' => '2',
-        		'name'        => 'Promisse',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
         	[	't_state_id'  => '3',
         		'language_id' => '1',
         		'name'        => 'Execução',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		't_state_id'  => '3',
-        		'language_id' => '2',
-        		'name'        => 'Execute',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
         	[
         		't_state_id'  => '4',
         		'language_id' => '1',
         		'name'        => 'Afirmação',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[	't_state_id'  => '4',
-        		'language_id' => '2',
-        		'name'        => 'State',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
         	[	't_state_id'  => '5',
         		'language_id' => '1',
         		'name'        => 'Aceitação',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
         	],
-        	[	't_state_id'  => '5',
-        		'language_id' => '2',
-        		'name'        => 'Accept',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	]
         ];
 
         foreach ($dados as $value) {

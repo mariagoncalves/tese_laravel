@@ -34,6 +34,7 @@
 									</div>
 									<div ng-switch-when="enum">
 										<select name = "selectET[[ key1 ]]" ng-init = "getEnumValues(property.id)">
+											<option></option>
 							        		<option ng-repeat = "propAllowedValue in propAllowedValues[property.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
 							        	</select>
 									</div>
@@ -94,7 +95,7 @@
 				            </thead>
 					        <tbody>
 				                <div>
-				                	<td ng-if="entRef.properties.length == 0" colspan="4"> Não tem props </td>
+				                	<td ng-if="entRef.properties.length == 0" colspan="4"> A entidade não tem propriedades </td>
 
 					                <tr ng-repeat="propOfEnt in entRef.properties" >
 					                    <td>[[ propOfEnt.id ]]</td>
@@ -109,6 +110,7 @@
 												</div>
 												<div ng-switch-when="enum">
 													<select name = "selectVT[[ propOfEnt.key  ]]" ng-init = "getEnumValues(propOfEnt.id)">
+														<option></option>
 										        		<option ng-repeat = "propAllowedValue in propAllowedValues[propOfEnt.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
 										        	</select>
 												</div>
@@ -152,77 +154,85 @@
 			<!-- 3º tabela -->
 			<div ng-init = "getRelsWithEnt({{$id}})">
 				<h3> Propriedades de relações em que a entidade [[ents.language[0].pivot.name ]] está presente. </h3>
-				<table class="table" border = "1px solid">
-                    <thead>
-                        <th>Tipo Relação</th>
-                        <th>Propriedade da Relação</th>
-                        <th>Seleção</th>
-                        <th>Valor</th>
-                    </thead>
-                    <tbody>
-		                <tr ng-repeat-start="relWithEnt in relsWithEnt" ng-if="false" ng-init="innerIndex = $index"></tr>
 
-		                <td rowspan="[[ relWithEnt.properties.length + 1 ]] ">
-		                    [[ relWithEnt.language[0].pivot.name ]]
-		                </td>
+				<div ng-if = "relsWithEnt.length == 0">
+					<p> Não existem relações em que a entidade [[ents.language[0].pivot.name ]] está presente.</p>
+				</div>
 
-		                <td ng-if="relWithEnt.properties.length == 0" colspan="3"> Rel Não tem props </td>
+				<div ng-if = "relsWithEnt.length != 0">
+					<table class="table" border = "1px solid">
+	                    <thead>
+	                        <th>Tipo Relação</th>
+	                        <th>Propriedade da Relação</th>
+	                        <th>Seleção</th>
+	                        <th>Valor</th>
+	                    </thead>
+	                    <tbody>
+			                <tr ng-repeat-start="relWithEnt in relsWithEnt" ng-if="false" ng-init="innerIndex = $index"></tr>
 
-		                <tr ng-repeat="(key3, prop) in relWithEnt.properties" >
-		                    <td>[[ prop.language[0].pivot.name ]]</td>
-		                    <td> <input type="checkbox" name="checkRL[[ prop.key ]]" value="[[ prop.id ]]"> </td>
-		                    <td>
-		                    	<div ng-switch on="prop.value_type">
-							        <div ng-switch-when="text"> <input type="text" name="textRL[[ prop.key ]]"> </div>
-							        <div ng-switch-when="bool"> 
-							        	<input type="radio" name="radioRL[[ prop.key ]]" value="true">True
-										<input type="radio" name="radioRL[[ prop.key ]]" value="false">False 
+			                <td rowspan="[[ relWithEnt.properties.length + 1 ]] ">
+			                    [[ relWithEnt.language[0].pivot.name ]]
+			                </td>
+
+			                <td ng-if="relWithEnt.properties.length == 0" colspan="3"> Esta relação não tem propriedades </td>
+
+			                <tr ng-repeat="(key3, prop) in relWithEnt.properties" >
+			                    <td>[[ prop.language[0].pivot.name ]]</td>
+			                    <td> <input type="checkbox" name="checkRL[[ prop.key ]]" value="[[ prop.id ]]"> </td>
+			                    <td>
+			                    	<div ng-switch on="prop.value_type">
+								        <div ng-switch-when="text"> <input type="text" name="textRL[[ prop.key ]]"> </div>
+								        <div ng-switch-when="bool"> 
+								        	<input type="radio" name="radioRL[[ prop.key ]]" value="true">True
+											<input type="radio" name="radioRL[[ prop.key ]]" value="false">False 
+										</div>
+										<div ng-switch-when="enum">
+											<select name = "selectRL[[ prop.key ]]" ng-init = "getEnumValues(prop.id)">
+												<option></option>
+								        		<option ng-repeat = "propAllowedValue in propAllowedValues[prop.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
+								        	</select>
+										</div>
+										<div ng-switch-when="ent_ref"> 
+											<select name = "ent_refRL[[ prop.key ]]" ng-init = "getEntityInstances(ents.id, prop.id)">
+								        		<option></option>
+								        		<option ng-repeat = "inst in fkEnt.fk_ent_type.entity"> [[ inst.language[0].pivot.name ]] </option>
+								        	</select>
+										</div>
+								        <div ng-switch-when="int"> 
+											<select name = "operatorsRL" ng-init = "getOperators()">
+								        		<option></option>
+								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+								        	</select>
+								        	<input type="number" name="intRL[[ prop.key ]]">
+										</div>
+										<div ng-switch-when="double"> 
+											<select name = "operatorsRL[[ prop.key ]]" ng-init = "getOperators()">
+								        		<option></option>
+								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+								        	</select>
+								        	<input type="number" name="doubleRL[[ prop.key ]]">
+										</div>
+										<div ng-switch-when="file"> 
+											<input type="text" name="fileRL[[ prop.key ]]">
+										</div>
+										<!-- Não sei se é para por o prop-ref -->
+										<div ng-switch-default> 
+								        	<input type="text" name="propRefRL[[ prop.key ]]">
+										</div>
 									</div>
-									<div ng-switch-when="enum">
-										<select name = "selectRL[[ prop.key ]]" ng-init = "getEnumValues(prop.id)">
-							        		<option ng-repeat = "propAllowedValue in propAllowedValues[prop.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
-							        	</select>
-									</div>
-									<div ng-switch-when="ent_ref"> 
-										<select name = "ent_refRL[[ prop.key ]]" ng-init = "getEntityInstances(ents.id, prop.id)">
-							        		<option></option>
-							        		<option ng-repeat = "inst in fkEnt.fk_ent_type.entity"> [[ inst.language[0].pivot.name ]] </option>
-							        	</select>
-									</div>
-							        <div ng-switch-when="int"> 
-										<select name = "operatorsRL" ng-init = "getOperators()">
-							        		<option></option>
-							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
-							        	</select>
-							        	<input type="number" name="intRL[[ prop.key ]]">
-									</div>
-									<div ng-switch-when="double"> 
-										<select name = "operatorsRL[[ prop.key ]]" ng-init = "getOperators()">
-							        		<option></option>
-							        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
-							        	</select>
-							        	<input type="number" name="doubleRL[[ prop.key ]]">
-									</div>
-									<div ng-switch-when="file"> 
-										<input type="text" name="fileRL[[ prop.key ]]">
-									</div>
-									<!-- Não sei se é para por o prop-ref -->
-									<div ng-switch-default> 
-							        	<input type="text" name="propRefRL[[ prop.key ]]">
-									</div>
-								</div>
-		                    </td>
-		                    <tr ng-repeat-end ng-if="false"></tr>
-		                </tr>
-                    </tbody>
-                </table>
+			                    </td>
+			                    <tr ng-repeat-end ng-if="false"></tr>
+			                </tr>
+	                    </tbody>
+	                </table>
+                </div>
 			</div>
 
 			<!-- 4º tabela , falta corrigir o rowspan-->
 			<div ng-init = "getEntsRelated(relWithEnt.id, {{ $id }})">
 				<h3> Entidades que se relacionam com [[ents.language[0].pivot.name ]] </h3>
 
-				<div ng-if="relsWithEnt.length == 0" colspan="4"> Não existe ents que se relacionem com [[ents.language[0].pivot.name ]] </div>
+				<div ng-if="relsWithEnt.length == 0" colspan="4"> Não existe entidades que se relacionem com [[ents.language[0].pivot.name ]] </div>
 
 				<div ng-if="relsWithEnt.length > 0"> 
 					<table class="table" border = "1px solid">
@@ -260,6 +270,7 @@
 										</div>
 										<div ng-switch-when="enum">
 											<select name = "selectER[[ property.key ]]" ng-init = "getEnumValues(property.id)">
+												<option></option>
 								        		<option ng-repeat = "propAllowedValue in propAllowedValues[property.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
 								        	</select>
 										</div>
@@ -302,6 +313,59 @@
 		</div>
 	</form>
 
+	<!-- <div id="dynamic-search-presentation" style="display: none;">
+		<h3>Pesquisa</h3>
+		<div id="false-de-pesquisa" style="padding: 15px 0px;">
+			<dl>
+			  <dt>[[ resultDynamincSearch.phrase[0] ]]:</dt>
+			  <dd ng-repeat = "(key, phrase) in resultDynamincSearch.phrase" ng-if="key != 0">[[ phrase ]]</dd>
+			  <dd ng-if="resultDynamincSearch.phrase.length == 1 ">- Nenhuma pesquisa efetuada.</dd>	
+			</dl>
+		</div>
+
+		<div>
+			<div growl></div>
+			<table class="table" border = "1px solid">
+	            <thead>
+	            	<th>Ação</th>
+	                <th>Instância</th>
+	                <th width="85px">Estado da Instância</th>
+	                <th>Propriedade</th>
+	                <th>Valor</th>
+	                <th width="80px">Estado do Valor</th>
+	            </thead>
+	            <tbody>
+	            	<td ng-if="resultDynamincSearch.result.length == 0 " colspan="6">Não existem entidades que respeitem a pesquisa efetuada.</td>
+
+	                <tr ng-repeat-start="entity in resultDynamincSearch.result" ng-if="false" ng-init="innerIndex = $index"></tr>
+
+	               	<td rowspan="[[ entity.values.length + 1 ]] ">
+	                    <button type="button" class="btn btn-xs btn-warning" ng-click="inactiveActive(entity.id)"> [[ entity.state == 'active' ? 'Desativar' : 'Ativar' ]] </button>
+	                </td>
+
+	                <td rowspan="[[ entity.values.length + 1 ]] ">
+	                	[[ entity.language[0].pivot.name ]]
+	                </td>
+
+	                <td rowspan="[[ entity.values.length + 1 ]] ">
+	                	[[ entity.state == 'active' ? 'Ativo' : 'Inativo' ]]
+	                </td>
+
+	                <td ng-if="entity.values.length == 0" colspan="4">Não existe propriedades.</td>
+
+	                <tr ng-repeat="value in entity.values" >
+	                    <td>[[ value.property.language[0].pivot.name ]]</td>
+	                    <td>[[ value.state == 'active' ? (value.value == '' ? 'Sem Valor Atribuído' : value.value) : '-' ]]</td>
+	                    <td>[[ value.state == 'active' ? 'Ativo' : 'Inativo' ]]</td>
+	                    <tr ng-repeat-end ng-if="false"></tr>
+	                </tr>
+	            </tbody>
+	        </table>
+		</div>
+		<button type="button" class="btn btn-md btn-primary" ng-click="voltar()"> Voltar </button>
+	</div> -->
+
+	<!-- Nova tabela com alterações -->
 	<div id="dynamic-search-presentation" style="display: none;">
 		<h3>Pesquisa</h3>
 		<div id="false-de-pesquisa" style="padding: 15px 0px;">
@@ -342,17 +406,21 @@
 
 	                <td ng-if="entity.values.length == 0" colspan="4">Não existe propriedades.</td>
 
-	                <tr ng-repeat="value in entity.values" >
-	                    <td>[[ value.property.language[0].pivot.name ]]</td>
-	                    <td>[[ value.state == 'active' ? (value.value == '' ? 'Sem Valor Atribuído' : value.value) : '-' ]]</td>
-	                    <td>[[ value.state == 'active' ? 'Ativo' : 'Inativo' ]]</td>
-	                    <tr ng-repeat-end ng-if="false"></tr>
+	                <tr ng-repeat="value in entity.values">
+	                	<!-- <div ng-if = "value.property_id == 48 "> -->
+	                		<td>[[ value.property.language[0].pivot.name ]]</td>
+	                    	<td>[[ value.state == 'active' ? (value.value == '' ? 'Sem Valor Atribuído' : value.value) : '-' ]]</td>
+	                    	<td>[[ value.state == 'active' ? 'Ativo' : 'Inativo' ]]</td>
+	                    	<tr ng-repeat-end ng-if="false"></tr>
+	                	<!-- </div> -->
 	                </tr>
 	            </tbody>
 	        </table>
 		</div>
 		<button type="button" class="btn btn-md btn-primary" ng-click="voltar()"> Voltar </button>
 	</div>
+
+
 </div>
 
 @stop

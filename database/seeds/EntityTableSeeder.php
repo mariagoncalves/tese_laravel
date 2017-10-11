@@ -25,5 +25,79 @@ class EntityTableSeeder extends Seeder
                 'updated_by'  => $new->updated_by,
             ]);
         }
+
+        //Fazendo seeds ao modo antigo
+        $dados = [
+            [
+                'id'                   => '1',
+                'ent_type_id'          => '1',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ],
+            [   'id'                   => '2',
+                'ent_type_id'          => '3',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ],
+            [   'id'                   => '3',
+                'ent_type_id'          => '2',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ],
+            [
+                'id'                   => '4',
+                'ent_type_id'          => '1',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ],
+            [   'id'                   => '5',
+                'ent_type_id'          => '5',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ],
+            [   'id'                   => '6',
+                'ent_type_id'          => '5',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ]
+            [
+                'id'                   => '7',
+                'ent_type_id'          => '5',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ],
+            [   'id'                   => '8',
+                'ent_type_id'          => '4',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ],
+            [   'id'                   => '9',
+                'ent_type_id'          => '4',
+                'state'                => 'active',
+                'transaction_state_id' => '1',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ]
+        ];
+
+        foreach ($dados as $value) {
+            Entity::create($value);
+        }
     }
 }

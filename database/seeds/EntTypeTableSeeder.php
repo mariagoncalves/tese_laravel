@@ -25,5 +25,63 @@ class EntTypeTableSeeder extends Seeder
                 'updated_by'  => $new->updated_by,
             ]);
         }
+
+        //Fazendo seeds ao modo antigo
+        $dados = [
+            [
+                'id'                  => '1',
+                'state'               => 'active',
+                'transaction_type_id' => '3',
+                'par_ent_type_id'     => NULL,
+                'par_prop_type_val'   => NULL,
+                't_state_id'          => '1',
+                'updated_by'          => '1',
+                'deleted_by'          => NULL
+            ],
+            [
+                'id'                  => '2',
+                'state'               => 'active',
+                'transaction_type_id' => '3',
+                'par_ent_type_id'     => NULL,
+                'par_prop_type_val'   => NULL,
+                't_state_id'          => '1',
+                'updated_by'          => '1',
+                'deleted_by'          => NULL
+            ],
+            [
+                'id'                  => '3',
+                'state'               => 'active',
+                'transaction_type_id' => '3',
+                'par_ent_type_id'     => NULL,
+                'par_prop_type_val'   => NULL,
+                't_state_id'          => '1',
+                'updated_by'          => '1',
+                'deleted_by'          => NULL
+            ],
+            [
+                'id'                  => '4',
+                'state'               => 'active',
+                'transaction_type_id' => '3',
+                'par_ent_type_id'     => NULL,
+                'par_prop_type_val'   => NULL,
+                't_state_id'          => '1',
+                'updated_by'          => '1',
+                'deleted_by'          => NULL
+            ],
+            [
+                'id'                  => '5',
+                'state'               => 'active',
+                'transaction_type_id' => '3',
+                'par_ent_type_id'     => NULL,
+                'par_prop_type_val'   => NULL,
+                't_state_id'          => '1',
+                'updated_by'          => '1',
+                'deleted_by'          => NULL
+            ]
+        ];
+
+        foreach ($dados as $value) {
+            EntType::create($value);
+        }
     }
 }
