@@ -21,8 +21,8 @@ class CustomForm extends Model
 
     protected $guarded = [];
 
-    public function ent_types() {
-        return $this->belongsToMany('App\EntType', 'custom_form_has_ent_type' , 'custom_form_id', 'ent_type_id')->withPivot('field_order','mandatory_form','created_at','updated_at','deleted_at');
+    public function transactionType() {
+        return $this->belongsToMany('App\TransactionType', 'custom_form_has_transaction_type' , 'custom_form_id', 'transaction_type_id')->withPivot('field_order','mandatory_form','created_at','updated_at','deleted_at');
     }
 
     public function language() {

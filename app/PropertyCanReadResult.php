@@ -5,26 +5,23 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PropertyCanReadProperty extends Model
+class PropertyCanReadResult extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'property_can_read_property';
+    protected $table = 'property_can_read_result';
 
     public $timestamps = true;
 
     protected $fillable = [
         'reading_property',
-        'providing_property',
+        'providing_result',
+        'output_type',
 		'updated_by',
         'deleted_by'
     ];
 
     protected $guarded = [];
-
-    /*public function property() {
-        return $this->belongsTo('App\Property', 'providing_property', 'id');
-    }*/
 
     public function updatedBy() {
 

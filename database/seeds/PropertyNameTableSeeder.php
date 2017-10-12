@@ -12,87 +12,153 @@ class PropertyNameTableSeeder extends Seeder
      */
     public function run()
     {
+        //Fazendo seeds ao modo antigo
         $dados = [
         	[
         		'property_id'     => '1',
         		'language_id'     => '1',
-        		'name'            => 'Numero de Pessoas',
-        		'form_field_name' => 'Numero',
+        		'name'            => 'Qualidade em que faz o pedido',
+        		'form_field_name' => NULL,
                 'updated_by'      => '1',
-                'deleted_by'      => '1'
+                'deleted_by'      => NULL
         	],
         	[
-        		'property_id'     => '1',
-        		'language_id'     => '2',
-        		'name'            => 'Number of people',
-        		'form_field_name' => 'Number',
-                'updated_by'      => '1',
-                'deleted_by'      => '1'
-        	],
-            [
-                'property_id'     => '2',
+        		'property_id'     => '2',
                 'language_id'     => '1',
-                'name'            => 'Objetivo',
-                'form_field_name' => 'Objetivo',
+                'name'            => 'Tipo de evento',
+                'form_field_name' => NULL,
                 'updated_by'      => '1',
-                'deleted_by'      => '1'
-            ],
-             [
-                'property_id'     => '2',
-                'language_id'     => '2',
-                'name'            => 'Objective',
-                'form_field_name' => 'Objective',
-                'updated_by'      => '1',
-                'deleted_by'      => '1'
-            ],
+                'deleted_by'      => NULL
+        	],
             [
                 'property_id'     => '3',
                 'language_id'     => '1',
-                'name'            => 'Área',
-                'form_field_name' => 'Area',
+                'name'            => 'Nº crianças',
+                'form_field_name' => NULL,
                 'updated_by'      => '1',
-                'deleted_by'      => '1'
-            ],
-            [
-        		'property_id'     => '3',
-        		'language_id'     => '2',
-        		'name'            => 'Area',
-        		'form_field_name' => 'Area',
-                'updated_by'      => '1',
-                'deleted_by'      => '1'
-        	],
-        	[
-        		'property_id'     => '4',
-        		'language_id'     => '1',
-        		'name'            => 'Preço',
-        		'form_field_name' => 'Preço',
-                'updated_by'      => '1',
-                'deleted_by'      => '1'
-        	],
-            [
-                'property_id'     => '4',
-                'language_id'     => '2',
-                'name'            => 'Price',
-                'form_field_name' => 'Price',
-                'updated_by'      => '1',
-                'deleted_by'      => '1'
+                'deleted_by'      => NULL
             ],
              [
-                'property_id'     => '5',
+                'property_id'     => '4',
                 'language_id'     => '1',
-                'name'            => 'Quantidade',
-                'form_field_name' => 'Quantidade',
+                'name'            => 'Local de partida',
+                'form_field_name' => NULL,
                 'updated_by'      => '1',
-                'deleted_by'      => '1'
+                'deleted_by'      => NULL
             ],
             [
                 'property_id'     => '5',
-                'language_id'     => '2',
-                'name'            => 'Quantity',
-                'form_field_name' => 'Quantity',
+                'language_id'     => '1',
+                'name'            => 'Localização do espaço',
+                'form_field_name' => NULL,
                 'updated_by'      => '1',
-                'deleted_by'      => '1'
-            ]
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '6',
+                'language_id'     => '1',
+                'name'            => 'Modalidade em que concorre',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+        		'property_id'     => '7',
+                'language_id'     => '1',
+                'name'            => 'Descrição da atividade',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+        	],
+        	[
+        		'property_id'     => '8',
+                'language_id'     => '1',
+                'name'            => 'Localidade onde irá se desenvolver a atividade',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+        	],
+            [
+                'property_id'     => '9',
+                'language_id'     => '1',
+                'name'            => 'Destino a dar ao subsídio',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+             [
+                'property_id'     => '10',
+                'language_id'     => '1',
+                'name'            => 'Nº público de beneficiários',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '11',
+                'language_id'     => '1',
+                'name'            => 'Pessoa coletiva de utilidade pública?',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '12',
+                'language_id'     => '1',
+                'name'            => 'Tipo de entidade',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '13',
+                'language_id'     => '1',
+                'name'            => 'Nome',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '14',
+                'language_id'     => '1',
+                'name'            => 'NIF',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '15',
+                'language_id'     => '1',
+                'name'            => 'Profissão',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '16',
+                'language_id'     => '1',
+                'name'            => 'Freguesia',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '17',
+                'language_id'     => '1',
+                'name'            => 'Nº de habitantes',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+            [
+                'property_id'     => '18',
+                'language_id'     => '1',
+                'name'            => 'Área',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ],
+
 
         ];
 

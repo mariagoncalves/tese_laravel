@@ -72,6 +72,10 @@ class TransactionType extends Model
         return $this->belongsToMany('App\Language', 'transaction_type_name', 'transaction_type_id', 'language_id')->withPivot('t_name', 'rt_name', 'created_at', 'updated_at', 'deleted_at');
     }
 
+    public function customForm() {
+        return $this->belongsToMany('App\CustomForm', 'custom_form_has_transaction_type' , 'transaction_type_id', 'custom_form_id')->withPivot('field_order','mandatory_form','created_at','updated_at','deleted_at');
+    }
+
     public function updatedBy() {
 
         return $this->belongsTo('App\Users', 'updated_by', 'id');

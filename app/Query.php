@@ -5,24 +5,31 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CustomFormHasEntType extends Model
+class Query extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'custom_form_has_ent_type';
+    protected $table = 'query';
 
     public $timestamps = true;
 
     protected $fillable = [
-        'ent_type_id',
-        'custom_form_id',
-        'field_order',
-        'mandatory_form',
+        'name',
 		'updated_by',
         'deleted_by'
     ];
 
     protected $guarded = [];
+
+    public function condicions() {
+
+        return $this->hasMany('App\Condicion', 'query_id', 'id');
+    }
+
+    public function properties() {
+
+        return $this->belongToMany('App\Property', 'property_can_read_result', 'providing_result', 'reading_property')->withPivot('output_type','created_at','updated_at','deleted_at');
+    }
 
     public function updatedBy() {
 

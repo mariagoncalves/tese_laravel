@@ -41,6 +41,11 @@ class Value extends Model
         return $this->belongsToMany('App\Language', 'value_name', 'value_id', 'language_id')->withPivot('name','created_at','updated_at','deleted_at');
     }
 
+    public function condicions() {
+
+        return $this->hasMany('App\Condicion', 'value_id', 'id');
+    }
+
     public function updatedBy() {
 
         return $this->belongsTo('App\Users', 'updated_by', 'id');

@@ -12,36 +12,15 @@ class RelationNameTableSeeder extends Seeder
      */
     public function run()
     {
+        //Fazendo seeds ao modo antigo
         $dados = [
         	[
         		'relation_id' => '1',
                 'language_id' => '1',
-                'name'        => 'Inst Relacao 1',
+                'name'        => 'Munícipe 1235 pede transporte crianças escola',
                 'updated_by'  => '1',
-                'deleted_by'  => '1'
+                'deleted_by'  => NULL
 
-        	],
-        	[
-        		'relation_id' => '1',
-                'language_id' => '2',
-                'name'        => 'Inst Relation 1',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-        	],
-        	[
-        		'relation_id' => '2',
-                'language_id' => '1',
-                'name'        => 'Inst Relacao 2',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
-
-        	],
-        	[
-        		'relation_id' => '2',
-                'language_id' => '2',
-                'name'        => 'Inst Relation 2',
-                'updated_by'  => '1',
-                'deleted_by'  => '1'
         	]
         ];
 

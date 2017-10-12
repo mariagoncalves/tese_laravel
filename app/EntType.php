@@ -64,16 +64,12 @@ class EntType extends Model
         return $this->hasMany('App\EntTypeName', 'ent_type_id', 'id');
     }
 	
-	public function customForm() {
+	/*public function customForm() {
         return $this->belongsToMany('App\CustomForm', 'custom_form_has_ent_type', 'ent_type_id', 'custom_form_id')->withPivot('field_order','mandatory_form','created_at','updated_at','deleted_at');
-    }
-
-    /*public function providingEntTypes() {
-        return $this->belongsToMany('App\PropertyCanReadEntType', 'property_can_read_ent_type', 'providing_ent_type', 'reading_property')->withPivot('created_at','updated_at','deleted_at');
     }*/
 
     public function providingEntTypes() {
-        return $this->belongsToMany('App\Property');
+        return $this->belongsToMany('App\Property'), 'property_can_read_ent_type', 'providing_ent_type', 'reading_property')->withPivot('output_type','created_at','updated_at','deleted_at');
     }
 
     public function language() {

@@ -54,6 +54,11 @@ class RelType extends Model
         return $this->belongsToMany('App\Language', 'rel_type_name', 'rel_type_id', 'language_id')->withPivot('name','created_at','updated_at','deleted_at');
     }
 
+    public function propertyReadRelType() {
+
+        return $this->belongsToMany('App\Property', 'property_can_read_rel_type', 'providing_rel_type', 'reading_property')->withPivot('output_type','created_at','updated_at','deleted_at');
+    }
+
     public function updatedBy() {
 
         return $this->belongsTo('App\Users', 'updated_by', 'id');

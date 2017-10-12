@@ -21,7 +21,7 @@ class CausalLinkTableSeeder extends Seeder
                 'min'        => '1',
                 'max'        => '1',
                 'updated_by' => '1',
-                'deleted_by' => '1'
+                'deleted_by' => NULL
         	],
         	[	'id'         => '2',
         		'causing_t'  => '1',
@@ -30,7 +30,7 @@ class CausalLinkTableSeeder extends Seeder
                 'min'        => '1',
                 'max'        => '1',
                 'updated_by' => '1',
-                'deleted_by' => '1'
+                'deleted_by' => NULL
         	],
         	[
         		'id'         => '3',
@@ -40,7 +40,7 @@ class CausalLinkTableSeeder extends Seeder
                 'min'        => '1',
                 'max'        => '1',
                 'updated_by' => '1',
-                'deleted_by' => '1'
+                'deleted_by' => NULL
         	]
         ];
 

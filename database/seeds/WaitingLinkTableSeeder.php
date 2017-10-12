@@ -22,7 +22,7 @@ class WaitingLinkTableSeeder extends Seeder
                 'min'                 => '1',
                 'max'                 => '1',
                 'updated_by'          => '1',
-                'deleted_by'          => '1'
+                'deleted_by'          => NULL
         	],
         	[
         		'id'                  => '2',
@@ -33,7 +33,7 @@ class WaitingLinkTableSeeder extends Seeder
                 'min'                 => '1',
                 'max'                 => '1',
                 'updated_by'          => '1',
-                'deleted_by'          => '1'
+                'deleted_by'          => NULL
         	],
         	[
         		'id'                  => '3',
@@ -44,7 +44,7 @@ class WaitingLinkTableSeeder extends Seeder
                 'min'                 => '1',
                 'max'                 => '1',
                 'updated_by'          => '1',
-                'deleted_by'          => '1'
+                'deleted_by'          => NULL
         	]
         ];
 

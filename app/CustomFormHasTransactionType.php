@@ -5,26 +5,24 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PropertyCanReadProperty extends Model
+class CustomFormHasTransactionType extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'property_can_read_property';
+    protected $table = 'custom_form_has_transaction_type';
 
     public $timestamps = true;
 
     protected $fillable = [
-        'reading_property',
-        'providing_property',
+    	'custom_form_id',
+        'transaction_type_id',
+        'field_order',
+        'mandatory_form',
 		'updated_by',
         'deleted_by'
     ];
 
     protected $guarded = [];
-
-    /*public function property() {
-        return $this->belongsTo('App\Property', 'providing_property', 'id');
-    }*/
 
     public function updatedBy() {
 

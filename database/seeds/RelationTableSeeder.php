@@ -19,5 +19,23 @@ class RelationTableSeeder extends Seeder
                 'updated_by'  => $new->updated_by,
             ]);
         });
+
+        //Fazendo seeds ao modo antigo
+        $dados = [
+            [
+                'id'                   => '1',
+                'rel_type_id'          => '1',
+                'entity1_id'           => '9',
+                'entity2_id'           => '1',
+                'transaction_state_id' => '1',
+                'state'                => 'active',
+                'updated_by'           => '1',
+                'deleted_by'           => NULL
+            ]
+        ];
+
+        foreach ($dados as $value) {
+            Relation::create($value);
+        }
     }
 }

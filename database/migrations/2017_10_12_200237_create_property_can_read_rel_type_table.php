@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomFormHasEntTypeTable extends Migration
+class CreatePropertyCanReadRelTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +13,14 @@ class CreateCustomFormHasEntTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom_form_has_ent_type', function (Blueprint $table) {
-            $table->integer('ent_type_id')->unsigned();
-            $table->integer('custom_form_id')->unsigned();
-            $table->integer('field_order')->nullable();
-            $table->integer('mandatory_form');
+        Schema::create('property_can_read_rel_type', function (Blueprint $table) {
+            $table->integer('reading_property')->unsigned();
+            $table->integer('providing_rel_type')->unsigned();
+            $table->enum('output_type', ['popover', 'accordion']);
             $table->integer('updated_by')->nullable()->unsigned();
             $table->integer('deleted_by')->nullable()->unsigned();
             $table->timestamps();
             $table->softDeletes();
-
-//            $table->integer('property_id')->unsigned();
-//            $table->integer('custom_form_id')->unsigned();
         });
     }
 
@@ -34,6 +31,6 @@ class CreateCustomFormHasEntTypeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('custom_form_has_ent_type');
+        Schema::dropIfExists('property_can_read_rel_type');
     }
 }

@@ -29,11 +29,14 @@ class RelTypeTableSeeder extends Seeder
         //Fazendo seeds ao modo antigo
         $dados = [
             [
-                'entity_id'   => '1',
-                'language_id' => '1',
-                'name'        => 'Transporte Crianças de escola',
-                'updated_by'  => '1',
-                'deleted_by'  => NULL
+                'id'                  => '1',
+                'ent_type1_id'        => '4',
+                'ent_type2_id'        => '1',
+                't_state_id'          => '1',
+                'state'               => 'active',
+                'transaction_type_id' => '1',
+                'updated_by'          => '1',
+                'deleted_by'          => NULL
             ]
         ];
 
