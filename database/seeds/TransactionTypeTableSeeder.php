@@ -13,7 +13,7 @@ class TransactionTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        $datas = [
+        /*$datas = [
             ['Decisao sobre cedencia de transporte', 'Decisao sobre cedencia de transporte foi efetuada'],
             ['Decisão sobre apoios', 'Decisão sobre apoios foi efetuada'],
             ['Solicitação de pedido', 'Solicitação de pedido foi efetuada']
@@ -29,7 +29,7 @@ class TransactionTypeTableSeeder extends Seeder
                 'rt_name'     => $data[1],
                 'updated_by'  => $new->updated_by,
             ]);
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

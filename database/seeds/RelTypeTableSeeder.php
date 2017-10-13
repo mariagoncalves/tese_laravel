@@ -13,7 +13,7 @@ class RelTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        $datas = ['Relacao 1', 'Relacao 2', 'Relacao 3', 'Relacao 4'];
+        /*$datas = ['Relacao 1', 'Relacao 2', 'Relacao 3', 'Relacao 4'];
 
         foreach ($datas as $data) {
             $new = factory(RelType::class, 1)->create();
@@ -24,7 +24,7 @@ class RelTypeTableSeeder extends Seeder
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'  => $new->updated_by,
             ]);
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

@@ -13,12 +13,12 @@ class ValueTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Value::class, 5)->create()->each(function($new) {
+        /*factory(Value::class, 5)->create()->each(function($new) {
             factory(ValueName::class, 1)->create([
                 'value_id'   => $new->id, 
                 'updated_by' => $new->updated_by,
             ]);
-        });
+        });*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

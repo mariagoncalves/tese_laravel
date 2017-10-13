@@ -15,6 +15,7 @@ class CreatePropertyCanReadEntTypeTable extends Migration
         Schema::create('property_can_read_ent_type', function (Blueprint $table) {
             $table->integer('reading_property')->unsigned();
             $table->integer('providing_ent_type')->unsigned();
+            $table->enum('output_type', ['popover', 'accordion']);
             $table->integer('updated_by')->nullable()->unsigned();
             $table->integer('deleted_by')->nullable()->unsigned();
             $table->timestamps();

@@ -13,7 +13,7 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        $datas = ['Administrador', 'Munícipe', 'Administrativo'];
+        /*$datas = ['Administrador', 'Munícipe', 'Administrativo'];
 
         foreach ($datas as $data) {
             $new = factory(Role::class, 1)->create();
@@ -32,7 +32,7 @@ class RoleTableSeeder extends Seeder
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'  => $new->updated_by,
             ]);
-        });
+        });*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

@@ -13,12 +13,12 @@ class RelationTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Relation::class, 6)->create()->each(function($new) {
+        /*factory(Relation::class, 6)->create()->each(function($new) {
             factory(RelationName::class, 1)->create([
                 'relation_id' => $new->id, 
                 'updated_by'  => $new->updated_by,
             ]);
-        });
+        });*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

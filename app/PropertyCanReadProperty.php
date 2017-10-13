@@ -22,9 +22,9 @@ class PropertyCanReadProperty extends Model
 
     protected $guarded = [];
 
-    /*public function property() {
+    public function property() {
         return $this->belongsTo('App\Property', 'providing_property', 'id');
-    }*/
+    }
 
     public function updatedBy() {
 

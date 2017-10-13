@@ -13,7 +13,7 @@ class EntTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        $datas = ['Transporte','Apoios','Concurso'];
+        /*$datas = ['Transporte','Apoios','Concurso'];
 
         foreach ($datas as $data) {
             $new = factory(EntType::class, 1)->create();
@@ -24,7 +24,7 @@ class EntTypeTableSeeder extends Seeder
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'  => $new->updated_by,
             ]);
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

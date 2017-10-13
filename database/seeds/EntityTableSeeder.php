@@ -13,7 +13,7 @@ class EntityTableSeeder extends Seeder
      */
     public function run()
     {
-        $datas = ['Transporte Crianças de escola', 'Apoio para concerto', 'Concurso Cidade Florida 2017'];
+        /*$datas = ['Transporte Crianças de escola', 'Apoio para concerto', 'Concurso Cidade Florida 2017'];
 
         foreach ($datas as $data) {
             $new = factory(Entity::class, 1)->create();
@@ -24,7 +24,7 @@ class EntityTableSeeder extends Seeder
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'  => $new->updated_by,
             ]);
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

@@ -12,7 +12,7 @@ class TransactionTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Transaction::class, 15)->create();
+        //factory(Transaction::class, 15)->create();
 
         //Fazendo seeds ao modo antigo
         $dados = [

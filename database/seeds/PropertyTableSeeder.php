@@ -14,7 +14,7 @@ class PropertyTableSeeder extends Seeder
      */
     public function run()
     {
-        $datas = ['Nome', 'Rua'];
+        /*$datas = ['Nome', 'Rua'];
         foreach ($datas as $data) {
             $new = factory(Property::class, 1)->create(['value_type' => 'text']);
 
@@ -48,7 +48,7 @@ class PropertyTableSeeder extends Seeder
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'  => $new->updated_by,
             ]);
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

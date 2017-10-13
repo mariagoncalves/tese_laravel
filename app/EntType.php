@@ -69,7 +69,7 @@ class EntType extends Model
     }*/
 
     public function providingEntTypes() {
-        return $this->belongsToMany('App\Property'), 'property_can_read_ent_type', 'providing_ent_type', 'reading_property')->withPivot('output_type','created_at','updated_at','deleted_at');
+        return $this->belongsToMany('App\Property', 'property_can_read_ent_type', 'providing_ent_type', 'reading_property')->withPivot('output_type','created_at','updated_at','deleted_at');
     }
 
     public function language() {

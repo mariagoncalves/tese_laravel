@@ -27,22 +27,22 @@ class Condicion extends Model
 
     public function operator() {
 
-        return $this->belongsTo('App\Operator');
+        return $this->belongsTo('App\Operator','operator_id', 'id');
     }
 
     public function query() {
 
-        return $this->belongsTo('App\Query');
+        return $this->belongsTo('App\Query','query_id', 'id');
     }
 
     public function property() {
 
-        return $this->belongsTo('App\Property');
+        return $this->belongsTo('App\Property','property_id', 'id');
     }
 
     public function value() {
 
-        return $this->belongsTo('App\Value');
+        return $this->belongsTo('App\Value','value_id', 'id');
     }
 
     public function updatedBy() {

@@ -13,7 +13,7 @@ class TStateTableSeeder extends Seeder
      */
     public function run()
     {
-        $datas = ['Pedido','Promessa','Execução','Afirmação','Aceitação'];
+        /*$datas = ['Pedido','Promessa','Execução','Afirmação','Aceitação'];
 
         foreach ($datas as $data) {
             $new = factory(TState::class, 1)->create();
@@ -24,7 +24,7 @@ class TStateTableSeeder extends Seeder
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'  => $new->updated_by,
             ]);
-        }
+        }*/
         
         //Fazendo seeds ao modo antigo
         $dados = [

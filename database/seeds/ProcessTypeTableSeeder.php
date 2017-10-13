@@ -13,7 +13,7 @@ class ProcessTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        $processes = [
+        /*$processes = [
             ['Gestão de Transportes', 'Transport Management'], 
             ['Gestão de Concursos',   'Contests Management'], 
             ['Gestão de Apoios',      'Support Management']
@@ -35,10 +35,10 @@ class ProcessTypeTableSeeder extends Seeder
                 'language_id'     => App\Language::where('slug', 'en')->first()->id,
                 'updated_by'      => $newProcess->updated_by,
             ]);
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
-        /*$dados = [
+        $dados = [
             [
                 'id'         => '1',           
                 'state'      => 'active',
@@ -67,6 +67,6 @@ class ProcessTypeTableSeeder extends Seeder
 
         foreach ($dados as $value) {
             ProcessType::create($value);
-        }*/
+        }
     }
 }

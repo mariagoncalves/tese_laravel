@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CustomFormHasTransactionType extends Model
+class CustomFormHasTransType extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'custom_form_has_transaction_type';
+    protected $table = 'custom_form_has_trans_type';
 
     public $timestamps = true;
 

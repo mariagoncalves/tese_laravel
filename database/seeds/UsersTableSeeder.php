@@ -12,12 +12,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Users::class, 1)->create(['name' => 'Maria', 'email' => 'maria@gmail.com']);
+        /*factory(Users::class, 1)->create(['name' => 'Maria', 'email' => 'maria@gmail.com']);
 
-        factory(Users::class, 6)->create();
+        factory(Users::class, 6)->create();*/
 
         //Fazendo seeds ao modo antigo
-        /*$dados = [
+        $dados = [
             [
                 'id'          => '1',           
                 'name'        => 'Maria',
@@ -42,6 +42,6 @@ class UsersTableSeeder extends Seeder
 
         foreach ($dados as $value) {
             Users::create($value);
-        }*/
+        }
     }
 }

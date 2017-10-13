@@ -22,10 +22,10 @@ class PropertyCanReadEntType extends Model
 
     protected $guarded = [];
 
-    /*public function entType() {
+    public function entType() {
 
         return $this->belongsTo('App\EntType', 'ent_type_info', 'id');
-    }*/
+    }
 
     public function updatedBy() {
 

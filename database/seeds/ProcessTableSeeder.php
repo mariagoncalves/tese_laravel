@@ -14,7 +14,7 @@ class ProcessTableSeeder extends Seeder
     public function run()
     {
 
-        $datas = ['Gestão nº1 a ocorrer', 'Gestão nº2 a ocorrer', 'Gestão nº3 a ocorrer'];
+        /*$datas = ['Gestão nº1 a ocorrer', 'Gestão nº2 a ocorrer', 'Gestão nº3 a ocorrer'];
 
         foreach ($datas as $data) {
             $new = factory(Process::class, 1)->create();
@@ -33,11 +33,11 @@ class ProcessTableSeeder extends Seeder
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'  => $new->updated_by,
             ]);
-        });
+        });*/
 
 
         //Fazendo seeds ao modo antigo
-        /*$dados = [
+        $dados = [
             [
                 'id'              => '1',           
                 'process_type_id' => '1',
@@ -50,6 +50,6 @@ class ProcessTableSeeder extends Seeder
 
         foreach ($dados as $value) {
             Process::create($value);
-        }*/
+        }
     }
 }

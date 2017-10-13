@@ -13,7 +13,7 @@ class PropUnitTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        $units = ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm'];
+        /*$units = ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm'];
 
         foreach ($units as $unit) {
             $newUnit = factory(PropUnitType::class, 1)->create();
@@ -23,10 +23,10 @@ class PropUnitTypeTableSeeder extends Seeder
                 'name'              => $unit,
                 'updated_by'        => $newUnit->updated_by,
             ]);
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
-        /*$dados = [
+        $dados = [
             [
                 'id'         => '1',           
                 'state'      => 'active',
@@ -55,6 +55,6 @@ class PropUnitTypeTableSeeder extends Seeder
 
         foreach ($dados as $value) {
             PropUnitType::create($value);
-        }*/
+        }
     }
 }

@@ -14,7 +14,7 @@ class PropAllowedValueTableSeeder extends Seeder
      */
     public function run()
     {
-        $properties = Property::where('value_type', 'enum')->get();
+        /*$properties = Property::where('value_type', 'enum')->get();
 
         foreach ($properties as $prop) {
             factory(PropAllowedValue::class, 5)->create(['property_id' => $prop->id])->each(function($new) {
@@ -23,7 +23,7 @@ class PropAllowedValueTableSeeder extends Seeder
                     'updated_by' => $new->updated_by,
                 ]);
             });
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

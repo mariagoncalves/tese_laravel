@@ -12,7 +12,7 @@ class LanguageTableSeeder extends Seeder
      */
     public function run()
     {
-        $dados = [
+        /*$dados = [
             [
                 'name'   => 'Português',
                 'slug'   => 'pt',
@@ -29,10 +29,10 @@ class LanguageTableSeeder extends Seeder
 
         foreach ($dados as $value) {
             factory(Language::class, 1)->create(['name' => $value['name'], 'slug' => $value['slug']]);
-        }
+        }*/
 
         //Fazendo seeds ao modo antigo
-        /*$dados = [
+        $dados = [
             [
                 'id'         => '1',           
                 'name'       => 'Português',
@@ -69,7 +69,7 @@ class LanguageTableSeeder extends Seeder
 
         foreach ($dados as $value) {
             Language::create($value);
-        }*/
+        }
 
     }
 }

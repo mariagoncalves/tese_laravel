@@ -13,7 +13,7 @@ class ActorTableSeeder extends Seeder
      */
     public function run()
     {
-        $datas = ['Decisor sobre cedencia de transporte', 'Decisor sobre cedencia de apoios', 'Requerente de transporte'];
+        /*$datas = ['Decisor sobre cedencia de transporte', 'Decisor sobre cedencia de apoios', 'Requerente de transporte'];
 
         foreach ($datas as $data) {
             $new = factory(Actor::class, 1)->create();
@@ -32,7 +32,7 @@ class ActorTableSeeder extends Seeder
                 'language_id' => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'  => $new->updated_by,
             ]);
-        });
+        });*/
 
         //Fazendo seeds ao modo antigo
         $dados = [

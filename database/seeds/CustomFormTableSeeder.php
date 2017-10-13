@@ -13,7 +13,7 @@ class CustomFormTableSeeder extends Seeder
      */
     public function run()
     {
-        $forms = ['Formulário de Cedência de Transporte', 'Formulário de Apoios', 'Formulário de Concursos'];
+        /*$forms = ['Formulário de Cedência de Transporte', 'Formulário de Apoios', 'Formulário de Concursos'];
 
         foreach ($forms as $form) {
             $newForm = factory(CustomForm::class, 1)->create();
@@ -32,10 +32,10 @@ class CustomFormTableSeeder extends Seeder
                 'language_id'    => App\Language::where('slug', 'pt')->first()->id,
                 'updated_by'     => $newForm->updated_by,
             ]);
-        });
+        });*/
 
         //Fazendo seeds ao modo antigo
-        /*$dados = [
+        $dados = [
             [
                 'id'         => '1',
                 'state'      => 'active',
@@ -64,6 +64,6 @@ class CustomFormTableSeeder extends Seeder
 
         foreach ($dados as $value) {
             CustomForm::create($value);
-        }*/
+        }
     }
 }
