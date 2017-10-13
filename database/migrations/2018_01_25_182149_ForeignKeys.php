@@ -37,7 +37,7 @@ class ForeignKeys extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
         });
-        Schema::table('custom_form_has_trans_type', function(Blueprint $table) {
+        Schema::table('custom_form_has_transaction_type', function(Blueprint $table) {
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
         });
@@ -237,7 +237,7 @@ class ForeignKeys extends Migration
         });
 //
 //
-        Schema::table('custom_form_has_trans_type', function(Blueprint $table) {
+        Schema::table('custom_form_has_transaction_type', function(Blueprint $table) {
             $table->foreign('transaction_type_id')->references('id')->on('transaction_type')->onDelete('no action')->onUpdate('no action');
             $table->foreign('custom_form_id')->references('id')->on('custom_form')->onDelete('no action')->onUpdate('no action');
             //$table->primary(array('transaction_type_id', 'custom_form_id'));
@@ -508,7 +508,7 @@ class ForeignKeys extends Migration
             $table->dropForeign(['t_state_id']);
             $table->dropForeign(['caused_t']);
         });
-        Schema::table('custom_form_has_trans_type', function (Blueprint $table) {
+        Schema::table('custom_form_has_transaction_type', function (Blueprint $table) {
             $table->dropForeign(['transaction_type_id']);
             $table->dropForeign(['custom_form_id']);
         });
@@ -700,7 +700,7 @@ class ForeignKeys extends Migration
             $table->dropForeign(['updated_by']);
             $table->dropForeign(['deleted_by']);
         });
-        Schema::table('custom_form_has_trans_type', function (Blueprint $table) {
+        Schema::table('custom_form_has_transaction_type', function (Blueprint $table) {
             $table->dropForeign(['updated_by']);
             $table->dropForeign(['deleted_by']);
         });

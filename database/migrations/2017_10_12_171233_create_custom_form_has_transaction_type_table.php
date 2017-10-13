@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomFormHasTransTypeTable extends Migration
+class CreateCustomFormHasTransactionTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCustomFormHasTransTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom_form_has_trans_type', function (Blueprint $table) {
+        Schema::create('custom_form_has_transaction_type', function (Blueprint $table) {
             $table->integer('custom_form_id')->unsigned();
             $table->integer('transaction_type_id')->unsigned();
             $table->integer('field_order')->nullable();
@@ -32,6 +32,6 @@ class CreateCustomFormHasTransTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('custom_form_has_trans_type');
+        Schema::dropIfExists('custom_form_has_transaction_type');
     }
 }
