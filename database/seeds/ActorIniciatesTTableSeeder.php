@@ -12,7 +12,7 @@ class ActorIniciatesTTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(ActorIniciatesT::class, 2)->create();
+        //factory(ActorIniciatesT::class, 2)->create();
 
         //Fazendo seeds ao modo antigo
         $dados = [

@@ -71,7 +71,7 @@ class EntityTableSeeder extends Seeder
                 'transaction_state_id' => '1',
                 'updated_by'           => '1',
                 'deleted_by'           => NULL
-            ]
+            ],
             [
                 'id'                   => '7',
                 'ent_type_id'          => '5',

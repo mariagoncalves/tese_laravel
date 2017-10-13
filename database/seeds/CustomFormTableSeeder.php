@@ -43,19 +43,19 @@ class CustomFormTableSeeder extends Seeder
                 'deleted_by' => NULL
             ],
             [
-                'id'         => '1',
+                'id'         => '2',
                 'state'      => 'active',
                 'updated_by' => '1',
                 'deleted_by' => NULL
             ],
             [
-                'id'         => '1',
+                'id'         => '3',
                 'state'      => 'active',
                 'updated_by' => '1',
                 'deleted_by' => NULL
             ],
             [
-                'id'         => '1',
+                'id'         => '4',
                 'state'      => 'active',
                 'updated_by' => '1',
                 'deleted_by' => NULL

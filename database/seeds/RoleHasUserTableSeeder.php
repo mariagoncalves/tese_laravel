@@ -12,7 +12,7 @@ class RoleHasUserTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(RoleHasUser::class, 2)->create();
+        //factory(RoleHasUser::class, 2)->create();
 
         //Fazendo seeds ao modo antigo
         $dados = [
@@ -23,7 +23,7 @@ class RoleHasUserTableSeeder extends Seeder
                 'deleted_by' => NULL
         	],
         	[	'role_id'    => '2',
-        		'actor_id'   => '2',
+        		'user_id'    => '2',
                 'updated_by' => '1',
                 'deleted_by' => NULL
         	]

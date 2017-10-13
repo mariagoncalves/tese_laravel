@@ -35,7 +35,7 @@ class ProcessTypeNameTableSeeder extends Seeder
                 'deleted_by'      => NULL
         	],
             [
-                'process_type_id' => '3',
+                'process_type_id' => '4',
                 'language_id'     => '1',
                 'name'            => 'Gestão de pessoas',
                 'updated_by'      => '1',

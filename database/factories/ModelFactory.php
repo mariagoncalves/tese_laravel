@@ -11,7 +11,7 @@
 |
 */
 
-/*$factory->define(App\Language::class, function (Faker\Generator $faker, $attributes) {
+$factory->define(App\Language::class, function (Faker\Generator $faker, $attributes) {
     $name = ''; $slug = ''; $updated_by = NULL; $deleted_by = NULL;
 
     if (isset($attributes['updated_by']) && $attributes['updated_by'] != "") {
@@ -52,7 +52,7 @@ $factory->define(App\Users::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\PropUnitType::class, function (Faker\Generator $faker) {
+/*$factory->define(App\PropUnitType::class, function (Faker\Generator $faker) {
     return [
         'state'      => 'active',
         'updated_by' => App\Users::all()->random()->id,

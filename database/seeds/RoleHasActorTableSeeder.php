@@ -12,7 +12,7 @@ class RoleHasActorTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(RoleHasActor::class, 2)->create();
+        //factory(RoleHasActor::class, 2)->create();
 
         //Fazendo seeds ao modo antigo
         $dados = [

@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguageTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(PropUnitTypeTableSeeder::class);
-         $this->call(PropUnitTypeNameTableSeeder::class); //(Remover)
+        $this->call(PropUnitTypeNameTableSeeder::class); //(Remover)
         $this->call(ProcessTypeTableSeeder::class);
         $this->call(ProcessTypeNameTableSeeder::class); //(Remover)
         $this->call(CustomFormTableSeeder::class);
-         $this->call(CustomFormNameTableSeeder::class); //(Remover)
+        $this->call(CustomFormNameTableSeeder::class); //(Remover)
         $this->call(RoleTableSeeder::class);
         $this->call(RoleNameTableSeeder::class); //(Remover)
         $this->call(ActorTableSeeder::class);
@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
        $this->call(PropertyNameTableSeeder::class); //(Remover)
 
         $this->call(ValueTableSeeder::class);
-        $this->call(ValueNameTableSeeder::class); //(Remover)
+        //$this->call(ValueNameTableSeeder::class); //(Remover)
 
         $this->call(PropAllowedValueTableSeeder::class);
         $this->call(PropAllowedValueNameTableSeeder::class); //(Remover)
