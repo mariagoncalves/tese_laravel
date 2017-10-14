@@ -322,6 +322,46 @@ class ValueTableSeeder extends Seeder
                 'updated_by'  => '1',
                 'deleted_by'  => NULL
             ],
+            [
+                'id'          => '31',
+                'entity_id'   => '10',
+                'property_id' => '13',
+                'value'       => 'Maria',
+                'relation_id' => NULL,
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '32',
+                'entity_id'   => '10',
+                'property_id' => '14',
+                'value'       => '123456799',
+                'relation_id' => NULL,
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '33',
+                'entity_id'   => '10',
+                'property_id' => '15',
+                'value'       => 'Estudante',
+                'relation_id' => NULL,
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '34',
+                'entity_id'   => '10',
+                'property_id' => '16',
+                'value'       => 'Santo da Serra',
+                'relation_id' => NULL,
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ]
 
         ];
 
