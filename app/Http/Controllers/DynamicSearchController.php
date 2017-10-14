@@ -331,19 +331,73 @@ class DynamicSearchController extends Controller
             }
         }
 
-        /*foreach ($entitiesIdsTable1 as $id_entity) {
-            $name = Entity::find($id_entity)->with('');
+        //********************************************TESTES MARIA*********************************************************
 
-            $query = $query->whereHas('values', function($q) use ($name) {
-                                $q->where('value', $name);
+        foreach ($entitiesIdsTable1 as $id_entity) {
+            /*$name = Entity::find($id_entity)->with(['language' => function($query) use ($language_id) {
+                            $query->where('language_id', $language_id);
+                        }]);*/
+
+            $nameE = Entity::with(['language' => function($query) use ($language_id) {
+                            $query->where('language_id', $language_id);
+                        }])
+                        ->find($id_entity);
+
+            $nameInstance = $nameE->language[0]->pivot->name;
+
+            \Log::debug("NOMEEE DA ENTIDADEEEEEEEEEEEEEEEEEEEEEEE");
+            \Log::debug($nameInstance);
+            \Log::debug("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            \Log::debug($nameE);
+
+            //*******************************************FIM***************************************************************
+
+            $query = $query->whereHas('values', function($q) use ($nameInstance) {
+                                $q->where('value', $nameInstance);
                             });
-        }*/
+
+            \Log::debug("VALOR DA QUERYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+            \Log::debug($query->toSql());
+        }
 
         //\Log::debug($queryTable2->distinct('id')->toSql());
         $resultTable2 = $queryTable2->distinct('id')->get(['id'])->toArray();
 
         $entitiesIdsTable2 = $this->formatArrayData($resultTable2, 'id');
         \Log::debug($entitiesIdsTable2);
+
+        //*********************************************************TESTESMARIA*******************************************+
+        /*foreach ($entitiesIdsTable2 as $id_entity2) {
+
+            $dataV = Value::where('entity_id', $id_entity2)
+                             //PREGO!! TENHO DE IR BUSCAR O ID DA PROPRIEDADE
+                            ->where('property_id', '16')
+                            ->get();
+
+
+            \Log::debug("NDATAAAAAAAAAAAAAAAAAAAE VVVVVVV");
+            \Log::debug($dataV);
+
+            $valueV = $dataV[0]->value;
+
+
+            \Log::debug("NVALUEEEEEEEEEEEEEEEEEEEEE VVVVVVV");
+            \Log::debug($valueV);
+
+            if ($valueV == $nameInstance) {
+                \Log::debug("DÁ ALGUMA COISAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADFDFD");
+            }
+
+            $query = $query->whereHas('values', function($q) use ($nameInstance) {
+                    $q->where('value', $nameInstance);
+                });
+            
+
+            \Log::debug("VALOR DA QUERYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+            \Log::debug($query->toSql());
+        }*/
+        //******************************FIM*************************************************************
+
 
         if ($selectTable2 == true) {
             // Adicionar a query geral filtros da tabela 2 
