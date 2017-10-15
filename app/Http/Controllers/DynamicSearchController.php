@@ -312,11 +312,6 @@ class DynamicSearchController extends Controller
         $entitiesIdsTable1 = $this->formatArrayData($resultTable1, 'id');
         \Log::debug($entitiesIdsTable1);
 
-        // Adicionar a query geral filtros da tabela 1 
-        $query = $query->where(function($q) use ($idEntityType, $entitiesIdsTable1) {
-                $q->where('ent_type_id', $idEntityType)->whereIn('id', $entitiesIdsTable1);
-            });
-
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 2): ");
 
         // Formar a frase da tabela 2
@@ -333,31 +328,38 @@ class DynamicSearchController extends Controller
 
         //********************************************TESTES MARIA*********************************************************
 
-        foreach ($entitiesIdsTable1 as $id_entity) {
-            /*$name = Entity::find($id_entity)->with(['language' => function($query) use ($language_id) {
-                            $query->where('language_id', $language_id);
-                        }]);*/
+        if ($selectTable2) {
+            foreach ($entitiesIdsTable1 as $id_entity) {
+                /*$name = Entity::find($id_entity)->with(['language' => function($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }]);*/
 
-            $nameE = Entity::with(['language' => function($query) use ($language_id) {
-                            $query->where('language_id', $language_id);
-                        }])
-                        ->find($id_entity);
+                $nameE = Entity::with(['language' => function($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->find($id_entity);
 
-            $nameInstance = $nameE->language[0]->pivot->name;
+                $nameInstance = $nameE->language[0]->pivot->name;
 
-            \Log::debug("NOMEEE DA ENTIDADEEEEEEEEEEEEEEEEEEEEEEE");
-            \Log::debug($nameInstance);
-            \Log::debug("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            \Log::debug($nameE);
+                \Log::debug("NOMEEE DA ENTIDADEEEEEEEEEEEEEEEEEEEEEEE");
+                \Log::debug($nameInstance);
+                \Log::debug("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                \Log::debug($nameE);
 
-            //*******************************************FIM***************************************************************
+                //******************************************* FIM ***************************************************************
 
-            $query = $query->whereHas('values', function($q) use ($nameInstance) {
-                                $q->where('value', $nameInstance);
-                            });
+                $queryTable2 = $queryTable2->whereHas('values', function($q) use ($nameInstance) {
+                                    $q->OrWhere('value', $nameInstance);
+                                });
 
-            \Log::debug("VALOR DA QUERYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
-            \Log::debug($query->toSql());
+                \Log::debug("VALOR DA QUERYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+                \Log::debug($query->toSql());
+            }
+        } else {
+            // Adicionar a query geral filtros da tabela 1 
+            $query = $query->where(function($q) use ($idEntityType, $entitiesIdsTable1) {
+                    $q->where('ent_type_id', $idEntityType)->whereIn('id', $entitiesIdsTable1);
+                });
         }
 
         //\Log::debug($queryTable2->distinct('id')->toSql());
