@@ -297,9 +297,11 @@ class DynamicSearchController extends Controller
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 1): ");
 
         // Formar a frase da tabela 1 e pesquisar de acordo com a pesquisa efetuada na tabela 1
+        $selectTable1 = false;
         $queryTable1 = new Entity;
         for ($i=0; $i < $data['numTableET']; $i++) { 
             if (isset($data['checkET'.$i])) {
+                $selectTable1 = true;
                 $phrase = $this->formPhraseTableType($data, $data['checkET'.$i], 'ET', $i, $phrase, $query);
 
                 $this->formQueryTable1AndTable2($data, $data['checkET'.$i], 'ET', $i, $queryTable1);
@@ -344,8 +346,8 @@ class DynamicSearchController extends Controller
 
                     $nameInstance = $nameE->language[0]->pivot->name;
 
-                    \Log::debug("NOMEEE DA ENTIDADEEEEEEEEEEEEEEEEEEEEEEE");
-                    \Log::debug($nameInstance);
+                    //\Log::debug("NOMEEE DA ENTIDADEEEEEEEEEEEEEEEEEEEEEEE");
+                    //\Log::debug($nameInstance);
 
                     $dataV = Value::where('entity_id', $id_entity2)
                                   ->where('value', $nameInstance)
@@ -361,7 +363,7 @@ class DynamicSearchController extends Controller
                     unset($entitiesIdsTable2[$key]);
                 }
             }
-        } else {
+        } else if ($selectTable1) {
             // Adicionar a query geral filtros da tabela 1 
             $query = $query->where(function($q) use ($idEntityType, $entitiesIdsTable1) {
                     $q->where('ent_type_id', $idEntityType)->whereIn('id', $entitiesIdsTable1);
@@ -376,21 +378,89 @@ class DynamicSearchController extends Controller
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 3): ");
+        //Para a 3º tabela é suposto me aparecer as instancias das entidades pertencentes à relação
 
+        $queryTable3 = new Relation;
+        $selectTable3 = false;
         // Formar a frase da tabela 3
         for ($i=0; $i < $data['numTableRL']; $i++) { 
             if (isset($data['checkRL'.$i])) {
-
+                $selectTable3 = true;
                 $phrase = $this->formPhraseTableType($data, $data['checkRL'.$i], 'RL', $i, $phrase, $query);
+
+                $this->formQueryTable1AndTable2($data, $data['checkRL'.$i], 'RL', $i, $queryTable3);
             }
         }
+        //Trazia todos os dados da relaçlão mas especifiquei que só quero o entity1_id e entity2_id
+        $resultTable3 = $queryTable3->distinct('id')->get(['entity1_id', 'entity2_id'])->toArray();
+        //\Log::debug($resultTable3);
 
+
+        $entitiesIdsTable3 = [];
+
+        foreach ($resultTable3 as $key => $value) {
+
+            //Para não meter valores repetidos no array
+
+            if(!in_array($value['entity1_id'], $entitiesIdsTable3)) {
+                $entitiesIdsTable3[] = $value['entity1_id'];
+            }
+
+            if(!in_array($value['entity2_id'], $entitiesIdsTable3)) {
+                $entitiesIdsTable3[] = $value['entity2_id'];
+            }
+
+            //\Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ARRAYYYYYYYYYYYY: ");
+            //\Log::debug($entitiesIdsTable3);
+        }
+
+        \Log::debug($entitiesIdsTable3);
+
+        \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 4): ");
+
+
+        $queryTable4 = new Entity;
+        $selectTable4 = false;
         // Formar a frase da tabela 4
         for ($i=0; $i < $data['numTableER']; $i++) { 
-            if (isset($data['checkER'.$i])) {                
+            if (isset($data['checkER'.$i])) {  
+                $selectTable4 = true;              
                 $phrase = $this->formPhraseTableType($data, $data['checkER'.$i], 'ER', $i, $phrase, $query);
+
+                $this->formQueryTable1AndTable2($data, $data['checkER'.$i], 'ER', $i, $queryTable4);
             }
         }
+
+        //Trazia todos os dados da relaçlão mas especifiquei que só quero o entity1_id e entity2_id
+        $resultTable4 = $queryTable4->distinct('id')->get(['id'])->toArray();
+
+        $entitiesIdsTable4 = $this->formatArrayData($resultTable4, 'id');
+        \Log::debug($entitiesIdsTable4);
+
+        foreach ($entitiesIdsTable4 as $key => $entitiesId) {
+            if (!in_array($entitiesId, $entitiesIdsTable3)) {
+                unset($entitiesIdsTable4[$key]);
+            }
+        }
+
+        \Log::debug("DEPOIS: ");
+        \Log::debug($entitiesIdsTable4);
+
+        if ($selectTable4) {
+            // Adicionar a query geral filtros da tabela 4 
+            //Busco as instancias dos ids que eu tenho no array
+            $query = $query->OrWhere(function($q) use ($entitiesIdsTable4) {
+                            $q->whereIn('id', $entitiesIdsTable4);
+                        });
+        } else if ($selectTable3) {
+            // Adicionar a query geral filtros da tabela 3 
+            //Busco as instancias dos ids que eu tenho no array
+            $query = $query->OrWhere(function($q) use ($idEntityType, $entitiesIdsTable3) {
+                            $q->whereIn('id', $entitiesIdsTable3);
+                        });
+        }
+
+
 
         return $phrase;
     }
