@@ -11,17 +11,17 @@ class PropertiesController extends Controller {
 
     //Common methods of relations and entities
     public function getStates() {
-        $states = Property::getValoresEnum('state');
+        $states = Property::getValoresEnum('state', 'property');
         return response()->json($states);
     }
 
     public function getValueTypes() {
-        $valueTypes = Property::getValoresEnum('value_type');
+        $valueTypes = Property::getValoresEnum('value_type', 'property');
         return response()->json($valueTypes);
     }
 
     public function getFieldTypes() {
-        $fieldTypes = Property::getValoresEnum('form_field_type');
+        $fieldTypes = Property::getValoresEnum('form_field_type', 'property');
         return response()->json($fieldTypes);
     }
 

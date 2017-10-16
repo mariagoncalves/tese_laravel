@@ -413,4 +413,10 @@ class PropertiesOfEntitiesController extends Controller {
 
         return response()->json(['error' => 'An error occurred. Try later.'], 500);
     }
+
+    public function getOutputTypes () {
+
+        $outputTypes = Property::getValoresEnum('output_type', 'property_can_read_property');
+        return response()->json($outputTypes);
+    }
 }

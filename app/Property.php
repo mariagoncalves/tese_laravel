@@ -107,8 +107,8 @@ class Property extends Model
     }
 
     //$name é o nome do campo do qual quero obter os valores enum
-    public static function getValoresEnum($name){
-        $type = DB::select(DB::raw('SHOW COLUMNS FROM property WHERE Field = "'.$name.'"'))[0]->Type;
+    public static function getValoresEnum($name, $table){
+        $type = DB::select(DB::raw('SHOW COLUMNS FROM '.$table.' WHERE Field = "'.$name.'"'))[0]->Type;
         preg_match('/^enum\((.*)\)$/', $type, $matches);
         $values = array();
         foreach(explode(',', $matches[1]) as $value){
@@ -116,6 +116,5 @@ class Property extends Model
         }
         return $values;
     }
-
 
 }

@@ -132,6 +132,15 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
     };
 
+    $scope.getOutputTypes = function () {
+
+        $http.get('/properties/outputTypes').then(function(response) {
+            $scope.outputTypes = response.data;
+            console.log($scope.outputTypes);
+        });
+
+    }
+
     $scope.openModalPropsEnt = function (size, modalstate, id, parentSelector) {
 
         var modalInstance = $uibModal.open({

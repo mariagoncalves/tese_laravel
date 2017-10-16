@@ -49,7 +49,7 @@ class RelationManagement extends Controller
 
     public function getStates() {
 
-        $states = RelType::getValoresEnum('state');
+        $states = RelType::getValoresEnum('state', 'property');
         return response()->json($states);
     }
 

@@ -169,6 +169,19 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- Só deve aparecer caso escolha propriedades de entidades -->
+            <div class="form-group" ng-init="getOutputTypes()">
+                <label for="Gender" class="col-sm-3 control-label"> Output Type:</label>
+                <div class="col-sm-9">
+                    <label class="radio-inline outputTypes" ng-repeat="outputType in outputTypes">
+                        <input type="radio" name="property_outputType" value="[[ outputType ]]">[[ outputType ]]
+                    </label>
+                    <ul ng-repeat="error in errors.property_outputType" style="padding-left: 15px;">
+                        <li>[[ error ]]</li>
+                    </ul>
+                </div>
+            </div>
         </form>
     </div>
     <div class="modal-footer">

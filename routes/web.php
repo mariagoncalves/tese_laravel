@@ -192,7 +192,7 @@ Route::get('/modalConfirm', function () {
 });
 
 
-
+Route::get('/properties/outputTypes', 'PropertiesOfEntitiesController@getOutputTypes');
 
 
 //----------------------------------Propriedades da Relação----------------------------------------------------
