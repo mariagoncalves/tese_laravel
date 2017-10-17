@@ -61,12 +61,14 @@ class DynamicSearchController extends Controller
 
     public function getOperators() {
 
-        $operators = array(
+        /*$operators = array(
             "lower"=>"<",
             "greater"=>">",
             "equal"=>"=",
             "different"=>"!="
-            );
+            );*/
+
+        $operators = Property::getValoresEnum('operator_type', 'operator');
 
         return response()->json($operators);
    }
@@ -393,7 +395,7 @@ class DynamicSearchController extends Controller
         }
         //Trazia todos os dados da relaçlão mas especifiquei que só quero o entity1_id e entity2_id
         $resultTable3 = $queryTable3->distinct('id')->get(['entity1_id', 'entity2_id'])->toArray();
-        //\Log::debug($resultTable3);
+        \Log::debug($resultTable3);
 
 
         $entitiesIdsTable3 = [];
@@ -409,9 +411,6 @@ class DynamicSearchController extends Controller
             if(!in_array($value['entity2_id'], $entitiesIdsTable3)) {
                 $entitiesIdsTable3[] = $value['entity2_id'];
             }
-
-            //\Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ARRAYYYYYYYYYYYY: ");
-            //\Log::debug($entitiesIdsTable3);
         }
 
         \Log::debug($entitiesIdsTable3);
@@ -431,8 +430,10 @@ class DynamicSearchController extends Controller
             }
         }
 
-        //Trazia todos os dados da relaçlão mas especifiquei que só quero o entity1_id e entity2_id
+        //Trazia todos os dados da entidade mas especifiquei que só quero o id
         $resultTable4 = $queryTable4->distinct('id')->get(['id'])->toArray();
+        //\Log::debug("RESULT TABELA 4");
+        //\Log::debug($resultTable4);
 
         $entitiesIdsTable4 = $this->formatArrayData($resultTable4, 'id');
         \Log::debug($entitiesIdsTable4);
@@ -558,9 +559,45 @@ class DynamicSearchController extends Controller
             $valueQuery = $data['radio'.$type.$position];
         }
 
-        $queryTable1 = $queryTable1->whereHas('values', function($q) use ($idProperty, $operatorQuery, $valueQuery) {
+        if($valueQuery == "") {
+            if ($type == 'ET') {
+
+                \Log::debug("TA A ENTRAR NA TABEL 1 ET");
+
+                $valores = Value::where('property_id', $idProperty)->get(['entity_id', 'value'])->toArray();
+
+                \Log::debug("VALORES DA QUERY");
+                \Log::debug($valores);
+
+                $saveIds = [];
+                foreach ($valores as $key => $value) {
+                    $saveIds[] = $value['entity_id'];
+                }
+
+                \Log::debug("RESULTADO DOS SAVEIDS");
+                \Log::debug($saveIds);
+
+                $queryTable1 = $queryTable1->OrWhere(function($q) use ($saveIds) {
+                            $q->whereIn('id', $saveIds);
+                        });
+
+                \Log::debug("RESULTADO DA QUERY FINALLLL");
+                \Log::debug($queryTable1->toSql());
+            } else if ($type == 'VT') {
+
+                //Mas nem tou a fazer nada e tá a funcionar???
+                \Log::debug("TA A ENTRAR NA TABEL 2 VT");
+
+            }
+        } else {
+            $queryTable1 = $queryTable1->whereHas('values', function($q) use ($idProperty, $operatorQuery, $valueQuery) {
                                         $q->where('property_id', $idProperty)->where('value', $operatorQuery, $valueQuery);
                                     });
+        }
+
+        /*$queryTable1 = $queryTable1->whereHas('values', function($q) use ($idProperty, $operatorQuery, $valueQuery) {
+                                        $q->where('property_id', $idProperty)->where('value', $operatorQuery, $valueQuery);
+                                    });*/
     }
 
     public function formatArrayData($data, $keySelect) {
