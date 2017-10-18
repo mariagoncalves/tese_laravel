@@ -241,11 +241,6 @@ class DynamicSearchController extends Controller
         return response()->json($entsRelated);
     }
 
-    /*public function viewDynamicSearch() {
-
-        return view('dynamicSearchPresentation');
-    }*/
-
     public function search(Request $request, $idEntityType) {
         $data        = $request->all();
         $language_id = '1';

@@ -70,11 +70,11 @@ class Property extends Model
     }
 
     public function propertyCanReadProperty () {
-        return $this->belongsToMany('App\Property', 'property_can_read_property', 'reading_property', 'providing_property')->withPivot('created_at','updated_at','deleted_at');
+        return $this->belongsToMany('App\Property', 'property_can_read_property', 'reading_property', 'providing_property')->withPivot('output_type', 'created_at','updated_at','deleted_at');
     }
 
     public function propertiesProviding() {
-        return $this->belongsToMany('App\Property', 'property_can_read_property', 'providing_property', 'reading_property')->withPivot('created_at','updated_at','deleted_at');
+        return $this->belongsToMany('App\Property', 'property_can_read_property', 'providing_property', 'reading_property')->withPivot('output_type', 'created_at','updated_at','deleted_at');
     }
 
     public function language() {

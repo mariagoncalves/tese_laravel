@@ -16,6 +16,7 @@ class PropertyCanReadEntType extends Model
     protected $fillable = [
         'reading_property',
         'providing_ent_type',
+        'output_type',
 		'updated_by',
         'deleted_by'
     ];

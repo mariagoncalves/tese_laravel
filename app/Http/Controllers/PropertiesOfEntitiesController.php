@@ -64,9 +64,11 @@ class PropertiesOfEntitiesController extends Controller {
             $rulesFieldType = ['required'];
             $rulesEntRef = ['integer'];
             $rulePropRef = ['integer'];
- 
-            $ruleEntTypeInfo = [];
-            $rulePropInfo = [];
+            $ruleOutputType = [];
+    
+            //Se está vazio nem coloco nas regras
+            //$ruleEntTypeInfo = [];
+            //$rulePropInfo = [];
 
             //Remover o number por causa das validações
             if (isset($data['reference_entity']) && $data['reference_entity'] != '') {
@@ -87,13 +89,18 @@ class PropertiesOfEntitiesController extends Controller {
                 $rulePropRef = ['required', 'integer'];
             } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'file') {
                 $rulesFieldType = ['required', Rule::in(['file']),];
-            } /*else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
-                $rulesFieldType = ['required', Rule::in(['text']),];
-                $ruleEntTypeInfo = 'required_without_all:propselect';
-                $rulePropInfo = 'required_without_all:ent_types_select';
-            }*/ else {
+            } else {
                 $rulesFieldType = ['required', Rule::in(['number']),];
             }
+
+            if (isset($data['ent_types_select']) && $data['ent_types_select'] != '') {
+                $ruleOutputType = ['required'];
+            }
+
+            if (isset($data['propselect']) && $data['propselect'] != '') {
+                $ruleOutputType = ['required'];
+            }
+
 
             $rules = [
                 'entity_type'              => ['required', 'integer'],
@@ -106,8 +113,9 @@ class PropertiesOfEntitiesController extends Controller {
                 'property_state'           => ['required'],
                 'reference_entity'         => $rulesEntRef,
                 'fk_property'              => $rulePropRef,
-                'ent_types_select'         => $ruleEntTypeInfo, //'required_without_all:propselect',
-                'propselect'               =>  $rulePropInfo //'required_without_all:ent_types_select'
+                //'ent_types_select'         => $ruleEntTypeInfo, //'required_without_all:propselect',
+                //'propselect'               => $rulePropInfo //'required_without_all:ent_types_select'
+                'property_outputType'      => $ruleOutputType,
             ];
 
             $err = Validator::make($data, $rules);
@@ -183,6 +191,9 @@ class PropertiesOfEntitiesController extends Controller {
             ];
             PropertyName::create($dataProp);
 
+            $output_type = $data['property_outputType'];
+            \Log::debug($output_type);
+
             // Adicionar propriedades na nova propriedade
             if(isset($data['propselect']) && $data['propselect']) {
                 $propselect = explode(',', $data['propselect']);
@@ -190,7 +201,7 @@ class PropertiesOfEntitiesController extends Controller {
                 foreach($propselect as $prop){
                     $prop_id = str_replace('number:', '', $prop);
                     
-                    PropertyCanReadProperty::create(['reading_property' => $idNewProp, 'providing_property' => $prop_id]);
+                    PropertyCanReadProperty::create(['reading_property' => $idNewProp, 'providing_property' => $prop_id, 'output_type' => $output_type]);
                 }
             }
 
@@ -202,7 +213,7 @@ class PropertiesOfEntitiesController extends Controller {
                 foreach ($ent_types_select as $enti) {
                     $enti_id = str_replace('number:', '', $enti);
 
-                    PropertyCanReadEntType::create(['reading_property' => $idNewProp, 'providing_ent_type' => $enti_id]);
+                    PropertyCanReadEntType::create(['reading_property' => $idNewProp, 'providing_ent_type' => $enti_id, 'output_type' => $output_type]);
                 }
             }
 
@@ -230,9 +241,10 @@ class PropertiesOfEntitiesController extends Controller {
         $rulesFieldType = ['required'];
         $rulesEntRef = ['integer'];
         $rulePropRef = ['integer'];
+        $ruleOutputType = [];
 
-        $ruleEntTypeInfo = [];
-        $rulePropInfo = [];
+        //$ruleEntTypeInfo = [];
+        //$rulePropInfo = [];
 
        //Remover o number por causa das validações (tem de ser inteiro)
         if (isset($data['reference_entity']) && $data['reference_entity'] != '') {
@@ -254,12 +266,16 @@ class PropertiesOfEntitiesController extends Controller {
             $rulePropRef = ['required', 'integer'];
         } else if (isset($data['property_valueType']) && $data['property_valueType'] == 'file') {
             $rulesFieldType = ['required', Rule::in(['file']),];
-        } /*else if (isset($data['property_valueType']) && $data['property_valueType'] == 'info') {
-            $rulesFieldType = ['required', Rule::in(['text']),];
-            $ruleEntTypeInfo = 'required_without_all:propselect';
-            $rulePropInfo = 'required_without_all:ent_types_select';
-        }*/ else {
+        } else {
             $rulesFieldType = ['required', Rule::in(['number']),];
+        }
+
+         if (isset($data['ent_types_select']) && $data['ent_types_select'] != '') {
+            $ruleOutputType = ['required'];
+        }
+
+        if (isset($data['propselect']) && $data['propselect'] != '') {
+            $ruleOutputType = ['required'];
         }
 
         $rules = [
@@ -273,8 +289,9 @@ class PropertiesOfEntitiesController extends Controller {
             'property_fieldSize'  => $propertyFieldSize,
             'reference_entity'    => $rulesEntRef,
             'fk_property'         => $rulePropRef,
-            'ent_types_select'    => $ruleEntTypeInfo, //'required_without_all:propselect',
-            'propselect'          => $rulePropInfo //'required_without_all:ent_types_select'
+            //'ent_types_select'    => $ruleEntTypeInfo, //'required_without_all:propselect',
+            //'propselect'          => $rulePropInfo //'required_without_all:ent_types_select'
+            'property_outputType' => $ruleOutputType
 
         ];
 
@@ -323,7 +340,8 @@ class PropertiesOfEntitiesController extends Controller {
                     ->where('language_id', 1)
                     ->update($dataName);
 
-
+        $output_type = $data['property_outputType'];
+        \Log::debug($output_type);
 
          PropertyCanReadProperty::where('reading_property', $id)->delete();
          PropertyCanReadEntType::where('reading_property', $id)->delete();
@@ -338,7 +356,7 @@ class PropertiesOfEntitiesController extends Controller {
            foreach($propselect as $prop){
                 $prop_id = str_replace('number:', '', $prop);
                 
-                PropertyCanReadProperty::create(['reading_property' => $id, 'providing_property' => $prop_id]);
+                PropertyCanReadProperty::create(['reading_property' => $id, 'providing_property' => $prop_id, 'output_type' => $output_type]);
             }
         }
 
@@ -352,7 +370,7 @@ class PropertiesOfEntitiesController extends Controller {
            foreach($ent_types_select as $entityType){
                 $entityType_id = str_replace('number:', '', $entityType);
                 
-                PropertyCanReadEntType::create(['reading_property' => $id, 'providing_ent_type' => $entityType_id]);
+                PropertyCanReadEntType::create(['reading_property' => $id, 'providing_ent_type' => $entityType_id, 'output_type' => $output_type]);
             }
         }
 

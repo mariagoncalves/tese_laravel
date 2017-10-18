@@ -149,7 +149,7 @@
             <div class="form-group">
                 <label for="ent_types_select" class="col-sm-3 control-label">Entity_type_info:</label>
                 <div class="col-sm-9">
-                    <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" name="ent_types_select" ng-model="ent_types_select">
+                    <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" name="ent_types_select" ng-model="ent_types_select" ng-change = "blockUnblockOutputType()">
                     </select>
 
                     <ul ng-repeat="error in errors.ent_types_select" style="padding-left: 15px;">
@@ -162,7 +162,7 @@
             <div class="form-group">
                 <label for="propselect" class="col-sm-3 control-label">Property_info:</label>
                 <div class="col-sm-9">
-                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect">
+                    <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect" ng-change = "blockUnblockOutputType()">
                     </select>
                     <ul ng-repeat="error in errors.propselect" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
@@ -172,10 +172,10 @@
 
             <!-- Só deve aparecer caso escolha propriedades de entidades -->
             <div class="form-group" ng-init="getOutputTypes()">
-                <label for="Gender" class="col-sm-3 control-label"> Output Type:</label>
+                <label for="property_outputType" class="col-sm-3 control-label"> Output Type:</label>
                 <div class="col-sm-9">
-                    <label class="radio-inline outputTypes" ng-repeat="outputType in outputTypes">
-                        <input type="radio" name="property_outputType" value="[[ outputType ]]">[[ outputType ]]
+                    <label class="radio-inline outputType" ng-repeat="outputType in outputTypes">
+                        <input type="radio" name="property_outputType" value="[[ outputType ]]" ng-checked="((outputType == property.property_can_read_property[0].pivot.output_type) || (outputType == property.reading_ent_types[0].pivot.output_type))" ng-disabled="true">[[ outputType ]]
                     </label>
                     <ul ng-repeat="error in errors.property_outputType" style="padding-left: 15px;">
                         <li>[[ error ]]</li>

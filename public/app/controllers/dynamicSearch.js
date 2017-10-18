@@ -94,6 +94,27 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
+    $scope.teste = function () {
+        /*console.log("FOI CLICADO");
+
+        var res = $('#checkRL').find('[type=checkbox]:checked').length;
+
+        if(res > 0) {
+            console.log("Pelo menos um tá selecionado");
+
+            var res1 = $('#checkET').find('[type=checkbox]:checked').length;
+            console.log("Resultado do res2: " + res1);
+
+            if (res1 == 0) {
+                console.log("TEM DE SELECIONAR O 1");
+                //$("#obg").prop('required', true);
+                alert("Tem de selecionar alguma prop da 1º tabela");
+            }   
+        } 
+
+        console.log("Valor do res é: " + res);*/
+    }
+
     $scope.getPropsOfEnts = function (id) {
 
         console.log("teste com id getPropsOfEnts: " + id);

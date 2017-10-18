@@ -296,6 +296,18 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         
     };
 
+    $scope.blockUnblockOutputType = function () {
+
+        var val = $("#ent_types_select").val();
+        var props = $("#propselect").val();
+
+        if ((typeof val == undefined || val == null) && (typeof props == undefined || props == null)) {
+            $("[name=property_outputType]").prop('disabled', 'disabled');
+        } else {
+            $("[name=property_outputType]").removeAttr("disabled");
+        }
+    }
+
     $scope.getPropsByEnt = function () {
 
         var value = $("[name=reference_entity]").val();
