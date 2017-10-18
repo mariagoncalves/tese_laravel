@@ -166,6 +166,10 @@ Route::get('/modalrelType', function () {
     return view('reltype/modalRelType');
 });
 
+
+Route::get('/relTypes/get_relation_types1/{id?}','RelationManagement@getAll_test');
+
+
 //Novas rotas com entidades separadas das relações
 //----------------------------------Propriedades da Entidade----------------------------------------------------
 

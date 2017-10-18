@@ -213,4 +213,41 @@ class RelationManagement extends Controller
 
         return response()->json(['error' => 'An error occurred. Try later.'], 500);
     }
+
+    public function getAll_test ($id = null) {
+
+        if ($id == null)
+        {
+            $url_text = 'PT';
+            $transacs = DB::table('transaction_type')
+                ->join('process_type', 'transaction_type.process_type_id', '=', 'process_type.id')
+                ->join('transaction_type_name', 'transaction_type.id', '=', 'transaction_type_name.transaction_type_id')
+                ->join('language as l1', 'transaction_type_name.language_id', '=', 'l1.id')
+                ->join('process_type_name', 'process_type_name.process_type_id', '=', 'process_type.id')
+                ->join('language as l2', 'process_type_name.language_id', '=', 'l2.id')
+                ->join('actor', 'actor.id', '=', 'transaction_type.executer')
+                ->select('transaction_type_name.*','process_type_name.*','transaction_type.*')
+                ->where('l1.slug','=',$url_text)->where('l2.slug','=',$url_text)
+                ->orderBy('transaction_type.process_type_id','desc')->orderBy('transaction_type_name.rt_name','asc')
+                ->get();
+            //->paginate(4);
+
+            /*$transacs = ProcessType::with(['language' => function($query) use ($url_text) {
+                $query->where('slug', $url_text);
+            }, 'transactionsTypes.language' => function($query) use ($url_text) {
+                $query->where('slug', $url_text);
+            }, 'transactionsTypes.executerActor.language' => function($query) use ($url_text) {
+                $query->where('slug', $url_text);
+            }])->whereHas('language', function ($query) use ($url_text){
+                return $query->where('slug', $url_text);
+            })->paginate(5);*/
+
+            return response()->json($transacs);
+        }
+        else
+        {
+            return $this->getSpec($id);
+        }
+
+    }
 }

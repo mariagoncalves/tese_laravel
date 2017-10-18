@@ -97,7 +97,7 @@
         </table>-->
 
         <!-- Table-to-load-the-data Part -->
-        <table class="table" ng-init="getTransacsTypes()">
+        <!-- <table class="table" ng-init="getTransacsTypes()">
             <thead>
             <form ng-submit="filter()">
                 <tr>
@@ -134,20 +134,20 @@
             </thead>
             <tbody>
                 <tr ng-repeat="transactiontype in transactiontypes">
-                    {{--<td ng-show="[[transactiontypes[$index - 1].process_type_id != transactiontypes[$index].process_type_id]]">[[ transactiontypes[$index].process_type.language[0].pivot.name ]]</td>
+                    --><!-- {{--> <!--<td ng-show="[[transactiontypes[$index - 1].process_type_id != transactiontypes[$index].process_type_id]]">[[ transactiontypes[$index].process_type.language[0].pivot.name ]]</td>
                     <td ng-show="[[transactiontypes[$index - 1].process_type_id == transactiontypes[$index].process_type_id]]"></td>
                     <td>[[  transactiontype.id ]]</td>
-                    <td>[[ transactiontype.language[0].pivot.t_name ]]</td> <!--processtype.pivot.name quando é feito da linguagem para o processtype-->
+                    <td>[[ transactiontype.language[0].pivot.t_name ]]</td>
                     <td>[[ transactiontype.language[0].pivot.rt_name ]]</td>
                     <td>[[ transactiontype.state ]]</td>
                     <td>[[ transactiontype.created_at ]]</td>
                     <td>[[ transactiontype.language[0].pivot.updated_at ]]</td>
                     <td>[[ transactiontype.deleted_at ]]</td>
-                    <td>[[ transactiontype.executer_actor.language[0].pivot.name ]]</td>--}}
-                    <td ng-show="[[transactiontypes[$index - 1].process_type_id != transactiontypes[$index].process_type_id]]">[[ transactiontypes[$index].name ]]</td>
+                    <td>[[ transactiontype.executer_actor.language[0].pivot.name ]]</td>--><!-- }}-->
+                    <!-- <td ng-show="[[transactiontypes[$index - 1].process_type_id != transactiontypes[$index].process_type_id]]">[[ transactiontypes[$index].name ]]</td>
                     <td ng-show="[[transactiontypes[$index - 1].process_type_id == transactiontypes[$index].process_type_id]]"></td>
                     <td>[[  transactiontype.id ]]</td>
-                    <td>[[ transactiontype.t_name ]]</td> <!--processtype.pivot.name quando é feito da linguagem para o processtype-->
+                    <td>[[ transactiontype.t_name ]]</td>
                     <td>[[ transactiontype.rt_name ]]</td>
                     <td>[[ transactiontype.state ]]</td>
                     <td>[[ transactiontype.created_at ]]</td>
@@ -160,11 +160,11 @@
                         <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
                     </td>
                 </tr>
-            {{--<tr ng-repeat="transactiontype in transactiontypes">
+            --> <!--{{--> <!--<tr ng-repeat="transactiontype in transactiontypes">
                 <td ng-show="[[transactiontypes[$index - 1].process_type_id != transactiontypes[$index].process_type_id]]">[[ transactiontypes[$index].name ]]</td>
                 <td ng-show="[[transactiontypes[$index - 1].process_type_id == transactiontypes[$index].process_type_id]]"></td>
                 <td>[[  transactiontype.id ]]</td>
-                <td>[[ transactiontype.t_name ]]</td> <!--processtype.pivot.name quando é feito da linguagem para o processtype-->
+                <td>[[ transactiontype.t_name ]]</td>
                 <td>[[ transactiontype.rt_name ]]</td>
                 <td>[[ transactiontype.state ]]</td>
                 <td>[[ transactiontype.created_at ]]</td>
@@ -176,15 +176,15 @@
                     <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                     <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
                 </td>
-            </tr>--}}
-    </tbody>
+            </tr>--><!--}}-->
+    <!--</tbody>
 </table>
 <div>
     <posts-pagination></posts-pagination>
-</div>
+</div> -->
 <!-- End of Table-to-load-the-data Part -->
 <!-- Modal (Pop up when detail button clicked) -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -283,12 +283,12 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer"><!--  -->
+            <div class="modal-footer">
                 <button type="button" ng-disabled="frmTransactionTypes.$invalid" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id)" >[[ "BTN1FORM" | translate]]</button>
             </div>
         </div>
     </div>
-</div>
+</div> -->
 </div>
 @stop
 @section('footerContent')

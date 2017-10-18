@@ -21,7 +21,7 @@
                 <th>[[ "THEADER7" | translate]]</th>
                 <th>[[ "THEADER8" | translate]]</th>
                 <!-- <th>[[ "THEADER9" | translate]]</th> -->
-                <th>
+                <th> 
                     <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER10" | translate]]</button> -->
                     <button type="button" class="btn btn-xs btn-success" ng-click="openModalRelTypes('md', 'add', 0)">Add Relations Type</button>
                 </th>
@@ -39,7 +39,7 @@
                 <td> [[ relation.t_state.language[0].pivot.name ]] </td>
                 <td>[[ relation.state ]]</td>
                 <td>[[ relation.created_at ]]</td>
-                <td>[[ relation.updated_at ]]</td>
+                <td>[[ relation.updated_at ]]</td> 
                 <!-- <td>[[ relation.deleted_at ]]</td> -->
                 <td>
                     <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', relation.id)">[[ "BTNTABLE1" | translate]]</button> -->
@@ -53,6 +53,80 @@
         <div>
             <pagination></pagination>
         </div>
+
+
+
+        <!-- ______________________________________________TESTES _________________________________________________________-->
+
+
+        <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
+            <colgroup>
+                <col width="60%" />
+                <col width="20%" />
+                <col width="20%" />
+            </colgroup>
+            <tr class="ng-table-group" ng-repeat-start="group in $groups">
+                <td colspan="1">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>[[ group.value ]]</strong>
+                    </a>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows" ng-repeat="transactiontype in group.data" ng-repeat-end>
+                <td sortable="'name'" filter="{name: 'text'}" data-title="'Relation'" groupable="'name'">
+                    [[transactiontype.name]]
+                </td>
+                <td sortable="'id'" data-title="'ID'">
+                    [[transactiontype.id]]
+                </td>
+                <td sortable="'t_name'" filter="{'t_name': 'text'}" data-title="'Entity 1'" groupable="'t_name'">
+                    [[transactiontype.t_name]]
+                </td>
+                <td sortable="'rt_name'" data-title="'Entity 2'">
+                    [[transactiontype.rt_name]]
+                </td>
+
+                <td sortable="'state'" data-title="'Transaction Type'" groupable="'state'">
+                    [[transactiontype.state]]
+                </td>
+
+                <td sortable="'state'" data-title="'Transaction State'">
+                    [[ transactiontype.created_at ]]
+                </td>
+
+                <td sortable="'updated_at'" data-title="'Created_at'">
+                    [[ transactiontype.updated_at ]]
+                </td>
+
+                <td sortable="'deleted_at'" data-title="'Updated_at'">
+                    [[ transactiontype.deleted_at ]]
+                </td>
+
+                <td>
+                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', transactiontype.id)">[[ "BTNTABLE1" | translate]]</button>
+                    <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
+                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- Modal (Pop up when detail button clicked) -->
         <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -279,6 +279,33 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
         };
     };
 
+
+
+    //------------------------------------TESTES------------------------------
+    //Para usar o ng-table
+
+    $http.get('/transacs_types/get_transacs_types1?page=1').then(function(response) {
+        $scope.tableParams = new NgTableParams({
+            count: 2,
+            group: "name"
+        }, {
+            paginationMaxBlocks: 13,
+            paginationMinBlocks: 2,
+            dataset: response.data
+        });
+    });
+
+    /*$http.get('/relTypes/get_relation_types1?page=1').then(function(response) {
+        $scope.tableParams = new NgTableParams({
+            count: 2,
+            group: "name"
+        }, {
+            paginationMaxBlocks: 13,
+            paginationMinBlocks: 2,
+            dataset: response.data
+        });
+    });*/
+
 }).directive('pagination', function(){
     return{
         restrict: 'E',
