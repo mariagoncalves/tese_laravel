@@ -1,13 +1,13 @@
 <div class="modal-content" id = "myModal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="myModalLabel">RelType</h4>
+        <h4 class="modal-title" id="myModalLabel">{{trans('relationTypes/messages.THEADER10')}}</h4>
     </div>
     <div class="modal-body">
         <form id="formRelation" name="formRel" class="form-horizontal" novalidate="">
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">[[ "THEADER2" | translate]]:</label>
+                <label class="col-sm-3 control-label">{{trans('relationTypes/messages.THEADER2')}}:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="relation_name" name="relation_name" ng-value="relation.language[0].pivot.name">
                     <ul ng-repeat="error in errors.relation_name" style="padding-left: 15px;">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="form-group" ng-init="getEntities()">
-                <label class="col-sm-3 control-label">[[ "THEADER3" | translate]] 1:</label>
+                <label class="col-sm-3 control-label">{{trans('relationTypes/messages.THEADER3')}} 1:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="entity_type1">
                         <option value=""></option>
@@ -31,7 +31,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">[[ "THEADER3" | translate]] 2:</label>
+                <label class="col-sm-3 control-label">{{trans('relationTypes/messages.THEADER3')}} 2:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="entity_type2">
                         <option value=""></option>
@@ -45,7 +45,7 @@
             </div>
 
             <div class="form-group" ng-init="getTransactionsTypes()">
-                <label class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
+                <label class="col-sm-3 control-label">{{trans('relationTypes/messages.THEADER4')}}:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="transactionsType">
                         <option value=""></option>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="form-group" ng-init="getTransactionsStates()">
-                <label class="col-sm-3 control-label">[[ "THEADER5" | translate]]:</label>
+                <label class="col-sm-3 control-label">{{trans('relationTypes/messages.THEADER5')}}:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="transactionsState">
                         <option value=""></option>
@@ -73,7 +73,7 @@
             </div>
 
             <div class="form-group" ng-init="getStates()">
-                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER6" | translate]]:</label>
+                <label for="Gender" class="col-sm-3 control-label">{{trans('relationTypes/messages.THEADER6')}}:</label>
                 <div class="col-sm-9">
                     <label class="radio-inline state" ng-repeat="state in states">
                         <input type="radio" name="relation_state" value="[[ state ]]" ng-checked="state == relation.state">[[ state ]]
@@ -85,7 +85,7 @@
             </div>
         </form>
     </div>
-    <div class="modal-footer"><!-- ng-disabled="frmProcessTypes.$invalid" -->
-        <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id)" >[[ "BTN1FORM" | translate]]</button>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id)" >{{trans('relationTypes/messages.BTN1FORM')}}</button>
     </div>
 </div> 

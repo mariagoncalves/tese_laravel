@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('content')
 
-	<h2>[["Page_Name" | translate]]</h2>
+	<h2>{{trans("relationTypes/messages.Page_Name")}}</h2>
 
 	<div ng-controller="RelationTypesManagmentControllerJs">
 		<div growl></div>
@@ -73,45 +73,45 @@
                     </a>
                 </td>
             </tr>
-            <tr ng-hide="group.$hideRows" ng-repeat="relType in group.data" ng-repeat-end>
-                <td sortable="'name'" filter="{name: 'text'}" data-title="'Transaction Type'" groupable="'name'">
-                    [[relType.transactions_type.language[0].pivot.t_name]]
+            <tr ng-hide="group.$hideRows" ng-repeat="relation in group.data" ng-repeat-end>
+                <td sortable="'name'" filter="{name: 'text'}" data-title="'{{trans('relationTypes/messages.THEADER4')}}'" groupable="'name'">
+                    [[relation.transactions_type.language[0].pivot.t_name]]
                 </td>
-                <td sortable="'id'" data-title="'ID'">
-                    [[relType.id]]
+                <td sortable="'id'" data-title="'{{trans('relationTypes/messages.THEADER1')}}'">
+                    [[relation.id]]
                 </td>
-                <td sortable="'language[0].pivot.name'" filter="{'language[0].pivot.name': 'text'}" data-title="'Relation Name'" groupable="'language[0].pivot.name'">
-                    [[relType.language[0].pivot.name]]
-                </td>
-
-                <td sortable="'ent_type1_id'" data-title="'Entity 1'" groupable="'ent_type1_id'">
-                    [[relType.ent1.language[0].pivot.name]]
+                <td sortable="'language[0].pivot.name'" filter="{'language[0].pivot.name': 'text'}" data-title="'{{trans('relationTypes/messages.THEADER2')}}'" groupable="'language[0].pivot.name'">
+                    [[relation.language[0].pivot.name]]
                 </td>
 
-                <td sortable="'ent_type2_id'" data-title="'Entity 2'" groupable="'ent_type2_id'">
-                    [[relType.ent2.language[0].pivot.name]]
+                <td sortable="'ent_type1_id'" data-title="'{{trans('relationTypes/messages.THEADER3')}} 1'" groupable="'ent_type1_id'">
+                    [[relation.ent1.language[0].pivot.name]]
                 </td>
 
-                <td sortable="'t_state'" data-title="'Transaction State'">
-                    [[ relType.t_state.language[0].pivot.name ]]
+                <td sortable="'ent_type2_id'" data-title="'{{trans('relationTypes/messages.THEADER3')}} 2'" groupable="'ent_type2_id'">
+                    [[relation.ent2.language[0].pivot.name]]
                 </td>
 
-                <td sortable="'state'" data-title="'State'" groupable="'state'">
-                    [[ relType.state ]]
+                <td sortable="'t_state'" data-title="'{{trans('relationTypes/messages.THEADER5')}}'">
+                    [[ relation.t_state.language[0].pivot.name ]]
                 </td>
 
-                <td sortable="'created_at'" data-title="'Created_at'">
-                    [[ relType.created_at ]]
+                <td sortable="'state'" data-title="'State'" groupable="'{{trans('relationTypes/messages.THEADER6')}}'">
+                    [[ relation.state ]]
                 </td>
 
-                <td sortable="'updated_at'" data-title="'Updated_at'">
-                    [[ relType.updated_at ]]
+                <td sortable="'created_at'" data-title="'{{trans('relationTypes/messages.THEADER7')}}'">
+                    [[ relation.created_at ]]
+                </td>
+
+                <td sortable="'updated_at'" data-title="'{{trans('relationTypes/messages.THEADER8')}}'">
+                    [[ relation.updated_at ]]
                 </td>
 
                 <td>
-                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', transactiontype.id)">[[ "BTNTABLE1" | translate]]</button>
-                    <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
-                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
+                    <button type="button" class="btn btn-xs btn-warning" ng-click="openModalRelTypes('md', 'edit', relation.id)">{{trans('relationTypes/messages.BTNTABLE1')}}</button>
+                    <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(relation.id)">{{trans('relationTypes/messages.THEADER11')}}</button>
+                    <button class="btn btn-primary btn-xs btn-delete">{{trans('relationTypes/messages.BTNTABLE2')}}</button>
                 </td>
             </tr>
             </tr>
