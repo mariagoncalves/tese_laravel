@@ -73,34 +73,39 @@
                     </a>
                 </td>
             </tr>
-            <tr ng-hide="group.$hideRows" ng-repeat="transactiontype in group.data" ng-repeat-end>
-                <td sortable="'name'" filter="{name: 'text'}" data-title="'Relation'" groupable="'name'">
-                    [[transactiontype.name]]
+            <tr ng-hide="group.$hideRows" ng-repeat="relType in group.data" ng-repeat-end>
+                <td sortable="'name'" filter="{name: 'text'}" data-title="'Transaction Type'" groupable="'name'">
+                    [[relType.transactions_type.language[0].pivot.t_name]]
                 </td>
                 <td sortable="'id'" data-title="'ID'">
-                    [[transactiontype.id]]
+                    [[relType.id]]
                 </td>
-                <td sortable="'t_name'" filter="{'t_name': 'text'}" data-title="'Entity 1'" groupable="'t_name'">
-                    [[transactiontype.t_name]]
-                </td>
-                <td sortable="'rt_name'" data-title="'Entity 2'">
-                    [[transactiontype.rt_name]]
+                <td sortable="'language[0].pivot.name'" filter="{'language[0].pivot.name': 'text'}" data-title="'Relation Name'" groupable="'language[0].pivot.name'">
+                    [[relType.language[0].pivot.name]]
                 </td>
 
-                <td sortable="'state'" data-title="'Transaction Type'" groupable="'state'">
-                    [[transactiontype.state]]
+                <td sortable="'ent_type1_id'" data-title="'Entity 1'" groupable="'ent_type1_id'">
+                    [[relType.ent1.language[0].pivot.name]]
                 </td>
 
-                <td sortable="'state'" data-title="'Transaction State'">
-                    [[ transactiontype.created_at ]]
+                <td sortable="'ent_type2_id'" data-title="'Entity 2'" groupable="'ent_type2_id'">
+                    [[relType.ent2.language[0].pivot.name]]
                 </td>
 
-                <td sortable="'updated_at'" data-title="'Created_at'">
-                    [[ transactiontype.updated_at ]]
+                <td sortable="'t_state'" data-title="'Transaction State'">
+                    [[ relType.t_state.language[0].pivot.name ]]
                 </td>
 
-                <td sortable="'deleted_at'" data-title="'Updated_at'">
-                    [[ transactiontype.deleted_at ]]
+                <td sortable="'state'" data-title="'State'" groupable="'state'">
+                    [[ relType.state ]]
+                </td>
+
+                <td sortable="'created_at'" data-title="'Created_at'">
+                    [[ relType.created_at ]]
+                </td>
+
+                <td sortable="'updated_at'" data-title="'Updated_at'">
+                    [[ relType.updated_at ]]
                 </td>
 
                 <td>
@@ -108,6 +113,7 @@
                     <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                     <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
                 </td>
+            </tr>
             </tr>
         </table>
 

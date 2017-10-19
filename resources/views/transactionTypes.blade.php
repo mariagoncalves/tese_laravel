@@ -21,13 +21,13 @@
                 </td>
             </tr>
             <tr ng-hide="group.$hideRows" ng-repeat="transactiontype in group.data" ng-repeat-end>
-                <td sortable="'name'" filter="{name: 'text'}" data-title="'THEADER5' | translate" groupable="'name'">
+                <td sortable="'name'" filter="{name: 'text'}" data-title="'THEADER5' | translate" groupable="'name'"> <!--PROCESS TYPE -->
                     [[transactiontype.name]]
                 </td>
                 <td sortable="'id'" data-title="'ID'">
                     [[transactiontype.id]]
                 </td>
-                <td sortable="'t_name'" filter="{'t_name': 'text'}" data-title="'THEADER2' | translate" groupable="'t_name'">
+                <td sortable="'t_name'" filter="{'t_name': 'text'}" data-title="'THEADER2' | translate" groupable="'t_name'"> <!--NAME -->
                     [[transactiontype.t_name]]
                 </td>
                 <td sortable="'rt_name'" data-title="'THEADER3' | translate" groupable="'rt_name'">

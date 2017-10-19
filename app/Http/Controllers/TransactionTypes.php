@@ -136,10 +136,15 @@ class TransactionTypes extends Controller
             $url_text = 'PT';
             $transacs = DB::table('transaction_type')
                 ->join('process_type', 'transaction_type.process_type_id', '=', 'process_type.id')
+
                 ->join('transaction_type_name', 'transaction_type.id', '=', 'transaction_type_name.transaction_type_id')
                 ->join('language as l1', 'transaction_type_name.language_id', '=', 'l1.id')
+
+
                 ->join('process_type_name', 'process_type_name.process_type_id', '=', 'process_type.id')
                 ->join('language as l2', 'process_type_name.language_id', '=', 'l2.id')
+
+                
                 ->join('actor', 'actor.id', '=', 'transaction_type.executer')
                 ->select('transaction_type_name.*','process_type_name.*','transaction_type.*')
                 ->where('l1.slug','=',$url_text)->where('l2.slug','=',$url_text)
