@@ -252,4 +252,38 @@ class PropertiesOfRelationsController extends Controller {
 
         return response()->json();
     }
+
+
+    public function getAll_test($id = null) {
+        if ($id == null) {
+
+
+                $url_text = 'PT';
+                $dataPropsRel = RelType::with(['language' => function($query) use ($url_text) {
+                                            $query->where('language.slug', $url_text);
+                                        }])
+                                        ->with(['properties.language' => function($query) use ($url_text) {
+                                            $query->where('language.slug', $url_text);
+                                        }])
+                                        ->with(['properties.units.language' => function($query) use ($url_text) {
+                                            $query->where('language.slug', $url_text);
+                                        }])
+                                        ->with(['properties' => function($query) {
+                                            $query->orderBy('form_field_order', 'asc');
+                                        }])->whereHas('language', function ($query) use ($url_text){
+                                            return $query->where('language.slug', $url_text);
+                                        })
+                                        ->get();
+
+                \Log::Debug($dataPropsRel);
+
+            return response()->json($dataPropsRel);
+
+        } else {
+            return $this->getSpec($id);
+        }
+    }
+
+
+
 }

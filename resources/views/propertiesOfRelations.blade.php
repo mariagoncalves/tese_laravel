@@ -7,69 +7,6 @@
 
         <button class="btn btn-default btn-xs btn-detail" ng-click="dotranslate()">TRANSLATE</button>
 
-        <!-- Tabela utilizando o ng-table -->
-
-        <!-- <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
-            <colgroup>
-                <col width="60%" />
-                <col width="20%" />
-                <col width="20%" />
-            </colgroup>
-            <tr class="ng-table-group" ng-repeat-start="group in $groups">
-                <td colspan="1">
-                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
-                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
-                        <strong>[[ group.value ]]</strong>
-                    </a>
-                </td>
-            </tr>
-            <tr ng-hide="group.$hideRows" ng-repeat="relation in group.data" ng-repeat-end>
-                <td sortable="'name'" filter="{name: 'text'}" data-title="'THEADER5' | translate" groupable="'name'">
-                    [[relation.language[0].pivot.name]]
-                </td>
-                <td sortable="'id'" data-title="'ID'">
-                    [[transactiontype.id]]
-                </td>
-                <td sortable="'t_name'" filter="{'t_name': 'text'}" data-title="'THEADER2' | translate" groupable="'t_name'">
-                    [[transactiontype.t_name]]
-                </td>
-                <td sortable="'rt_name'" data-title="'THEADER3' | translate" groupable="'rt_name'">
-                    [[transactiontype.rt_name]]
-                </td>
-
-                <td sortable="'state'" data-title="'State'" groupable="'state'">
-                    [[transactiontype.state]]
-                </td>
-
-                <td sortable="'state'" data-title="'Created_at'">
-                    [[ transactiontype.created_at ]]
-                </td>
-
-                <td sortable="'updated_at'" data-title="'Updated_at'">
-                    [[ transactiontype.updated_at ]]
-                </td>
-
-                <td sortable="'deleted_at'" data-title="'Deleted_at'">
-                    [[ transactiontype.deleted_at ]]
-                </td>
-
-                <td sortable="'executer'" data-title="'Executer'">
-                    [[ transactiontype.executer ]]
-                </td>
-
-                <td>
-                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', transactiontype.id)">[[ "BTNTABLE1" | translate]]</button>
-                    <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
-                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
-                </td>
-            </tr> 
-        </table> -->
- 
-
-
-
-
-
         <!-- Table-to-load-the-data Part -->
         <table class="table table-striped" st-table="displayedCollection" ng-init="getRelations()" st-safe-src="relations">
             <thead>
@@ -151,8 +88,78 @@
             <pagination></pagination>
         </div>
 
+
+
+        <!-- Tabela utilizando o ng-table -->
+        <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
+            <colgroup>
+                <col width="60%" />
+                <col width="20%" />
+                <col width="20%" />
+            </colgroup>
+            <tr class="ng-table-group" ng-repeat-start="group in $groups">
+                <td colspan="1">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>[[ group.value ]]</strong>
+                    </a>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows" ng-repeat="relation in group.data" ng-repeat-end>
+                <td sortable="'name'" filter="{name: 'text'}" data-title="'Relation" groupable="'name'">
+                    [[relation.language[0].pivot.name]]
+                </td>
+                <td sortable="'id'" data-title="'Property'">
+                    [[transactiontype.id]]
+                </td>
+                <td sortable="'id'" data-title="'Value Type'">
+                    [[transactiontype.id]]
+                </td>
+                <td sortable="'id'" data-title="'Field Name'">
+                    [[transactiontype.id]]
+                </td>
+                <td sortable="'t_name'" filter="{'t_name': 'text'}" data-title="'Field Type'" groupable="'t_name'">
+                    [[transactiontype.t_name]]
+                </td>
+                <td sortable="'rt_name'" data-title="'Unit Type'" groupable="'rt_name'">
+                    [[transactiontype.rt_name]]
+                </td>
+
+                <td sortable="'state'" data-title="'Field Size'" groupable="'state'">
+                    [[transactiontype.state]]
+                </td>
+
+                <td sortable="'state'" data-title="'Mandatory'">
+                    [[ transactiontype.created_at ]]
+                </td>
+
+                <td sortable="'updated_at'" data-title="'State'">
+                    [[ transactiontype.updated_at ]]
+                </td>
+
+                <td sortable="'deleted_at'" data-title="'Created_on'">
+                    [[ transactiontype.deleted_at ]]
+                </td>
+
+                <td sortable="'executer'" data-title="'Updated_on'">
+                    [[ transactiontype.executer ]]
+                </td>
+
+                <td>
+                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', transactiontype.id)">[[ "BTNTABLE1" | translate]]</button>
+                    <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
+                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
+                </td>
+            </tr> 
+        </table>
+
+
+
+
+
+
         <!-- Modal (Pop up when detail button clicked) -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -266,7 +273,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">

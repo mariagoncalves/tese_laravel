@@ -212,6 +212,8 @@ Route::get('/modalPropsRel', function () {
     return view('properties/modalPropsRel');
 });
 
+Route::get('/propertiesOfRelation/get_propsOfRel1/{id?}','PropertiesOfRelationsController@getAll_test');
+
 //--------------------------Métodos comuns as entidades e as relações---------------------------
 
 Route::get('/properties/states', 'PropertiesController@getStates');

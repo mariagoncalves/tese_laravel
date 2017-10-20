@@ -16,13 +16,12 @@ return [
 	'THEADER10'            => 'Estado',
 	'THEADER11'            => 'Criado',
 	'THEADER12'            => 'Atualizado',
-
          
 	'NO_PROPERTIES'         => 'Não tem propriedades',
 	'ADD_PROPERTIES'        => 'Adicionar propriedades',
 
-	'BTNTABLE1'            => 'Edit',
-	'BTNTABLE2'            => 'History',
+	'BTNTABLE1'            => 'Editar',
+	'BTNTABLE2'            => 'Histórico',
 	'BTNTABLE3'            => 'Reordenar propriedades',
 	'BTNTABLE4'            => 'Remover',
 
@@ -34,7 +33,7 @@ return [
 	'ADD_FORM_NAME'        => 'Adicionar nova propriedade',
 
 	'INPUT_REF_ENT'        => 'Tipo de Entidade',
-	'FORM_DRAG_DROP'       => 'Drag and Drop Properties',
+	'FORM_DRAG_DROP'       => 'Reordenar Properties',
 
 	'BTN1FORM'             => 'Guardar alterações',
 
@@ -42,7 +41,7 @@ return [
 	'BTNPAGINATION2'       => 'Anterior',
 
 	'REMOVE_PROPERTY'      => 'Remover propriedade',
-	'REMOVE_MESSAGE'       => 'Are you sure you want to remove the property?',
+	'REMOVE_MESSAGE'       => 'Tem a certeza que pretende remover a propriedade?',
 
 	'YES'                  => 'Sim',
 	'NO'                   => 'Não',

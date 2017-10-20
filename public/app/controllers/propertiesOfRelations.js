@@ -394,6 +394,30 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
             $uibModalInstance.dismiss('cancel');
         };
     };
+
+
+     //------------------------------------TESTES------------------------------
+    //Para usar o ng-table
+
+    $http.get('/propertiesOfRelation/get_propsOfRel1?page=1').then(function(response) {
+        $scope.tableParams = new NgTableParams({
+            count: 2,
+            group: "name"
+        }, {
+            paginationMaxBlocks: 13,
+            paginationMinBlocks: 2,
+            dataset: response.data
+
+        });
+
+        console.log(response.data);
+    });
+
+
+
+
+
+
     
 }).directive('pagination', function(){
     return{
