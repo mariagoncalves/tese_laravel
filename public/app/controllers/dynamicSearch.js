@@ -94,25 +94,60 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
-    $scope.teste = function () {
-        /*console.log("FOI CLICADO");
+    $scope.clickTable1 = function ($event) {
+        // Verificar se existe alguma checkbox selecionada na tabela 1
+        var existeChecked = false;
+        $("#table1").find("[type=checkbox]").each(function(index) {
+            if ($(this).is(":checked")) {
+                existeChecked = true;
+                return;
+            }
+        });
 
-        var res = $('#checkRL').find('[type=checkbox]:checked').length;
+        // Se existir, então vamos desbloquear todos os campos da tabela 2.
+        // Caso contrario, bloquear.
+        if (existeChecked) {
+            $("#checkRL").find("[type=checkbox]").removeAttr('disabled');
+            $("#checkRL").find("[type=text]").removeAttr('disabled');
+            $("#checkRL").find("[type=number]").removeAttr('disabled');
+            $("#checkRL").find("[type=radio]").removeAttr('disabled');
+            $("#checkRL").find("select").removeAttr('disabled');
+        } else {
+            $("#checkRL").find("[type=checkbox]").prop("checked", false);
+            $("#checkRL").find("[type=checkbox]").attr('disabled', true);
+            $("#checkRL").find("[type=text]").attr('disabled', true);
+            $("#checkRL").find("[type=number]").attr('disabled', true);
+            $("#checkRL").find("[type=radio]").attr('disabled', true);
+            $("#checkRL").find("select").attr('disabled', true);
+        }
+    }
 
-        if(res > 0) {
-            console.log("Pelo menos um tá selecionado");
+    $scope.clickTable3 = function ($event) {
+        // Verificar se existe alguma checkbox selecionada na tabela 3
+        var existeChecked = false;
+        $("#table3").find("[type=checkbox]").each(function(index) {
+            if ($(this).is(":checked")) {
+                existeChecked = true;
+                return;
+            }
+        });
 
-            var res1 = $('#checkET').find('[type=checkbox]:checked').length;
-            console.log("Resultado do res2: " + res1);
-
-            if (res1 == 0) {
-                console.log("TEM DE SELECIONAR O 1");
-                //$("#obg").prop('required', true);
-                alert("Tem de selecionar alguma prop da 1º tabela");
-            }   
-        } 
-
-        console.log("Valor do res é: " + res);*/
+        // Se existir, então vamos desbloquear todos os campos da tabela 4.
+        // Caso contrario, bloquear.
+        if (existeChecked) {
+            $("#table4").find("[type=checkbox]").removeAttr('disabled');
+            $("#table4").find("[type=text]").removeAttr('disabled');
+            $("#table4").find("[type=number]").removeAttr('disabled');
+            $("#table4").find("[type=radio]").removeAttr('disabled');
+            $("#table4").find("select").removeAttr('disabled');
+        } else {
+            $("#table4").find("[type=checkbox]").prop("checked", false);
+            $("#table4").find("[type=checkbox]").attr('disabled', true);
+            $("#table4").find("[type=text]").attr('disabled', true);
+            $("#table4").find("[type=number]").attr('disabled', true);
+            $("#table4").find("[type=radio]").attr('disabled', true);
+            $("#table4").find("select").attr('disabled', true);
+        }
     }
 
     $scope.getPropsOfEnts = function (id) {
