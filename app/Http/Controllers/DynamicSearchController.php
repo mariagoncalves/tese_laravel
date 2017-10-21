@@ -10,6 +10,7 @@ use App\RelType;
 use App\Entity;
 use App\Value;
 use App\Relation;
+use App\Query;
 
 class DynamicSearchController extends Controller
 {
@@ -241,13 +242,68 @@ class DynamicSearchController extends Controller
         return response()->json($entsRelated);
     }
 
+
+    public function registarQueryPesquisa ($data, $idEntityType) {
+
+        \Log::debug("NOMEEEEEEEEER QUERYYY");
+        \Log::debug($data['query_name']);
+         \Log::debug("iddddddddddddddddd  QUERYYY");
+        \Log::debug($idEntityType);
+
+        $data1 = array(
+                'name'      => $data['query_name'],
+                'ent_type_id' => $idEntityType
+            );
+
+        $dataQuery = Query::create($data1);
+        $idQuery   = $dataQuery->id;
+
+        for ($i=0; $i < $data['numTableET']; $i++) { 
+            if (isset($data['checkET'.$i])) {
+                $this->createCondicion($idQuery, $data['checkET'.$i], 'ET', $data);
+            }
+        }
+
+    }
+
+    public function createCondicion($idQuery, $idProperty, $type, $data) {
+        $valueQuery    = '';
+        $operatorQuery = '=';
+        if ($valueType == "int") {
+            $valueQuery    = $data['int'.$type.$position];
+            $operatorQuery = $data['operators'.$type.$position];
+        }  else if ($valueType == "double") {
+            $valueQuery    = $data['double'.$type.$position];
+            $operatorQuery = $data['operators'.$type.$position];
+        } else  if ($valueType == "text") {
+            $valueQuery = $data['text'.$type.$position];
+        } else  if ($valueType == "enum") {
+            $valueQuery = $data['select'.$type.$position];
+        } else  if ($valueType == "bool") {
+            $valueQuery = $data['radio'.$type.$position];
+        }
+
+        $data1 = array(
+            'query_id'    => $idQuery,
+            'operator_id' => '',
+            'property_id' => $idProperty,
+            'table_type'  => $type,
+            'value'       => $valueQuery,
+        );
+
+        $dataCondicion = Condicion::create($data1);
+    }
+
+
     public function search(Request $request, $idEntityType) {
         $data        = $request->all();
         $language_id = '1';
         $result      = [];
         $query       = [];
 
-        //$this->registarQueryPesquisa($request, $idEntityType);
+        if (isset($data['query_name']) && $data['query_name'] != "") {
+            $this->registarQueryPesquisa($data, $idEntityType);
+        }
 
         // Formar a query para apresentar os dados na tabela
         //Query base para a pesquisa
@@ -659,5 +715,4 @@ class DynamicSearchController extends Controller
 
         return response()->json([$stateEntity->state]);
     } 
-
 }
