@@ -305,11 +305,12 @@ class DynamicSearchController extends Controller
             }
         }
 
-        //\Log::debug($queryTable1->distinct('id')->toSql());
-        $resultTable1 = $queryTable1->distinct('id')->get(['id'])->toArray();
+        if ($selectTable1) {
+            $resultTable1 = $queryTable1->distinct('id')->get(['id'])->toArray();
 
-        $entitiesIdsTable1 = $this->formatArrayData($resultTable1, 'id');
-        \Log::debug($entitiesIdsTable1);
+            $entitiesIdsTable1 = $this->formatArrayData($resultTable1, 'id');
+            \Log::debug($entitiesIdsTable1);
+        }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 2): ");
 
@@ -325,13 +326,13 @@ class DynamicSearchController extends Controller
             }
         }
 
-        //\Log::debug($queryTable2->distinct('id')->toSql());
-        $resultTable2 = $queryTable2->distinct('id')->get(['id'])->toArray();
-
-        $entitiesIdsTable2 = $this->formatArrayData($resultTable2, 'id');
-        \Log::debug($entitiesIdsTable2);
-
         if ($selectTable2) {
+
+            $resultTable2 = $queryTable2->distinct('id')->get(['id'])->toArray();
+
+            $entitiesIdsTable2 = $this->formatArrayData($resultTable2, 'id');
+            \Log::debug($entitiesIdsTable2);
+
             foreach ($entitiesIdsTable2 as $key => $id_entity2) {
                 $exist = false;
 
@@ -388,25 +389,26 @@ class DynamicSearchController extends Controller
                 $this->formQueryTable1AndTable2($data, $data['checkRL'.$i], 'RL', $i, $queryTable3);
             }
         }
-        //Trazia todos os dados da relaçlão mas especifiquei que só quero o entity1_id e entity2_id
-        $resultTable3 = $queryTable3->distinct('id')->get(['entity1_id', 'entity2_id'])->toArray();
-        \Log::debug($resultTable3);
 
+        if($selectTable3) {
+            //Trazia todos os dados da relaçlão mas especifiquei que só quero o entity1_id e entity2_id
+            $resultTable3 = $queryTable3->distinct('id')->get(['entity1_id', 'entity2_id'])->toArray();
+            \Log::debug($resultTable3);
 
-        $entitiesIdsTable3 = [];
-        foreach ($resultTable3 as $key => $value) {
-            //Para não meter valores repetidos no array
-            if(!in_array($value['entity1_id'], $entitiesIdsTable3)) {
-                $entitiesIdsTable3[] = $value['entity1_id'];
+            $entitiesIdsTable3 = [];
+            foreach ($resultTable3 as $key => $value) {
+                //Para não meter valores repetidos no array
+                if(!in_array($value['entity1_id'], $entitiesIdsTable3)) {
+                    $entitiesIdsTable3[] = $value['entity1_id'];
+                }
+
+                if(!in_array($value['entity2_id'], $entitiesIdsTable3)) {
+                    $entitiesIdsTable3[] = $value['entity2_id'];
+                }
             }
 
-            if(!in_array($value['entity2_id'], $entitiesIdsTable3)) {
-                $entitiesIdsTable3[] = $value['entity2_id'];
-            }
+            \Log::debug($entitiesIdsTable3);
         }
-
-
-        \Log::debug($entitiesIdsTable3);
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 4): ");
 
@@ -466,8 +468,6 @@ class DynamicSearchController extends Controller
                             $q->whereIn('id', $entitiesIdsTable3);
                         });
         }
-
-
 
         return $phrase;
     }
