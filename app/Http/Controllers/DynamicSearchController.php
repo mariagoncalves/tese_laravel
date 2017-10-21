@@ -405,23 +405,10 @@ class DynamicSearchController extends Controller
             }
         }
 
-        $aux = [];
-        foreach ($entitiesIdsTable3 as $value) {
-            
-            $entTypeVal = Entity::where('id', $value)->first();
-
-            if ($entTypeVal->ent_type_id == $idEntityType) {
-                $aux[] = $value;
-            }
-        }
-
-        $entitiesIdsTable3 = $aux;
-
 
         \Log::debug($entitiesIdsTable3);
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 4): ");
-
 
         $queryTable4 = new Entity;
         $selectTable4 = false;
@@ -435,30 +422,44 @@ class DynamicSearchController extends Controller
             }
         }
 
-        //Trazia todos os dados da entidade mas especifiquei que só quero o id
-        $resultTable4 = $queryTable4->distinct('id')->get(['id'])->toArray();
-        //\Log::debug("RESULT TABELA 4");
-        //\Log::debug($resultTable4);
-
-        $entitiesIdsTable4 = $this->formatArrayData($resultTable4, 'id');
-        \Log::debug($entitiesIdsTable4);
-
-        foreach ($entitiesIdsTable4 as $key => $entitiesId) {
-            if (!in_array($entitiesId, $entitiesIdsTable3)) {
-                unset($entitiesIdsTable4[$key]);
-            }
-        }
-
-        \Log::debug("DEPOIS: ");
-        \Log::debug($entitiesIdsTable4);
-
         if ($selectTable4) {
+
+            //Trazia todos os dados da entidade mas especifiquei que só quero o id
+            $resultTable4 = $queryTable4->distinct('id')->get(['id'])->toArray();
+            //\Log::debug("RESULT TABELA 4");
+            //\Log::debug($resultTable4);
+
+            $entitiesIdsTable4 = $this->formatArrayData($resultTable4, 'id');
+            \Log::debug($entitiesIdsTable4);
+
+            foreach ($entitiesIdsTable4 as $key => $entitiesId) {
+                if (!in_array($entitiesId, $entitiesIdsTable3)) {
+                    unset($entitiesIdsTable4[$key]);
+                }
+            }
+
+            \Log::debug("DEPOIS: ");
+            \Log::debug($entitiesIdsTable4);
+
             // Adicionar a query geral filtros da tabela 4 
             //Busco as instancias dos ids que eu tenho no array
             $query = $query->OrWhere(function($q) use ($entitiesIdsTable4) {
                             $q->whereIn('id', $entitiesIdsTable4);
                         });
+
         } else if ($selectTable3) {
+            //Percorro os ids das instancias de entidade e verifico se o ent_Type_id dessas instancias é = ao id da entidade que selecionei
+            $aux = [];
+            foreach ($entitiesIdsTable3 as $value) {
+                
+                $entTypeVal = Entity::where('id', $value)->first();
+
+                if ($entTypeVal->ent_type_id == $idEntityType) {
+                    $aux[] = $value;
+                }
+            }
+            $entitiesIdsTable3 = $aux;
+
             // Adicionar a query geral filtros da tabela 3 
             //Busco as instancias dos ids que eu tenho no array
             $query = $query->OrWhere(function($q) use ($idEntityType, $entitiesIdsTable3) {
