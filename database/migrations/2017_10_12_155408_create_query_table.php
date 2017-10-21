@@ -16,6 +16,7 @@ class CreateQueryTable extends Migration
         Schema::create('query', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 512);
+            $table->integer('ent_type_id')->unsigned();
             $table->integer('updated_by')->nullable()->unsigned();
             $table->integer('deleted_by')->nullable()->unsigned();
             $table->timestamps();

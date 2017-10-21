@@ -19,6 +19,7 @@ class Condicion extends Model
 		'property_id',
 		'value_id',
 		'value',
+        'table_type',
 		'updated_by',
         'deleted_by'
     ];

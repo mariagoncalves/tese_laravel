@@ -247,13 +247,7 @@ class DynamicSearchController extends Controller
         $result      = [];
         $query       = [];
 
-        //\Log::debug($data);
-        /*\Log::debug("Id da propriedade");
-        \Log::debug($data['checkET']);
-
-        $query1 = $query1->whereHas('values', function($q) use ($operatorQuery, $valueQuery, $idProperty) {
-            $q->where('value', $operatorQuery, $valueQuery)->where('property_id', $idProperty);
-        }); */
+        //$this->registarQueryPesquisa($request, $idEntityType);
 
         // Formar a query para apresentar os dados na tabela
         //Query base para a pesquisa

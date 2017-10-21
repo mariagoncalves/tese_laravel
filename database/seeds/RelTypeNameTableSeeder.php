@@ -20,7 +20,14 @@ class RelTypeNameTableSeeder extends Seeder
         		'name'        => 'Pessoa pede transporte',
                 'updated_by'  => '1',
                 'deleted_by'  => NULL
-        	]
+        	],
+            [
+                'rel_type_id' => '2',
+                'language_id' => '1',
+                'name'        => 'Pessoa participa em concurso',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ]
         ];
 
         foreach ($dados as $value) {

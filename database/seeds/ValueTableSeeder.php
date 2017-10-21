@@ -361,6 +361,76 @@ class ValueTableSeeder extends Seeder
                 'state'       => 'active',
                 'updated_by'  => '1',
                 'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '35',
+                'entity_id'   => NULL,
+                'property_id' => '19',
+                'value'       => '18-08-2017',
+                'relation_id' => '1',
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '36',
+                'entity_id'   => NULL,
+                'property_id' => '19',
+                'value'       => '01-09-2017',
+                'relation_id' => '2',
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '37',
+                'entity_id'   => NULL,
+                'property_id' => '19',
+                'value'       => '01-09-2017',
+                'relation_id' => '3',
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '38',
+                'entity_id'   => '11',
+                'property_id' => '13',
+                'value'       => 'Maria',
+                'relation_id' => NULL,
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '39',
+                'entity_id'   => '11',
+                'property_id' => '14',
+                'value'       => '123451234',
+                'relation_id' => NULL,
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '40',
+                'entity_id'   => '11',
+                'property_id' => '15',
+                'value'       => 'Advogado',
+                'relation_id' => NULL,
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'id'          => '41',
+                'entity_id'   => '11',
+                'property_id' => '16',
+                'value'       => 'Sé',
+                'relation_id' => NULL,
+                'state'       => 'active',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
             ]
 
         ];

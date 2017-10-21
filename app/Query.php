@@ -15,6 +15,7 @@ class Query extends Model
 
     protected $fillable = [
         'name',
+        'ent_type_id',
 		'updated_by',
         'deleted_by'
     ];
@@ -40,4 +41,10 @@ class Query extends Model
 
         return $this->belongsTo('App\Users', 'deleted_by', 'id');
     }
+
+    public function entType() {
+
+        return $this->belongsTo('App\EntType', 'ent_type_id', 'id');
+    }
+
 }

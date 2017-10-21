@@ -76,6 +76,10 @@ class EntType extends Model
         return $this->belongsToMany('App\Language', 'ent_type_name', 'ent_type_id', 'language_id')->withPivot('name','created_at','updated_at','deleted_at');
     }
 
+    public function queries() {
+        return $this->hasMany('App\Query', 'ent_type_id', 'id');
+    }
+
     public function updatedBy() {
 
         return $this->belongsTo('App\Users', 'updated_by', 'id');

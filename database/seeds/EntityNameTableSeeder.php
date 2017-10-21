@@ -80,6 +80,13 @@ class EntityNameTableSeeder extends Seeder
                 'name'        => 'Municipe nº 500',
                 'updated_by'  => '1',
                 'deleted_by'  => NULL
+            ],
+            [
+                'entity_id'   => '11',
+                'language_id' => '1',
+                'name'        => 'Municipe nº 200',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
             ]
 
         ];

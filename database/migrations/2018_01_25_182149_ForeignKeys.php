@@ -384,6 +384,10 @@ class ForeignKeys extends Migration
             $table->foreign('value_id')->references('id')->on('value')->onDelete('no action')->onUpdate('no action');
         });
 
+        Schema::table('query', function (Blueprint $table) {
+            $table->foreign('ent_type_id')->references('id')->on('ent_type')->onDelete('no action')->onUpdate('no action');
+        });
+
         Schema::table('property_can_read_rel_type', function (Blueprint $table) {
             $table->foreign('reading_property')->references('id')->on('property')->onDelete('no action')->onUpdate('no action');
             $table->foreign('providing_rel_type')->references('id')->on('rel_type')->onDelete('no action')->onUpdate('no action');
@@ -526,11 +530,15 @@ class ForeignKeys extends Migration
             $table->dropForeign(['reading_property']);
             $table->dropForeign(['providing_rel_type']);
         });
-         Schema::table('condicion', function (Blueprint $table) {
+        Schema::table('condicion', function (Blueprint $table) {
             $table->dropForeign('query_id');
             $table->dropForeign('operator_id');
             $table->dropForeign('property_id');
             $table->dropForeign('value_id');
+        });
+
+        Schema::table('query', function (Blueprint $table) {
+            $table->dropForeign('ent_type_id');
         });
 
         // Updated by e Deleted by
