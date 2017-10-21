@@ -309,7 +309,6 @@ class DynamicSearchController extends Controller
             $resultTable1 = $queryTable1->distinct('id')->get(['id'])->toArray();
 
             $entitiesIdsTable1 = $this->formatArrayData($resultTable1, 'id');
-            \Log::debug($entitiesIdsTable1);
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 2): ");
@@ -327,7 +326,6 @@ class DynamicSearchController extends Controller
         }
 
         if ($selectTable2) {
-
             $resultTable2 = $queryTable2->distinct('id')->get(['id'])->toArray();
 
             $entitiesIdsTable2 = $this->formatArrayData($resultTable2, 'id');
@@ -339,18 +337,11 @@ class DynamicSearchController extends Controller
                 foreach ($entitiesIdsTable1 as $id_entity) {
                     $nameE = Entity::with(['language' => function($query) use ($language_id) {
                                     $query->where('language_id', $language_id);
-                                }])
-                                ->find($id_entity);
+                                }])->find($id_entity);
 
                     $nameInstance = $nameE->language[0]->pivot->name;
 
-                    //\Log::debug("NOMEEE DA ENTIDADEEEEEEEEEEEEEEEEEEEEEEE");
-                    //\Log::debug($nameInstance);
-
-                    $dataV = Value::where('entity_id', $id_entity2)
-                                  ->where('value', $nameInstance)
-                                  ->count();
-
+                    $dataV = Value::where('entity_id', $id_entity2)->where('value', $nameInstance)->count();
                     if ($dataV > 0) {
                         $exist = true;
                         break;
@@ -361,18 +352,6 @@ class DynamicSearchController extends Controller
                     unset($entitiesIdsTable2[$key]);
                 }
             }
-        } else if ($selectTable1) {
-            // Adicionar a query geral filtros da tabela 1 
-            $query = $query->where(function($q) use ($idEntityType, $entitiesIdsTable1) {
-                    $q->where('ent_type_id', $idEntityType)->whereIn('id', $entitiesIdsTable1);
-                });
-        }
-
-        if ($selectTable2 == true) {
-            // Adicionar a query geral filtros da tabela 2 
-            $query = $query->OrWhere(function($q) use ($idEntityType, $entitiesIdsTable2) {
-                        $q->whereIn('id', $entitiesIdsTable2);
-                    });
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 3): ");
@@ -390,10 +369,9 @@ class DynamicSearchController extends Controller
             }
         }
 
-        if($selectTable3) {
+        if ($selectTable3) {
             //Trazia todos os dados da relaçlão mas especifiquei que só quero o entity1_id e entity2_id
             $resultTable3 = $queryTable3->distinct('id')->get(['entity1_id', 'entity2_id'])->toArray();
-            \Log::debug($resultTable3);
 
             $entitiesIdsTable3 = [];
             foreach ($resultTable3 as $key => $value) {
@@ -407,7 +385,13 @@ class DynamicSearchController extends Controller
                 }
             }
 
-            \Log::debug($entitiesIdsTable3);
+            if ($selectTable1) {
+                foreach ($entitiesIdsTable3 as $key => $entitiesId) {
+                    if (!in_array($entitiesId, $entitiesIdsTable1)) {
+                        unset($entitiesIdsTable3[$key]);
+                    }
+                }
+            }
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 4): ");
@@ -425,29 +409,15 @@ class DynamicSearchController extends Controller
         }
 
         if ($selectTable4) {
-
             //Trazia todos os dados da entidade mas especifiquei que só quero o id
-            $resultTable4 = $queryTable4->distinct('id')->get(['id'])->toArray();
-            //\Log::debug("RESULT TABELA 4");
-            //\Log::debug($resultTable4);
-
+            $resultTable4     = $queryTable4->distinct('id')->get(['id'])->toArray();
             $entitiesIdsTable4 = $this->formatArrayData($resultTable4, 'id');
-            \Log::debug($entitiesIdsTable4);
 
             foreach ($entitiesIdsTable4 as $key => $entitiesId) {
                 if (!in_array($entitiesId, $entitiesIdsTable3)) {
                     unset($entitiesIdsTable4[$key]);
                 }
             }
-
-            \Log::debug("DEPOIS: ");
-            \Log::debug($entitiesIdsTable4);
-
-            // Adicionar a query geral filtros da tabela 4 
-            //Busco as instancias dos ids que eu tenho no array
-            $query = $query->OrWhere(function($q) use ($entitiesIdsTable4) {
-                            $q->whereIn('id', $entitiesIdsTable4);
-                        });
 
         } else if ($selectTable3) {
             //Percorro os ids das instancias de entidade e verifico se o ent_Type_id dessas instancias é = ao id da entidade que selecionei
@@ -462,11 +432,32 @@ class DynamicSearchController extends Controller
             }
             $entitiesIdsTable3 = $aux;
 
+            \Log::debug("IDs ENTIDADES TABELA 3");
+            \Log::debug($entitiesIdsTable3);
+        }
+
+        if ($selectTable4) {
+            // Adicionar a query geral filtros da tabela 4 
+            //Busco as instancias dos ids que eu tenho no array
+            $query = $query->OrWhere(function($q) use ($entitiesIdsTable4) {
+                            $q->whereIn('id', $entitiesIdsTable4);
+                        });
+        } else if ($selectTable3) {
             // Adicionar a query geral filtros da tabela 3 
             //Busco as instancias dos ids que eu tenho no array
             $query = $query->OrWhere(function($q) use ($idEntityType, $entitiesIdsTable3) {
                             $q->whereIn('id', $entitiesIdsTable3);
                         });
+        } else if ($selectTable2) {
+            // Adicionar a query geral filtros da tabela 2 
+            $query = $query->OrWhere(function($q) use ($idEntityType, $entitiesIdsTable2) {
+                        $q->whereIn('id', $entitiesIdsTable2);
+                    });
+        } elseif ($selectTable1) {
+            // Adicionar a query geral filtros da tabela 1 
+            $query = $query->where(function($q) use ($idEntityType, $entitiesIdsTable1) {
+                    $q->where('ent_type_id', $idEntityType)->whereIn('id', $entitiesIdsTable1);
+                });
         }
 
         return $phrase;
