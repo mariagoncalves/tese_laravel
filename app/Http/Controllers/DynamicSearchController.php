@@ -394,11 +394,8 @@ class DynamicSearchController extends Controller
 
 
         $entitiesIdsTable3 = [];
-
         foreach ($resultTable3 as $key => $value) {
-
             //Para não meter valores repetidos no array
-
             if(!in_array($value['entity1_id'], $entitiesIdsTable3)) {
                 $entitiesIdsTable3[] = $value['entity1_id'];
             }
@@ -407,6 +404,19 @@ class DynamicSearchController extends Controller
                 $entitiesIdsTable3[] = $value['entity2_id'];
             }
         }
+
+        $aux = [];
+        foreach ($entitiesIdsTable3 as $value) {
+            
+            $entTypeVal = Entity::where('id', $value)->first();
+
+            if ($entTypeVal->ent_type_id == $idEntityType) {
+                $aux[] = $value;
+            }
+        }
+
+        $entitiesIdsTable3 = $aux;
+
 
         \Log::debug($entitiesIdsTable3);
 
