@@ -102,7 +102,7 @@
 					                <tr ng-repeat="propOfEnt in entRef.properties" >
 					                    <td>[[ propOfEnt.id ]]</td>
 					                    <td>[[ propOfEnt.language[0].pivot.name ]]</td>
-					                    <td><input type="checkbox" name = "checkVT[[ propOfEnt.key ]]" value = "[[ propOfEnt.id ]]" disabled> </td>
+					                    <td><input type="checkbox" name = "checkVT[[ propOfEnt.key ]]" value = "[[ propOfEnt.id ]]" ng-click = "clickTable2()" disabled> </td>
 					                    <td>
 					                    	<div ng-switch on="propOfEnt.value_type">
 										        <div ng-switch-when="text"> <input type="text" name="textVT[[ propOfEnt.key  ]]" disabled> </div>

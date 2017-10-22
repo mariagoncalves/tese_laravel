@@ -107,46 +107,65 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         // Se existir, então vamos desbloquear todos os campos da tabela 2.
         // Caso contrario, bloquear.
         if (existeChecked) {
-            $("#checkRL").find("[type=checkbox]").removeAttr('disabled');
-            $("#checkRL").find("[type=text]").removeAttr('disabled');
-            $("#checkRL").find("[type=number]").removeAttr('disabled');
-            $("#checkRL").find("[type=radio]").removeAttr('disabled');
-            $("#checkRL").find("select").removeAttr('disabled');
+            $("#checkRL").find("[type=checkbox], [type=text], [type=number], [type=radio], select").removeAttr('disabled');
         } else {
             $("#checkRL").find("[type=checkbox]").prop("checked", false);
-            $("#checkRL").find("[type=checkbox]").attr('disabled', true);
-            $("#checkRL").find("[type=text]").attr('disabled', true);
-            $("#checkRL").find("[type=number]").attr('disabled', true);
-            $("#checkRL").find("[type=radio]").attr('disabled', true);
-            $("#checkRL").find("select").attr('disabled', true);
+            $("#checkRL").find("[type=checkbox], [type=text], [type=number], [type=radio], select").attr('disabled', true);
         }
     }
 
-    $scope.clickTable3 = function ($event) {
-        // Verificar se existe alguma checkbox selecionada na tabela 3
+    $scope.clickTable2 = function ($event) {
+        // Verificar se existe alguma checkbox selecionada na tabela 2
         var existeChecked = false;
-        $("#table3").find("[type=checkbox]").each(function(index) {
+        $("#checkRL").find("[type=checkbox]").each(function(index) {
             if ($(this).is(":checked")) {
                 existeChecked = true;
                 return;
             }
         });
 
+        // Se existir, então vamos bloquear todos os campos da tabela 3 e 4.
+        // Caso contrario, desbloquear.
+        if (existeChecked) {
+            $("#table3, #table4").find("[type=checkbox]").prop("checked", false);
+            $("#table3, #table4").find("[type=checkbox], [type=text], [type=number], [type=radio], select").attr('disabled', true);
+        } else {
+            $("#table3, #table4").find("[type=checkbox], [type=text], [type=number], [type=radio], select").removeAttr('disabled');
+        }
+    }
+
+    $scope.clickTable3 = function ($event) {
+        // Verificar se existe alguma checkbox selecionada na tabela 3
+        var existeCheckedTable3 = false;
+        $("#table3").find("[type=checkbox]").each(function(index) {
+            if ($(this).is(":checked")) {
+                existeCheckedTable3 = true;
+                return;
+            }
+        });
+
         // Se existir, então vamos desbloquear todos os campos da tabela 4.
         // Caso contrario, bloquear.
-        if (existeChecked) {
-            $("#table4").find("[type=checkbox]").removeAttr('disabled');
-            $("#table4").find("[type=text]").removeAttr('disabled');
-            $("#table4").find("[type=number]").removeAttr('disabled');
-            $("#table4").find("[type=radio]").removeAttr('disabled');
-            $("#table4").find("select").removeAttr('disabled');
+        if (existeCheckedTable3) {
+            $("#table4").find("[type=checkbox], [type=text], [type=number], [type=radio], select").removeAttr('disabled');
         } else {
             $("#table4").find("[type=checkbox]").prop("checked", false);
-            $("#table4").find("[type=checkbox]").attr('disabled', true);
-            $("#table4").find("[type=text]").attr('disabled', true);
-            $("#table4").find("[type=number]").attr('disabled', true);
-            $("#table4").find("[type=radio]").attr('disabled', true);
-            $("#table4").find("select").attr('disabled', true);
+            $("#table4").find("[type=checkbox], [type=text], [type=number], [type=radio], select").attr('disabled', true);
+        }
+
+        var existeCheckedTable1 = false;
+        $("#table1").find("[type=checkbox]").each(function(index) {
+            if ($(this).is(":checked")) {
+                existeCheckedTable1 = true;
+                return;
+            }
+        });
+
+        if ((existeCheckedTable1 && existeCheckedTable3) || existeCheckedTable3) {
+            $("#checkRL").find("[type=checkbox]").prop("checked", false);
+            $("#checkRL").find("[type=checkbox], [type=text], [type=number], [type=radio], select").attr('disabled', true);
+        } else {
+            $("#checkRL").find("[type=checkbox], [type=text], [type=number], [type=radio], select").removeAttr('disabled');
         }
     }
 

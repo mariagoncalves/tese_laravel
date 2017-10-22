@@ -11,6 +11,7 @@ use App\Entity;
 use App\Value;
 use App\Relation;
 use App\Query;
+use App\Operator;
 
 class DynamicSearchController extends Controller
 {
@@ -62,14 +63,8 @@ class DynamicSearchController extends Controller
 
     public function getOperators() {
 
-        /*$operators = array(
-            "lower"=>"<",
-            "greater"=>">",
-            "equal"=>"=",
-            "different"=>"!="
-            );*/
-
         $operators = Property::getValoresEnum('operator_type', 'operator');
+        //\Log::debug($operators);
 
         return response()->json($operators);
    }
