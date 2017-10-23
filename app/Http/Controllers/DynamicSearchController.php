@@ -344,10 +344,11 @@ class DynamicSearchController extends Controller
 
 
     public function search(Request $request, $idEntityType) {
-        $data        = $request->all();
-        $language_id = '1';
-        $result      = [];
-        $query       = [];
+        $data             = $request->all();
+        $propertiesSelect = [];
+        $language_id      = '1';
+        $result           = [];
+        $query            = [];
 
         if (isset($data['query_name']) && $data['query_name'] != "") {
             $this->registarQueryPesquisa($data, $idEntityType);
@@ -358,9 +359,6 @@ class DynamicSearchController extends Controller
         $query = Entity::with(['language' => function($query) use ($language_id) {
                             $query->where('language_id', $language_id);
                         }])
-                        ->with(['values' => function($query) use ($language_id) {
-                            $query->where('language_id', $language_id);
-                        }])
                         ->with(['values.language' => function($query) use ($language_id) {
                             $query->where('language_id', $language_id);
                         }])
@@ -369,9 +367,13 @@ class DynamicSearchController extends Controller
                         }]);
 
         //Formar a frase e realizar pesquisa de acordo com a pesquisa..
-        $phrase = $this->formPhraseAndQuery($idEntityType, $data, $query);
+        $phrase = $this->formPhraseAndQuery($idEntityType, $data, $query, $propertiesSelect);
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (GERAL PESQUISA): ");
+        $query = $query->with(['values' => function($query) use ($propertiesSelect) {
+                            $query->whereIn('property_id', $propertiesSelect);
+                        }]);
+
         \Log::debug($query->toSql());
 
         $result['phrase'] = $phrase;
@@ -380,7 +382,7 @@ class DynamicSearchController extends Controller
         return response()->json($result);
     }
 
-    public function formPhraseAndQuery($idEntityType, $data, &$query) {
+    public function formPhraseAndQuery($idEntityType, $data, &$query, &$propertiesSelect) {
         $language_id = 1;
 
         $ent = EntType::with(['language' => function($q) use ($language_id) {
@@ -397,14 +399,15 @@ class DynamicSearchController extends Controller
         for ($i=0; $i < $data['numTableET']; $i++) { 
             if (isset($data['checkET'.$i])) {
                 $selectTable1 = true;
-                $phrase = $this->formPhraseTableType($data, $data['checkET'.$i], 'ET', $i, $phrase, $query);
+                $propertiesSelect[] = $data['checkET'.$i];
+                $phrase = $this->formPhraseTableType($data, $data['checkET'.$i], 'ET', $i, $phrase);
 
-                $this->formQueryTable1AndTable2($data, $data['checkET'.$i], 'ET', $i, $queryTable1);
+                $this->formQueryTable($data, $data['checkET'.$i], 'ET', $i, $queryTable1);
             }
         }
 
         if ($selectTable1) {
-            $resultTable1 = $queryTable1->distinct('id')->get(['id'])->toArray();
+            $resultTable1 = $queryTable1->where('ent_type_id', $idEntityType)->distinct('id')->get(['id'])->toArray();
 
             $entitiesIdsTable1 = $this->formatArrayData($resultTable1, 'id');
         }
@@ -416,31 +419,37 @@ class DynamicSearchController extends Controller
         $queryTable2  = new Entity;
         for ($i = 0; $i < $data['numTableVT']; $i++) { 
             if (isset($data['checkVT'.$i])) {
-                $selectTable2 = true;                
-                $phrase = $this->formPhraseTableType($data, $data['checkVT'.$i], 'VT', $i, $phrase, $query);
+                $selectTable2 = true;
+                $propertiesSelect[] = $data['checkVT'.$i];            
+                $phrase = $this->formPhraseTableType($data, $data['checkVT'.$i], 'VT', $i, $phrase);
 
-                $this->formQueryTable1AndTable2($data, $data['checkVT'.$i], 'VT', $i, $queryTable2);
+                $this->formQueryTable($data, $data['checkVT'.$i], 'VT', $i, $queryTable2);
             }
         }
 
         if ($selectTable2) {
+            $relacaoEntreTable1e2 = [];
             $resultTable2 = $queryTable2->distinct('id')->get(['id'])->toArray();
 
             $entitiesIdsTable2 = $this->formatArrayData($resultTable2, 'id');
+            \Log::debug("ID TABELA 2 (INICIAL)");
             \Log::debug($entitiesIdsTable2);
 
             foreach ($entitiesIdsTable2 as $key => $id_entity2) {
                 $exist = false;
 
                 foreach ($entitiesIdsTable1 as $id_entity) {
-                    $nameE = Entity::with(['language' => function($query) use ($language_id) {
-                                    $query->where('language_id', $language_id);
+                    $nameE = Entity::with(['language' => function($qy) use ($language_id) {
+                                    $qy->where('language_id', $language_id);
                                 }])->find($id_entity);
 
                     $nameInstance = $nameE->language[0]->pivot->name;
+                    \Log::debug("ID: " . $id_entity);
+                    \Log::debug($nameInstance);
 
                     $dataV = Value::where('entity_id', $id_entity2)->where('value', $nameInstance)->count();
                     if ($dataV > 0) {
+                        $relacaoEntreTable1e2[] = ['1id' => $id_entity, '2id' => $id_entity2];
                         $exist = true;
                         break;
                     }
@@ -450,6 +459,14 @@ class DynamicSearchController extends Controller
                     unset($entitiesIdsTable2[$key]);
                 }
             }
+            \Log::debug($relacaoEntreTable1e2);
+            \Log::debug("ID TABELA 1 (FINAL)");
+            \Log::debug($entitiesIdsTable1);
+            \Log::debug("ID TABELA 2 (FINAL)");
+            \Log::debug($entitiesIdsTable2);
+        } else {
+            \Log::debug("ID TABELA 1 (FINAL)");
+            \Log::debug($entitiesIdsTable1);
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 3): ");
@@ -460,9 +477,10 @@ class DynamicSearchController extends Controller
         for ($i=0; $i < $data['numTableRL']; $i++) { 
             if (isset($data['checkRL'.$i])) {
                 $selectTable3 = true;
-                $phrase = $this->formPhraseTableType($data, $data['checkRL'.$i], 'RL', $i, $phrase, $query);
+                $propertiesSelect[] = $data['checkRL'.$i];
+                $phrase = $this->formPhraseTableType($data, $data['checkRL'.$i], 'RL', $i, $phrase);
 
-                $this->formQueryTable1AndTable2($data, $data['checkRL'.$i], 'RL', $i, $queryTable3);
+                $this->formQueryTable($data, $data['checkRL'.$i], 'RL', $i, $queryTable3);
             }
         }
 
@@ -498,10 +516,11 @@ class DynamicSearchController extends Controller
         // Formar a frase da tabela 4
         for ($i=0; $i < $data['numTableER']; $i++) { 
             if (isset($data['checkER'.$i])) {  
-                $selectTable4 = true;              
-                $phrase = $this->formPhraseTableType($data, $data['checkER'.$i], 'ER', $i, $phrase, $query);
+                $selectTable4 = true;
+                $propertiesSelect[] = $data['checkER'.$i];              
+                $phrase = $this->formPhraseTableType($data, $data['checkER'.$i], 'ER', $i, $phrase);
 
-                $this->formQueryTable1AndTable2($data, $data['checkER'.$i], 'ER', $i, $queryTable4);
+                $this->formQueryTable($data, $data['checkER'.$i], 'ER', $i, $queryTable4);
             }
         }
 
@@ -560,7 +579,7 @@ class DynamicSearchController extends Controller
         return $phrase;
     }
 
-    public function formPhraseTableType($data, $idProperty, $type, $position, $phrase, &$query1) {
+    public function formPhraseTableType($data, $idProperty, $type, $position, $phrase) {
         $property = $this->getPropertyData($idProperty);
 
         $nameProp  = $property->language->first()->pivot->name;
@@ -595,43 +614,30 @@ class DynamicSearchController extends Controller
             $valueQuery    = $data['int'.$type.$position];
             $operatorQuery = $data['operators'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . $operatorQuery.' '.$valueQuery.';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $operatorQuery.' '.$valueQuery).';';
         }  else if ($valueType == "double") {
             $valueQuery    = $data['double'.$type.$position];
             $operatorQuery = $data['operators'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . $operatorQuery.' '.$valueQuery.';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $operatorQuery.' '.$valueQuery) . ';';
         } else  if ($valueType == "text") {
             $valueQuery = $data['text'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . $valueQuery.';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $valueQuery).';';
         } else  if ($valueType == "enum") {
             $valueQuery = $data['select'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . $valueQuery.';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $valueQuery).';';
         } else  if ($valueType == "bool") {
             $valueQuery = $data['radio'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . $valueQuery.';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $valueQuery).';';
         }
-
-        //if ($valueQuery != "") {
-
-            // Adicionar a query filtros de pesquisa de acordo com as opções selecionadas
-            /*$query1 = $query1->whereHas('values', function($q) use ($operatorQuery, $valueQuery, $idProperty) {
-                                $q->where('property_id', $idProperty)->where('value', $operatorQuery, $valueQuery);
-                            })->with(['values.property' => function($query) use ($valueQuery, $idProperty) {
-                                $query->where('id', $idProperty);
-                            }])->with(['values' => function($query) use ($valueQuery, $idProperty) {
-                                $query->where('property_id', $idProperty);
-                            }]);*/
-
-        //}
 
         return $phrase;
     }
 
-    public function formQueryTable1AndTable2($data, $idProperty, $type, $position, &$queryTable1) {
+    public function formQueryTable($data, $idProperty, $type, $position, &$queryTable1) {
         $language_id = '1';
 
         $property  = $this->getPropertyData($idProperty);
@@ -653,45 +659,11 @@ class DynamicSearchController extends Controller
             $valueQuery = $data['radio'.$type.$position];
         }
 
-        if($valueQuery == "") {
-            if ($type == 'ET') {
-
-                \Log::debug("TA A ENTRAR NA TABEL 1 ET");
-
-                $valores = Value::where('property_id', $idProperty)->get(['entity_id', 'value'])->toArray();
-
-                \Log::debug("VALORES DA QUERY");
-                \Log::debug($valores);
-
-                $saveIds = [];
-                foreach ($valores as $key => $value) {
-                    $saveIds[] = $value['entity_id'];
-                }
-
-                \Log::debug("RESULTADO DOS SAVEIDS");
-                \Log::debug($saveIds);
-
-                $queryTable1 = $queryTable1->OrWhere(function($q) use ($saveIds) {
-                            $q->whereIn('id', $saveIds);
-                        });
-
-                \Log::debug("RESULTADO DA QUERY FINALLLL");
-                \Log::debug($queryTable1->toSql());
-            } else if ($type == 'VT') {
-
-                //Mas nem tou a fazer nada e tá a funcionar???
-                \Log::debug("TA A ENTRAR NA TABEL 2 VT");
-
-            }
-        } else {
+        if($valueQuery != "") {
             $queryTable1 = $queryTable1->whereHas('values', function($q) use ($idProperty, $operatorQuery, $valueQuery) {
                                         $q->where('property_id', $idProperty)->where('value', $operatorQuery, $valueQuery);
                                     });
         }
-
-        /*$queryTable1 = $queryTable1->whereHas('values', function($q) use ($idProperty, $operatorQuery, $valueQuery) {
-                                        $q->where('property_id', $idProperty)->where('value', $operatorQuery, $valueQuery);
-                                    });*/
     }
 
     public function formatArrayData($data, $keySelect) {
