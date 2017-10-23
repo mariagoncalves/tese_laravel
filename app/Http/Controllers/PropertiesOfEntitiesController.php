@@ -341,7 +341,7 @@ class PropertiesOfEntitiesController extends Controller {
                     ->update($dataName);
 
         $output_type = $data['property_outputType'];
-        \Log::debug($output_type);
+        //\Log::debug($output_type);
 
          PropertyCanReadProperty::where('reading_property', $id)->delete();
          PropertyCanReadEntType::where('reading_property', $id)->delete();

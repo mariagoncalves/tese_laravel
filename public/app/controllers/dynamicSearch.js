@@ -94,6 +94,19 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
+    $scope.getPropRefs = function (id) {
+
+        console.log("CHEIGOUUU ");
+        console.log("teste com id: " + id);
+
+        $http.get(API_URL + '/dynamicSearch/getPropRefs/' + id).then(function(response) {
+            $scope.entRefs = response.data;
+            console.log("Dados das ent refs");
+            console.log($scope.propRefs);
+        });
+    }
+
+
     $scope.clickTable1 = function ($event) {
         // Verificar se existe alguma checkbox selecionada na tabela 1
         var existeChecked = false;

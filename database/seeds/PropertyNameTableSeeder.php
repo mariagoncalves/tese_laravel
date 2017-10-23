@@ -166,6 +166,14 @@ class PropertyNameTableSeeder extends Seeder
                 'updated_by'      => '1',
                 'deleted_by'      => NULL
             ],
+            [
+                'property_id'     => '20',
+                'language_id'     => '1',
+                'name'            => 'Nome',
+                'form_field_name' => NULL,
+                'updated_by'      => '1',
+                'deleted_by'      => NULL
+            ]
 
 
         ];

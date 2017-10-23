@@ -41,12 +41,12 @@
 								        		<option ng-repeat = "propAllowedValue in propAllowedValues[property.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
 								        	</select>
 										</div>
-										<div ng-switch-when="ent_ref"> 
+										<!-- <div ng-switch-when="ent_ref"> 
 											<select name = "ent_refET[[ key1 ]]" ng-init = "getEntityInstances(ents.id, property.id)">
 								        		<option></option>
 								        		<option ng-repeat = "inst in fkEnt[property.id].fk_ent_type.entity" value = "[[ inst.id ]]"> [[ inst.language[0].pivot.name ]] </option>
 								        	</select>
-										</div>
+										</div> -->
 								        <div ng-switch-when="int"> 
 											<select name = "operatorsET[[ key1 ]]" ng-init = "getOperators()">
 								        		<option></option>
@@ -65,6 +65,7 @@
 										<!-- Não sei se é para por o prop-ref -->
 										<div ng-switch-default> 
 								        	<input type="text" name="propRefET[[ key1 ]]">
+								        	
 										</div>
 									</div>
 			                    </td> 
@@ -75,7 +76,8 @@
 			</div>
 
 			<!-- Esta tabela mostra as propriedades das entidades que contenham pelo menos uma prop que seja ent_ref e que a ent referenciada seja a entidade selecionada anteriormente -->
-			<div ng-init = "getEntRefs({{$id}})" id = "checkRL">
+			<!-- <div ng-init = "getEntRefs({{$id}})" id = "checkRL"> -->
+			<div ng-init = "getPropRefs({{$id}})" id = "checkRL">
 				<h3> Propriedades de entidades que contenham pelo menos uma propriedade que referêncie a entidade [[ents.language[0].pivot.name ]] </h3>
 
 				<div ng-if = "entRefs.length == 0">
@@ -147,7 +149,7 @@
 			</div>
 
 			<!-- 3º tabela -->
-			<div ng-init = "getRelsWithEnt({{$id}})">
+			<!-- <div ng-init = "getRelsWithEnt({{$id}})">
 				<h3> Propriedades de relações em que a entidade [[ents.language[0].pivot.name ]] está presente. </h3>
 
 				<div ng-if = "relsWithEnt.length == 0">
@@ -210,7 +212,7 @@
 										<div ng-switch-when="file"> 
 											<input type="text" name="fileRL[[ prop.key ]]">
 										</div>
-										<!-- Não sei se é para por o prop-ref -->
+
 										<div ng-switch-default> 
 								        	<input type="text" name="propRefRL[[ prop.key ]]">
 										</div>
@@ -221,7 +223,7 @@
 	                    </tbody>
 	                </table>
                 </div>
-			</div>
+			</div> -->
 
 			<!-- 4º tabela -->
 			<div ng-init = "getEntsRelated(relWithEnt.id, {{ $id }})">
@@ -292,7 +294,7 @@
 										<div ng-switch-when="file"> 
 											<input type="text" name="fileER[[ property.key ]]" disabled>
 										</div>
-										<!-- Não sei se é para por o prop-ref -->
+
 										<div ng-switch-default> 
 								        	<input type="text" name="propRefER[[ key3 ]]" disabled>
 										</div>
@@ -307,7 +309,7 @@
             <button type="button" class="btn btn-md btn-primary" ng-click="search(ents.id)"> Pesquisar </button>
 		</div>
 	</form>
-	<!-- Nova tabela com alterações -->
+
 	<div id="dynamic-search-presentation" style="display: none;">
 		<h3>Pesquisa</h3>
 		<div id="false-de-pesquisa" style="padding: 15px 0px;">

@@ -12,6 +12,7 @@ use App\Value;
 use App\Relation;
 use App\Query;
 use App\Operator;
+//use App\Condition;
 
 class DynamicSearchController extends Controller
 {
@@ -138,6 +139,58 @@ class DynamicSearchController extends Controller
         }
 
         return response()->json($dadosEntRefs);
+    }
+
+    public function getPropRefs($idEntityType) {
+
+        $propsId      = Property::where('ent_type_id', $idEntityType)->get(['id']);
+        $arrayPropsId = [];
+        foreach ($propsId as $propId) {
+            $arrayPropsId[] = $propId->id;
+        }
+
+        \Log::debug("TESTEEEEEEEEEE 1");             
+        \Log::debug($arrayPropsId);
+
+        $language_id = '1';
+
+        $propRefs = Property::with(['entType.language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->where('property.value_type', 'prop_ref')
+                            ->whereIn('property.fk_property_id', $arrayPropsId)
+                            ->get()->toArray();
+
+        \Log::debug("TESTEEEEEEEEEE 2");             
+        \Log::debug($propRefs);
+
+        $count        = 0;
+        $dadosPropRefs = [];
+        foreach ($propRefs as $entRef) {
+            $dadosPropRef = $entRef;
+            $dadosPropRef['properties'] = [];
+
+            $propsOfEnts = Property::with(['language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->where('ent_type_id', $entRef['ent_type_id'])
+                            ->where('value_type', '!=', 'ent_ref') //Evita a verificação na vista
+                            ->where('value_type', '!=', 'prop_ref')
+                            ->get()->toArray();
+
+            foreach ($propsOfEnts as $key => $prop) {
+                $dadosProp = $prop;
+                $dadosProp['key'] = $count;
+                $dadosPropRef['properties'][] = $dadosProp;
+
+                $count = $count + 1;
+            }
+
+            $dadosPropRefs[] = $dadosPropRef;
+        }
+
+        return response()->json($dadosPropRefs);
+        return response()->json($propRefs);
     }
 
     public function getPropsOfEnts($id) {
@@ -400,7 +453,6 @@ class DynamicSearchController extends Controller
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 3): ");
-        //Para a 3º tabela é suposto me aparecer as instancias das entidades pertencentes à relação
 
         $queryTable3 = new Relation;
         $selectTable3 = false;

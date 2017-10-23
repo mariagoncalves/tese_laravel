@@ -394,7 +394,24 @@ class PropertyTableSeeder extends Seeder
                 'deleted_by'       => NULL
 
             ],
+            [
+                'id'               => '20',
+                'ent_type_id'      => '5',
+                'rel_type_id'      => NULL,
+                'value_type'       => 'text',
+                'form_field_type'  => 'text',
+                'unit_type_id'     => NULL,
+                'form_field_order' => '3',
+                'mandatory'        => '1',
+                'state'            => 'active',
+                'fk_ent_type_id'   => NULL,
+                'fk_property_id'   => NULL,
+                'form_field_size'  => '10',
+                'can_edit'         => '1',
+                'updated_by'       => '1',
+                'deleted_by'       => NULL
 
+            ]
         ];
 
         foreach ($dados as $value) {

@@ -240,7 +240,30 @@ class RelationManagement extends Controller
 
                 \Log::Debug($dataRelType);
 
-            return response()->json($dataRelType);
+                return response()->json($dataRelType);
+
+                /*$relations = DB::table('rel_type')
+
+                                ->join('rel_type', 'rel_type.id', '=', 'rel_type_name.rel_type_id')
+
+                                ->join('ent_type', 'rel_type.ent_type1_id', '=', 'ent_type.id')
+                                ->join('ent_type', 'rel_type.ent_type2_id', '=', 'ent_type.id')
+
+                                ->join('ent_type_name', 'ent_type_name.ent_type_id', '=', 'ent_type.id')
+                                ->join('language as l1', 'ent_type_name.language_id', '=', 'l1.id')
+
+                                ->join('transaction_type', 'rel_type.transaction_type_id', '=', 'transaction_type.id')
+                                ->join('transaction_type_name', 'transaction_type_name.transaction_type_id', '=', 'transaction_type.id')
+                                ->join('language as l2', 'transaction_type_name.language_id', '=', 'l2.id')
+
+                                ->join('t_state', 'rel_type.t_state_id', '=', 't_state.id')
+                                ->join('t_state_name', 't_state_name.t_state_id', '=', 't_state.id')
+                                ->get();
+
+            \Log::debug("TESTE COM DBBBBBBBBBBBBBBBBBBBB");
+            \Log::debug($relations);
+
+            return response()->json($relations);*/
 
         } else {
             return $this->getSpec($id);
