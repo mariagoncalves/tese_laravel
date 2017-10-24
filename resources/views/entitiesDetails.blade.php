@@ -149,7 +149,7 @@
 			</div>
 
 			<!-- 3º tabela -->
-			<!-- <div ng-init = "getRelsWithEnt({{$id}})">
+			<div ng-init = "getRelsWithEnt({{$id}})">
 				<h3> Propriedades de relações em que a entidade [[ents.language[0].pivot.name ]] está presente. </h3>
 
 				<div ng-if = "relsWithEnt.length == 0">
@@ -223,7 +223,7 @@
 	                    </tbody>
 	                </table>
                 </div>
-			</div> -->
+			</div>
 
 			<!-- 4º tabela -->
 			<div ng-init = "getEntsRelated(relWithEnt.id, {{ $id }})">

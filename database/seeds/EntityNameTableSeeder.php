@@ -43,21 +43,21 @@ class EntityNameTableSeeder extends Seeder
         	],
         	[	'entity_id'   => '5',
                 'language_id' => '1',
-                'name'        => 'Santo António',
+                'name'        => 'Freguesia 1',
                 'updated_by'  => '1',
                 'deleted_by'  => NULL
         	],
         	[
         		'entity_id'   => '6',
                 'language_id' => '1',
-                'name'        => 'Santo da Serra',
+                'name'        => 'Freguesia 2',
                 'updated_by'  => '1',
                 'deleted_by'  => NULL
         	],
             [
                 'entity_id'   => '7',
                 'language_id' => '1',
-                'name'        => 'Sé',
+                'name'        => 'Freguesia 3',
                 'updated_by'  => '1',
                 'deleted_by'  => NULL
             ],
@@ -85,6 +85,13 @@ class EntityNameTableSeeder extends Seeder
                 'entity_id'   => '11',
                 'language_id' => '1',
                 'name'        => 'Municipe nº 200',
+                'updated_by'  => '1',
+                'deleted_by'  => NULL
+            ],
+            [
+                'entity_id'   => '12',
+                'language_id' => '1',
+                'name'        => 'Municipe nº 600',
                 'updated_by'  => '1',
                 'deleted_by'  => NULL
             ]

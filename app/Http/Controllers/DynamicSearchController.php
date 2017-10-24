@@ -190,7 +190,7 @@ class DynamicSearchController extends Controller
         }
 
         return response()->json($dadosPropRefs);
-        return response()->json($propRefs);
+        //return response()->json($propRefs);
     }
 
     public function getPropsOfEnts($id) {

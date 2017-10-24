@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(PropAllowedValueTableSeeder::class);
         $this->call(PropAllowedValueNameTableSeeder::class); //(Remover)
-
+        $this->call(OperatorTableSeeder::class);
         /*
         $this->call(CustomFormHasPropTableSeeder::class); (Verificar se a tabela existe ainda, parece que foi alterado para o customFormHasEntType)
         $this->call(CausalLinkTableSeeder::class);

@@ -121,7 +121,7 @@ class PropertyNameTableSeeder extends Seeder
             [
                 'property_id'     => '14',
                 'language_id'     => '1',
-                'name'            => 'NIF',
+                'name'            => 'Nº de habitantes',
                 'form_field_name' => NULL,
                 'updated_by'      => '1',
                 'deleted_by'      => NULL
@@ -129,7 +129,7 @@ class PropertyNameTableSeeder extends Seeder
             [
                 'property_id'     => '15',
                 'language_id'     => '1',
-                'name'            => 'Profissão',
+                'name'            => 'Área',
                 'form_field_name' => NULL,
                 'updated_by'      => '1',
                 'deleted_by'      => NULL
@@ -137,7 +137,7 @@ class PropertyNameTableSeeder extends Seeder
             [
                 'property_id'     => '16',
                 'language_id'     => '1',
-                'name'            => 'Freguesia',
+                'name'            => 'Nome',
                 'form_field_name' => NULL,
                 'updated_by'      => '1',
                 'deleted_by'      => NULL
@@ -145,7 +145,7 @@ class PropertyNameTableSeeder extends Seeder
             [
                 'property_id'     => '17',
                 'language_id'     => '1',
-                'name'            => 'Nº de habitantes',
+                'name'            => 'NIF',
                 'form_field_name' => NULL,
                 'updated_by'      => '1',
                 'deleted_by'      => NULL
@@ -153,7 +153,7 @@ class PropertyNameTableSeeder extends Seeder
             [
                 'property_id'     => '18',
                 'language_id'     => '1',
-                'name'            => 'Área',
+                'name'            => 'Profissão',
                 'form_field_name' => NULL,
                 'updated_by'      => '1',
                 'deleted_by'      => NULL
@@ -161,7 +161,7 @@ class PropertyNameTableSeeder extends Seeder
             [
                 'property_id'     => '19',
                 'language_id'     => '1',
-                'name'            => 'Data',
+                'name'            => 'Freguesia',
                 'form_field_name' => NULL,
                 'updated_by'      => '1',
                 'deleted_by'      => NULL
@@ -169,13 +169,11 @@ class PropertyNameTableSeeder extends Seeder
             [
                 'property_id'     => '20',
                 'language_id'     => '1',
-                'name'            => 'Nome',
+                'name'            => 'Data',
                 'form_field_name' => NULL,
                 'updated_by'      => '1',
                 'deleted_by'      => NULL
             ]
-
-
         ];
 
         foreach ($dados as $value) {

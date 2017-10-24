@@ -27,6 +27,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     //Porque vou precisar do id da ent_Type no método inactiveActive
     $scope.idEntityType = [];
     $scope.state = [];
+    $scope.propRefs = [];
+    
 
 
 
@@ -101,8 +103,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
         $http.get(API_URL + '/dynamicSearch/getPropRefs/' + id).then(function(response) {
             $scope.entRefs = response.data;
-            console.log("Dados das ent refs");
-            console.log($scope.propRefs);
+            console.log("Dados das prop refs");
+            console.log($scope.entRefs);
         });
     }
 
