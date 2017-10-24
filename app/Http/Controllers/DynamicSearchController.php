@@ -12,7 +12,7 @@ use App\Value;
 use App\Relation;
 use App\Query;
 use App\Operator;
-//use App\Condition;
+use App\Condicion;
 
 class DynamicSearchController extends Controller
 {
@@ -64,10 +64,25 @@ class DynamicSearchController extends Controller
 
     public function getOperators() {
 
-        $operators = Property::getValoresEnum('operator_type', 'operator');
+        //$operators = Property::getValoresEnum('operator_type', 'operator');
         //\Log::debug($operators);
 
-        return response()->json($operators);
+        $dataOperators = Operator::all();
+        //$dataOperators = Operator::select(['id', 'operator_type'])->get();
+
+        \Log::debug("OPERADORESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+        \Log::debug($dataOperators);
+
+        /*$operatorIds = [];
+        foreach ($dataOperators as $key => $operator) {
+            $operatorIds[] = $operator->id;
+        }
+
+        \Log::debug("IDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD  OPERADORESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+        \Log::debug($operatorIds);*/
+
+        return response()->json($dataOperators);
+        //return response()->json($operators);
    }
 
     public function getEnumValues($id) {
@@ -193,7 +208,7 @@ class DynamicSearchController extends Controller
         //return response()->json($propRefs);
     }
 
-    public function getPropsOfEnts($id) {
+    //public function getPropsOfEnts($id) {
 
         /*$language_id = '1';
 
@@ -205,7 +220,7 @@ class DynamicSearchController extends Controller
                         ->get();
 
         return response()->json($propsOfEnts);*/
-    }
+    //}
 
     public function getRelsWithEnt($id) {
 
@@ -308,15 +323,20 @@ class DynamicSearchController extends Controller
 
         for ($i=0; $i < $data['numTableET']; $i++) { 
             if (isset($data['checkET'.$i])) {
-                $this->createCondicion($idQuery, $data['checkET'.$i], 'ET', $data);
+                $this->createCondicion($idQuery, $data['checkET'.$i], 'ET', $i, $data);
             }
         }
 
     }
 
-    public function createCondicion($idQuery, $idProperty, $type, $data) {
+    public function createCondicion($idQuery, $idProperty, $type, $position, $data) {
+
+        $property = $this->getPropertyData($idProperty);
+        $valueType = $property->value_type;
+
         $valueQuery    = '';
-        $operatorQuery = '=';
+        $operatorQuery = NULL;
+
         if ($valueType == "int") {
             $valueQuery    = $data['int'.$type.$position];
             $operatorQuery = $data['operators'.$type.$position];
@@ -333,7 +353,7 @@ class DynamicSearchController extends Controller
 
         $data1 = array(
             'query_id'    => $idQuery,
-            'operator_id' => '',
+            'operator_id' => $operatorQuery,
             'property_id' => $idProperty,
             'table_type'  => $type,
             'value'       => $valueQuery,
@@ -370,6 +390,7 @@ class DynamicSearchController extends Controller
         $phrase = $this->formPhraseAndQuery($idEntityType, $data, $query, $propertiesSelect);
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (GERAL PESQUISA): ");
+        //Para trazer só as propriedades que foram selecionadas
         $query = $query->with(['values' => function($query) use ($propertiesSelect) {
                             $query->whereIn('property_id', $propertiesSelect);
                         }]);
@@ -466,7 +487,7 @@ class DynamicSearchController extends Controller
             \Log::debug($entitiesIdsTable2);
         } else {
             \Log::debug("ID TABELA 1 (FINAL)");
-            \Log::debug($entitiesIdsTable1);
+            //\Log::debug($entitiesIdsTable1);
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 3): ");
@@ -610,6 +631,7 @@ class DynamicSearchController extends Controller
         //Construir a frase conforme o value_type
         $valueQuery    = '';
         $operatorQuery = '=';
+
         if ($valueType == "int") {
             $valueQuery    = $data['int'.$type.$position];
             $operatorQuery = $data['operators'.$type.$position];
@@ -721,11 +743,8 @@ class DynamicSearchController extends Controller
 
         if ($stateEntity->state == 'active') {
 
-            //$data = ['state' => 'inactive'];
-
             Entity::where('id', $idEntity)
                     ->update(['state' => 'inactive']);
-
         } else {
 
            Entity::where('id', $idEntity)

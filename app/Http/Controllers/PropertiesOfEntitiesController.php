@@ -437,4 +437,36 @@ class PropertiesOfEntitiesController extends Controller {
         $outputTypes = Property::getValoresEnum('output_type', 'property_can_read_property');
         return response()->json($outputTypes);
     }
+
+    public function getAll_test ($id = null) {
+
+        //\Log::debug("TÁ A CHEGAR AO TESTEEE");
+
+        if ($id == null) {
+
+                $url_text = 'PT';
+                $dataPropsOfEnt = EntType::with(['language' => function($query) use ($url_text) {
+                                            $query->where('language.slug', $url_text);
+                                        }])
+                                        ->with(['properties' => function($query) use ($url_text) {
+                                            $query->where('language.slug', $url_text);
+                                        }])
+                                        ->with(['properties.language' => function($query) use ($url_text) {
+                                            $query->where('language.slug', $url_text);
+                                        }])
+                                        ->with(['properties.units.language' => function($query) use ($url_text) {
+                                            $query->where('language.slug', $url_text);
+                                        }])
+                                        ->get();
+
+                \Log::Debug($dataPropsOfEnt);
+
+                return response()->json($dataPropsOfEnt);
+
+        } else {
+            return $this->getSpec($id);
+        }
+    }
+
+
 }

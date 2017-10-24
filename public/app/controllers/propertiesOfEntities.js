@@ -403,6 +403,24 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
     };
 
+    //------------------------------------TESTES------------------------------
+    //Para usar o ng-table
+
+    $http.get('/PropertyEnt/get_props_ent?page=1').then(function(response) {
+        $scope.tableParams = new NgTableParams({
+            count: 2,
+            group: "name"
+        }, {
+            paginationMaxBlocks: 13,
+            paginationMinBlocks: 2,
+            dataset: response.data
+
+        });
+
+        console.log(response.data);
+    });
+
+
     
 }).directive('pagination', function(){
     return{

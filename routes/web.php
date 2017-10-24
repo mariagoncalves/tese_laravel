@@ -118,39 +118,6 @@ Route::post('/Process_Type/{id}', 'ProcessTypes@update');
 Route::post('/Process_Type_del/{id}', 'ProcessTypes@delete');
 
 //***********************************MARIA****************************//
-//Properties Home Page
-//Route::get('/propertiesManage', 'PropertiesManagment@index'); //método inválido
-/*Route::get('/properties/states', 'PropertiesManagment@getStates');
-Route::get('/properties/valueTypes', 'PropertiesManagment@getValueTypes');
-Route::get('/properties/fieldTypes', 'PropertiesManagment@getFieldTypes');
-Route::get('/properties/units', 'PropertiesManagment@getUnits');*/
-
-//Properties Of Relations
-/*Route::get('/propertiesManageRel', 'PropertiesManagment@getAllPropertiesOfRelations');
-Route::get('/properties/get_props_rel', 'PropertiesManagment@getAllRel');
-Route::post('/PropertyRel', 'PropertiesManagment@insertPropsRel');
-Route::post('/PropertyRel/{id?}', 'PropertiesManagment@updatePropsRel');*/
-
-
-//Route::get('/properties/get_property/{id?}', 'PropertiesManagment@getProperty');
-
-//inserir e update entidades
-//Route::post('/PropertyEnt', 'PropertiesManagment@insertPropsEnt');
-//Route::post('/PropertyEnt/{id?}', 'PropertiesManagment@updatePropsEnt');
-
-//Route::get('/propertiesManageEnt', 'PropertiesManagment@getAllPropertiesOfEntities');
-//Route::get('/properties/get_props_ents', 'PropertiesManagment@getAllEnt');
-
-
-//Testes
-/*Route::get('/properties/getPropsRelation/{id?}', 'PropertiesManagment@getPropsRelations');
-Route::post('/updateOrder', 'PropertiesManagment@updateOrderProps');*/
-
-//Route::get('/properties/getPropsEntity/{id?}', 'PropertiesManagment@getPropsEntities');
-//Route::post('/updateOrderEnt', 'PropertiesManagment@updateOrderPropsEnt');
-
-
-
 // Rotas da gestão de Relações
 
 Route::get('/relationTypesManage/', 'RelationManagement@index');
@@ -197,6 +164,7 @@ Route::get('/modalConfirm', function () {
 
 
 Route::get('/properties/outputTypes', 'PropertiesOfEntitiesController@getOutputTypes');
+Route::get('/PropertyEnt/get_props_ent/{id?}','PropertiesOfEntitiesController@getAll_test');
 
 
 //----------------------------------Propriedades da Relação----------------------------------------------------

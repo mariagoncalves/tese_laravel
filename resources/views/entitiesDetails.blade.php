@@ -27,7 +27,7 @@
 			                <tr ng-repeat="(key1, property) in ents.properties">
 			                    <td>[[ property.id ]]</td>
 			                    <td>[[ property.language[0].pivot.name ]]</td>
-			                    <td><input id = "obg" type="checkbox" name = "checkET[[ key1 ]]" value = "[[ property.id ]]" ng-click = "clickTable1()"> </td>
+			                    <td><input type="checkbox" name = "checkET[[ key1 ]]" value = "[[ property.id ]]" ng-click = "clickTable1()"> </td>
 			                    <td>
 			                    	<div ng-switch on="property.value_type">
 								        <div ng-switch-when="text"> <input type="text" name="textET[[ $index ]]"> </div>
@@ -50,14 +50,14 @@
 								        <div ng-switch-when="int"> 
 											<select name = "operatorsET[[ key1 ]]" ng-init = "getOperators()">
 								        		<option></option>
-								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+								        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 								        	</select>
 								        	<input type="number" name="intET[[ key1 ]]">
 										</div>
 										<div ng-switch-when="double"> 
 											<select name = "operatorsET[[ key1 ]]" ng-init = "getOperators()">
 								        		<option></option>
-								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+								        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 								        	</select>
 								        	<input type="number" name="doubleET[[ key1 ]]">
 										</div>
@@ -78,7 +78,7 @@
 			<!-- Esta tabela mostra as propriedades das entidades que contenham pelo menos uma prop que seja ent_ref e que a ent referenciada seja a entidade selecionada anteriormente -->
 			<!-- <div ng-init = "getEntRefs({{$id}})" id = "checkRL"> -->
 			<div ng-init = "getPropRefs({{$id}})" id = "checkRL">
-				<h3> Propriedades de entidades que contenham pelo menos uma propriedade que referêncie a entidade [[ents.language[0].pivot.name ]] </h3>
+				<h3> Propriedades de entidades que contenham pelo menos uma propriedade que referencie uma propriedade de [[ents.language[0].pivot.name ]] </h3>
 
 				<div ng-if = "entRefs.length == 0">
 					<p> Não existem propriedades de entidades que referenciem a entidade [[ents.language[0].pivot.name ]] </p>
@@ -121,14 +121,14 @@
 										        <div ng-switch-when="int"> 
 													<select name = "operatorsVT[[ propOfEnt.key  ]]" ng-init = "getOperators()" disabled>
 										        		<option></option>
-										        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+										        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 										        	</select>
 										        	<input type="number" name="intVT[[ propOfEnt.key  ]]" disabled>
 												</div>
 												<div ng-switch-when="double"> 
 													<select name = "operatorsVT[[ propOfEnt.key  ]]" ng-init = "getOperators()" disabled>
 										        		<option></option>
-										        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+										        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 										        	</select>
 										        	<input type="number" name="doubleVT[[ propOfEnt.key ]]" disabled>
 												</div>
@@ -198,14 +198,14 @@
 								        <div ng-switch-when="int"> 
 											<select name = "operatorsRL" ng-init = "getOperators()">
 								        		<option></option>
-								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+								        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 								        	</select>
 								        	<input type="number" name="intRL[[ prop.key ]]">
 										</div>
 										<div ng-switch-when="double"> 
 											<select name = "operatorsRL[[ prop.key ]]" ng-init = "getOperators()">
 								        		<option></option>
-								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+								        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 								        	</select>
 								        	<input type="number" name="doubleRL[[ prop.key ]]">
 										</div>
@@ -280,14 +280,14 @@
 								        <div ng-switch-when="int"> 
 											<select name = "operatorsER[[ property.key ]]" ng-init = "getOperators()" disabled>
 								        		<option></option>
-								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+								        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 								        	</select>
 								        	<input type="number" name="intER[[ property.key ]]" disabled>
 										</div>
 										<div ng-switch-when="double"> 
 											<select name = "operatorsER[[ property.key ]]" ng-init = "getOperators()" disabled>
 								        		<option></option>
-								        		<option ng-repeat = "operator in operators"> [[ operator ]] </option>
+								        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 								        	</select>
 								        	<input type="number" name="doubleER[[ property.key ]]" disabled>
 										</div>
@@ -310,6 +310,7 @@
 		</div>
 	</form>
 
+	<!-- Tabela com os resultados da pesquisa -->
 	<div id="dynamic-search-presentation" style="display: none;">
 		<h3>Pesquisa</h3>
 		<div id="false-de-pesquisa" style="padding: 15px 0px;">

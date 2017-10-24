@@ -88,6 +88,90 @@
             <pagination></pagination>
         </div>
 
+        <!-- ______________________________________________TESTES _________________________________________________________-->
+
+        <!-- Tabela utilizando o ng-table -->
+        <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
+            <colgroup>
+                <col width="60%" />
+                <col width="20%" />
+                <col width="20%" />
+            </colgroup>
+            <tr class="ng-table-group" ng-repeat-start="group in $groups">
+                <td colspan="1">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>[[ group.value ]]</strong>
+                    </a>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows" ng-repeat="entity in group.data" ng-repeat-end>
+                <!-- <td sortable="'name'" filter="{name: 'text'}" data-title="'Relation" groupable="'name'">
+                    [[relation.language[0].pivot.name]]
+                </td> -->
+                <td sortable="'id'" data-title="'Entity'">
+                    [[entity.language[0].pivot.name]]
+                </td>
+                <td sortable="'id'" data-title="'ID'">
+                    [[entity.id]]
+                </td>
+                <td sortable="'id'" data-title="'Property'" ng-repeat="property in entity.properties">
+                    [[property.language[0].pivot.name]]
+                </td>
+                <td sortable="'id'" data-title="'Value Type'">
+                    [[transactiontype.id]]
+                </td>
+                <td sortable="'id'" data-title="'Field Name'">
+                    [[transactiontype.id]]
+                </td>
+                <td sortable="'t_name'" data-title="'Field Type'" groupable="'t_name'">
+                    [[transactiontype.t_name]]
+                </td>
+                <td sortable="'rt_name'" data-title="'Unit Type'" groupable="'rt_name'">
+                    [[transactiontype.rt_name]]
+                </td>
+
+                <td sortable="'state'" data-title="'Field Size'" groupable="'state'">
+                    [[transactiontype.state]]
+                </td>
+
+                <td sortable="'state'" data-title="'Mandatory'">
+                    [[ transactiontype.created_at ]]
+                </td>
+
+                <td sortable="'updated_at'" data-title="'State'">
+                    [[ transactiontype.updated_at ]]
+                </td>
+
+                <td sortable="'deleted_at'" data-title="'Created_on'">
+                    [[ transactiontype.deleted_at ]]
+                </td>
+
+                <td sortable="'executer'" data-title="'Updated_on'">
+                    [[ transactiontype.executer ]]
+                </td>
+
+                <td>
+                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', transactiontype.id)">[[ "BTNTABLE1" | translate]]</button>
+                    <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
+                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
+                </td>
+            </tr> 
+        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- Modal (Pop up when detail button clicked) -->
         <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">

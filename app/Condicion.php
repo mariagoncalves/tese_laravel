@@ -31,7 +31,7 @@ class Condicion extends Model
         return $this->belongsTo('App\Operator','operator_id', 'id');
     }
 
-    public function query() {
+    public function queries() {
 
         return $this->belongsTo('App\Query','query_id', 'id');
     }
