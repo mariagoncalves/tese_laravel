@@ -16,6 +16,12 @@ return [
 	'THEADER10'            => 'Estado',
 	'THEADER11'            => 'Criado',
 	'THEADER12'            => 'Atualizado',
+	'THEADER13'            => 'Relação',
+	'THEADER14'            => 'Fk_tipo_entidade',
+	'THEADER15'            => 'Fk_propriedade',
+	'THEADER16'            => 'Tipo_entidade_info',
+	'THEADER17'            => 'Propriedade_info',
+	'THEADER18'            => 'Tipo de Output',
          
 	'NO_PROPERTIES'         => 'Não tem propriedades',
 	'ADD_PROPERTIES'        => 'Adicionar propriedades',

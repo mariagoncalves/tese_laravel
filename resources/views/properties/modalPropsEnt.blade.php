@@ -1,12 +1,12 @@
 <div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4 class="modal-title" id="myModalLabel">[[form_title | translate]]</h4>
+        <h4 class="modal-title" id="myModalLabel">{{trans('properties/messages.ADD_PROPERTIES')}}</h4>
     </div>
     <div class="modal-body">
         <form id="formProperty" name="frmProp" class="form-horizontal" novalidate="">
             <div class="form-group">
-                <label class="col-sm-3 control-label">[[ "THEADER1" | translate]]:</label>
+                <label class="col-sm-3 control-label">{{trans('properties/messages.THEADER2')}}:</label>
                 <div class="col-sm-9">
                     <select id = "entity_type" class="form-control" name="entity_type" ng-model="entity_type" >
                         <option value=""></option>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="form-group">
-                <label for="property_name" class="col-sm-3 control-label">[[ "THEADER3" | translate]]:</label>
+                <label for="property_name" class="col-sm-3 control-label">{{trans('properties/messages.THEADER3')}}:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="property_name" name="property_name" ng-value="property.language[0].pivot.name" >
                     <ul ng-repeat="error in errors.property_name" style="padding-left: 15px;">
@@ -30,7 +30,7 @@
             </div>
 
             <div class="form-group" ng-init="getStates()">
-                <label for="property_state" class="col-sm-3 control-label">[[ "THEADER10" | translate]]:</label>
+                <label for="property_state" class="col-sm-3 control-label">{{trans('properties/messages.THEADER10')}}:</label>
                 <div class="col-sm-9">
                     <label class="radio-inline state" ng-repeat="state in states">
                         <input type="radio" name="property_state" value="[[ state ]]" ng-checked="state == property.state">[[ state ]]
@@ -41,21 +41,8 @@
                 </div>
             </div>
 
-            <!-- <div class="form-group" ng-init="getValueTypes()">
-                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
-                <div class="col-sm-9">
-                    <label class="radio-inline valueType" ng-repeat="valueType in valueTypes">
-                        <input type="radio" name="property_valueType" value="[[ valueType ]]" ng-checked="valueType == property.value_type" ng-model = "property_valueType" ng-change = "changes(valueType)">[[ valueType ]]
-                    </label>
-                    <ul ng-repeat="error in errors.property_valueType" style="padding-left: 15px;">
-                        <li>[[ error ]]</li>
-                    </ul>
-                </div>
-            </div> -->
-
-            <!-- Teste com select em vez de radio-->
             <div class="form-group" ng-init="getValueTypes()">
-                <label class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
+                <label class="col-sm-3 control-label">{{trans('properties/messages.THEADER4')}}:</label>
                 <div class="col-sm-9">
                     <select class="form-control" id="property_valueType" name="property_valueType" ng-model="property_valueType" ng-change = "changes()">
                         <option value=""></option>
@@ -69,7 +56,7 @@
             </div>
 
             <div class="form-group" ng-init="getFieldTypes()">
-                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER6" | translate]]:</label>
+                <label for="Gender" class="col-sm-3 control-label">{{trans('properties/messages.THEADER6')}}:</label>
                 <div class="col-sm-9">
                     <label class="radio-inline fieldType" ng-repeat="fieldType in fieldTypes">
                         <input type="radio" name="property_fieldType" value="[[ fieldType ]]" ng-checked="fieldType == property.form_field_type">[[ fieldType ]]
@@ -81,7 +68,7 @@
             </div>
 
             <div class="form-group" ng-init="getUnits()">
-                <label for="unitType" class="col-sm-3 control-label">[[ "THEADER7" | translate]]:</label>
+                <label for="unitType" class="col-sm-3 control-label">{{trans('properties/messages.THEADER7')}}:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="unites_names">
                         <option value=""></option>
@@ -94,7 +81,7 @@
             </div>
 
            <div class="form-group">
-                <label for="property_fieldSize" class="col-sm-3 control-label">[[ "THEADER8" | translate]]:</label>
+                <label for="property_fieldSize" class="col-sm-3 control-label">{{trans('properties/messages.THEADER8')}}:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="property_fieldSize" name="property_fieldSize"  ng-value="property.form_field_size">
                     <ul ng-repeat="error in errors.property_fieldSize" style="padding-left: 15px;">
@@ -104,13 +91,13 @@
             </div>
 
             <div class="form-group">
-                <label for="property_mandatory" class="col-sm-3 control-label">[[ "THEADER9" | translate]]:</label>
+                <label for="property_mandatory" class="col-sm-3 control-label">{{trans('properties/messages.THEADER9')}}:</label>
                 <div class="col-sm-9">
                     <label for="" class="radio-inline mandatory">
-                        <input type="radio" name="property_mandatory" value="1" ng-checked="1 == property.mandatory" required>Yes
+                        <input type="radio" name="property_mandatory" value="1" ng-checked="1 == property.mandatory" required>{{trans('properties/messages.YES')}}
                     </label>
                     <label for="" class="radio-inline mandatory">
-                        <input type="radio" name="property_mandatory" value="0" ng-checked="0 == property.mandatory" required>No
+                        <input type="radio" name="property_mandatory" value="0" ng-checked="0 == property.mandatory" required>{{trans('properties/messages.NO')}}
                     </label>
                     <ul ng-repeat="error in errors.property_mandatory" style="padding-left: 15px;">
                         <li>[[ error ]]</li>
@@ -120,7 +107,7 @@
 
             <!-- Aqui é só um select para selecionar apenas uma entidade -->
             <div class="form-group">
-                <label for="reference_entity" class="col-sm-3 control-label"> Fk_entity_type:</label>
+                <label for="reference_entity" class="col-sm-3 control-label"> {{trans('properties/messages.THEADER14')}}:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="reference_entity" ng-disabled="true" ng-model = "reference_entity" ng-change = "getPropsByEnt()">
                         <option value=""></option>
@@ -134,7 +121,7 @@
 
             <!-- Aqui é só um select para selecionar apenas uma propriedade -->
             <div class="form-group">
-                <label for="fk_property" class="col-sm-3 control-label"> Fk_property:</label>
+                <label for="fk_property" class="col-sm-3 control-label"> {{trans('properties/messages.THEADER15')}}:</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="fk_property" ng-disabled="true">
                         <option value=""></option>
@@ -147,7 +134,7 @@
             </div>
             <!-- Multiselect de entidades -->
             <div class="form-group">
-                <label for="ent_types_select" class="col-sm-3 control-label">Entity_type_info:</label>
+                <label for="ent_types_select" class="col-sm-3 control-label">{{trans('properties/messages.THEADER16')}}:</label>
                 <div class="col-sm-9">
                     <select class="entselecting" style="width: 100%" multiple="multiple" id="ent_types_select" name="ent_types_select" ng-model="ent_types_select" ng-change = "blockUnblockOutputType()">
                     </select>
@@ -160,7 +147,7 @@
 
             <!-- Multiselect de propriedades -->
             <div class="form-group">
-                <label for="propselect" class="col-sm-3 control-label">Property_info:</label>
+                <label for="propselect" class="col-sm-3 control-label">{{trans('properties/messages.THEADER17')}}:</label>
                 <div class="col-sm-9">
                     <select class="propselecting" style="width: 100%" multiple="multiple" id="propselect" name="propselect" ng-model="propselect" ng-change = "blockUnblockOutputType()">
                     </select>
@@ -172,7 +159,7 @@
 
             <!-- Só deve aparecer caso escolha propriedades de entidades -->
             <div class="form-group" ng-init="getOutputTypes()">
-                <label for="property_outputType" class="col-sm-3 control-label"> Output Type:</label>
+                <label for="property_outputType" class="col-sm-3 control-label">{{trans('properties/messages.THEADER18')}}:</label>
                 <div class="col-sm-9">
                     <label class="radio-inline outputType" ng-repeat="outputType in outputTypes">
                         <input type="radio" name="property_outputType" value="[[ outputType ]]" ng-checked="((outputType == property.property_can_read_property[0].pivot.output_type) || (outputType == property.reading_ent_types[0].pivot.output_type))" ng-disabled="true">[[ outputType ]]

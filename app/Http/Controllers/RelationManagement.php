@@ -165,9 +165,9 @@ class RelationManagement extends Controller
         $data = $request->all();
 
         $rules = [
-            'relation_name'     => ['required', 'string', Rule::unique('rel_type_name' , 'name')->where('language_id', '1')->ignore($id, 'rel_type_id') ],
+            'relation_name'     => ['required','string', Rule::unique('rel_type_name' , 'name')->where('language_id', '1')->ignore($id, 'rel_type_id') ],
             'entity_type1'      => ['required', 'integer'],
-            'entity_type2'      => ['required', 'integer'],
+            'entity_type2'      => ['required', 'integer', 'different:entity_type1'],
             'transactionsType'  => ['required', 'integer'],
             'transactionsState' => ['required', 'integer'],
             'relation_state'    => ['required']
@@ -200,7 +200,7 @@ class RelationManagement extends Controller
                         ->where('language_id', 1)
                         ->update($dataName);
 
-        return response()->json();
+        return response()->json([]);
     }
 
     public function remove(Request $request, $id) {

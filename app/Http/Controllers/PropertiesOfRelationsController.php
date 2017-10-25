@@ -61,7 +61,6 @@ class PropertiesOfRelationsController extends Controller {
             $rulesFieldType = ['required'];
 
             if(isset($data['property_valueType_rel']) && $data['property_valueType_rel'] == 'text') {
-                //$rulesFieldType = 'required|regex:((text)|(textbox))';
                 $rulesFieldType = ['required', Rule::in(['text','textbox']),];
             } else if (isset($data['property_valueType_rel']) && $data['property_valueType_rel'] == 'bool') {
                 $rulesFieldType = ['required', Rule::in(['radio','selectbox']),];
@@ -69,8 +68,12 @@ class PropertiesOfRelationsController extends Controller {
                 $rulesFieldType = ['required', Rule::in(['radio','selectbox', 'checkbox']),];
             } else if (isset($data['property_valueType_rel']) && $data['property_valueType_rel'] == 'ent_ref') {
                 $rulesFieldType = ['required', Rule::in(['selectbox']),];
-            } else {
-                $rulesFieldType = ['required', Rule::in(['text']),];
+            } else if (isset($data['property_valueType_rel']) && $data['property_valueType_rel'] == 'prop_ref') {
+                $rulesFieldType = ['required', Rule::in(['selectbox']),];
+            } else if (isset($data['property_valueType_rel']) && $data['property_valueType_rel'] == 'file') {
+                $rulesFieldType = ['required', Rule::in(['file']),];
+            }else {
+                $rulesFieldType = ['required', Rule::in(['number']),];
             }
 
             $rules = [
@@ -79,12 +82,10 @@ class PropertiesOfRelationsController extends Controller {
                 'property_valueType_rel'  => ['required'],
                 'property_fieldType_rel'  => $rulesFieldType,
                 'property_mandatory_rel'  => ['required'],
-                /*'property_fieldOrder_rel' => ['required', 'integer', 'min:1'],*/
                 'units_name'              => ['integer'],
                 'property_fieldSize_rel'  => $propertyFieldSize,
                 'property_state_rel'      => ['required'],
             ];
-
 
             $err = Validator::make($data, $rules);
             // Verificar se existe algum erro.
@@ -106,11 +107,11 @@ class PropertiesOfRelationsController extends Controller {
                 'value_type'       => $data['property_valueType_rel' ],
                 'form_field_type'  => $data['property_fieldType_rel' ],
                 'unit_type_id'     => $data['units_name'             ],
-                /*'form_field_order' => $data['property_fieldOrder_rel'],*/
                 'form_field_order' => $countPropRel + 1,
                 'form_field_size'  => $data['property_fieldSize_rel' ],
                 'mandatory'        => $data['property_mandatory_rel' ],
-                'state'            => $data['property_state_rel'     ]
+                'state'            => $data['property_state_rel'     ],
+                'can_edit'         => '1'
             );
 
             $newProp   = Property::create($data1);
@@ -171,8 +172,12 @@ class PropertiesOfRelationsController extends Controller {
             $rulesFieldType = ['required', Rule::in(['radio','selectbox', 'checkbox']),];
         } else if (isset($data['property_valueType_rel']) && $data['property_valueType_rel'] == 'ent_ref') {
             $rulesFieldType = ['required', Rule::in(['selectbox']),];
-        } else {
-            $rulesFieldType = ['required', Rule::in(['text']),];
+        } else if (isset($data['property_valueType_rel']) && $data['property_valueType_rel'] == 'prop_ref') {
+            $rulesFieldType = ['required', Rule::in(['selectbox']),];
+        } else if (isset($data['property_valueType_rel']) && $data['property_valueType_rel'] == 'file') {
+            $rulesFieldType = ['required', Rule::in(['file']),];
+        }else {
+            $rulesFieldType = ['required', Rule::in(['number']),];
         }
 
         $rules = [
@@ -181,7 +186,6 @@ class PropertiesOfRelationsController extends Controller {
             'property_valueType_rel'  => ['required'],
             'property_fieldType_rel'  => $rulesFieldType,
             'property_mandatory_rel'  => ['required'],
-            /*'property_fieldOrder_rel' => ['required', 'integer', 'min:1'],*/
             'units_name'              => ['integer'],
             'property_fieldSize_rel'  => $propertyFieldSize
         ];
@@ -202,7 +206,6 @@ class PropertiesOfRelationsController extends Controller {
             'value_type'       => $data['property_valueType_rel' ],
             'form_field_type'  => $data['property_fieldType_rel' ],
             'unit_type_id'     => $data['units_name'             ],
-            /*'form_field_order' => $data['property_fieldOrder_rel'],*/
             'form_field_size'  => $data['property_fieldSize_rel' ],
             'mandatory'        => $data['property_mandatory_rel' ],
             'state'            => $data['property_state_rel'     ]

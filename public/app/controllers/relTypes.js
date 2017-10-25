@@ -45,81 +45,6 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
         });
     };
 
-    /*$scope.toggle = function(modalstate, id) {
-        $('#formRelation')[0].reset();
-        $scope.relation = null;
-        $scope.modalstate = modalstate;
-
-        switch (modalstate) {
-            case 'add':
-                $scope.id = id;
-                $scope.form_title = "ADD_FORM_NAME";
-                break;
-            case 'edit':
-                $scope.form_title = "EDIT_FORM_NAME";
-                $scope.id = id;
-                console.log(id);
-                $http.get(API_URL + '/getRelationsTypes/' + id)
-                    .then(function(response) {
-                        $scope.relation = response.data;
-                    });
-                break;
-            default:
-                break;
-        }
-        $('#myModal').modal('show');
-        $scope.errors = null;
-    };*/
-
-    /*$scope.save = function(modalstate, id) {
-        var url      = API_URL + "Relation";
-
-
-        console.log(jQuery('#formRelation').serializeArray());
-
-        var formData = JSON.parse(JSON.stringify(jQuery('#formRelation').serializeArray()));
-
-        console.log(formData);
-
-        if (modalstate === 'edit') {
-            url += "/" + id ;
-        }
-
-        $http({
-            method: 'POST',
-            url: url,
-            data: $.param(formData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function(response) {
-            //First function handles success
-            $scope.errors = [];
-            $scope.getRelations();
-            //$('#myModal').modal('hide');
-
-            $('#myModal select:first').prop('disabled', false);
-            $('#formRelation')[0].reset();
-
-
-            if(modalstate == "add") {
-                growl.success('SAVE_SUCCESS_MESSAGE',{title: 'SUCCESS'});
-            } else {
-                growl.success('EDIT_SUCCESS_MESSAGE',{title: 'SUCCESS'});
-            }
-        }, function(response) {
-            //Second function handles error
-            if (response.status == 400) {
-                $scope.errors = response.data.error;
-            } else if (response.status == 500) {
-
-
-                //$('#myModal').modal('hide');
-                //$('#formRelation')[0].reset();
-
-                growl.error(response.data.error, {title: 'error!'});
-            }
-        });
-    };*/
-
     $scope.remove = function(id) {
         var url = API_URL + "Relation_Type_remove/" + id;
 
@@ -129,7 +54,6 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             //headers: {'Content-Type': 'json'}
         }).then(function (response) {
-            console.log("lalal 11");
             console.log(response);
             growl.success('This is success message.',{title: 'Success!'});
             $scope.getRelations();
@@ -179,32 +103,7 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
 
     $scope.openModalRelTypes = function (size, modalstate, id, parentSelector) {
 
-        //$('#formRelation')[0].reset();
-        $scope.relation = null;
-        $scope.modalstate = modalstate;
-
-        switch (modalstate) {
-            case 'add':
-                $scope.id = id;
-                $scope.form_title = "ADD_FORM_NAME";
-                break;
-            case 'edit':
-                $scope.form_title = "EDIT_FORM_NAME";
-                $scope.id = id;
-                console.log(id);
-                $http.get(API_URL + '/getRelationsTypes/' + id)
-                    .then(function(response) {
-                        $scope.relation = response.data;
-                        $("[name=relation_name]").prop('disabled', 'disabled');
-                    });
-                break;
-            default:
-                break;
-        }
-        //$('#myModal').modal('show');
-        //$scope.errors = null;
-
-        var modalInstance = $uibModal.open({
+       var modalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
@@ -212,12 +111,32 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             controller: 'ModalInstanceCtrl1',
             scope: $scope,
             size: size,
-            //appendTo: parentElem,
             resolve: {
             }
-        }).closed.then(function() {
-            //handle ur close event here
-            //alert("modal closed");
+        }).rendered.then(function() {
+            
+            $scope.relation = null;
+            $scope.modalstate = modalstate;
+
+            switch (modalstate) {
+                case 'add':
+                    $scope.id = id;
+                    $scope.form_title = "ADD_FORM_NAME";
+                    break;
+                case 'edit':
+                    $scope.form_title = "EDIT_FORM_NAME";
+                    $scope.id = id;
+                    console.log(id);
+                    $http.get(API_URL + '/getRelationsTypes/' + id)
+                        .then(function(response) {
+                            $scope.relation = response.data;
+                            //$("[name=relation_name]").prop('disabled', 'disabled');
+                        });
+                    break;
+                default:
+                    break;
+            }
+
         });
     };
 
@@ -264,10 +183,6 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
                 $scope.errors = response.data.error;
             } else if (response.status == 500) {
 
-
-                //$('#myModal').modal('hide');
-                //$('#formRelation')[0].reset();
-
                 $scope.cancel();
 
                 growl.error(response.data.error, {title: 'error!'});
@@ -278,8 +193,6 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             $uibModalInstance.dismiss('cancel');
         };
     };
-
-
 
     //------------------------------------TESTES------------------------------
     //Para usar o ng-table
@@ -298,18 +211,16 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
         console.log(response.data);
     });
 
-
-
 }).directive('pagination', function(){
     return{
         restrict: 'E',
         template: '<ul class="pagination">'+
         '<li ng-show="currentPage != 1"><a href="javascript:void(0)" ng-click="getRelations(1)">&laquo;</a></li>'+
-        '<li ng-show="currentPage != 1"><a href="javascript:void(0)" ng-click="getRelations(currentPage-1)">&lsaquo; [[ "BTNPAGINATION2" | translate]]</a></li>'+
+        '<li ng-show="currentPage != 1"><a href="javascript:void(0)" ng-click="getRelations(currentPage-1)">&lsaquo; [[ "BTNPAGINATION2" | translate]] </a></li>'+
         '<li ng-repeat="i in range" ng-class="{active : currentPage == i}">'+
         '<a href="javascript:void(0)" ng-click="getRelations(i)">{{i}}</a>'+
         '</li>'+
-        '<li ng-show="currentPage != totalPages"><a href="javascript:void(0)" ng-click="getRelations(currentPage+1)">[[ "BTNPAGINATION1" | translate]] &rsaquo;</a></li>'+
+        '<li ng-show="currentPage != totalPages"><a href="javascript:void(0)" ng-click="getRelations(currentPage+1)"> [[ "BTNPAGINATION1" | translate]] &rsaquo;</a></li>'+
         '<li ng-show="currentPage != totalPages"><a href="javascript:void(0)" ng-click="getRelations(totalPages)">&raquo;</a></li>'+
         '</ul>'
     };

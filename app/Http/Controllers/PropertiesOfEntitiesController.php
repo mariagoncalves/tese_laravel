@@ -67,8 +67,8 @@ class PropertiesOfEntitiesController extends Controller {
             $ruleOutputType = [];
     
             //Se está vazio nem coloco nas regras
-            //$ruleEntTypeInfo = [];
-            //$rulePropInfo = [];
+            $ruleEntTypeInfo = [];
+            $rulePropInfo = [];
 
             //Remover o number por causa das validações
             if (isset($data['reference_entity']) && $data['reference_entity'] != '') {
@@ -113,8 +113,6 @@ class PropertiesOfEntitiesController extends Controller {
                 'property_state'           => ['required'],
                 'reference_entity'         => $rulesEntRef,
                 'fk_property'              => $rulePropRef,
-                //'ent_types_select'         => $ruleEntTypeInfo, //'required_without_all:propselect',
-                //'propselect'               => $rulePropInfo //'required_without_all:ent_types_select'
                 'property_outputType'      => $ruleOutputType,
             ];
 

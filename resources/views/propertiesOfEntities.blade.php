@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('content')
-    <h2>[["Page_Name" | translate]]</h2>
+    <h2>{{trans("properties/messages.Page_Name")}}</h2>
     <!-- <div ng-controller="propertiesManagmentControllerJs"> -->
         <div ng-controller="propertiesOfEntitiesManagmentControllerJs">
         <div growl></div>
@@ -90,6 +90,11 @@
 
         <!-- ______________________________________________TESTES _________________________________________________________-->
 
+
+        <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsEnt('md', 'add', 0)">{{trans('properties/messages.ADD_PROPERTIES')}}</button>
+        <br>
+        <br>
+
         <!-- Tabela utilizando o ng-table -->
         <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
             <colgroup>
@@ -109,196 +114,58 @@
                 <!-- <td sortable="'name'" filter="{name: 'text'}" data-title="'Relation" groupable="'name'">
                     [[relation.language[0].pivot.name]]
                 </td> -->
-                <td sortable="'id'" data-title="'Entity'">
+                <td sortable="'entity'" data-title="'{{trans('properties/messages.THEADER2')}}'">
                     [[entity.language[0].pivot.name]]
+                    <div ng-if="entity.properties.length > 1">
+                        <button class="btn btn-primary btn-xs" ng-click="showDragDropWindowEnt(entity.id)">[[ "BTNTABLE3" | translate]]</button>
+                    </div>
                 </td>
-                <td sortable="'id'" data-title="'ID'">
-                    [[entity.id]]
+                <td sortable="'id'" data-title="'{{trans('properties/messages.THEADER1')}}'">
+                    [[]]
                 </td>
-                <td sortable="'id'" data-title="'Property'" ng-repeat="property in entity.properties">
+                <td sortable="'property'" data-title="'{{trans('properties/messages.THEADER3')}}'">
                     [[property.language[0].pivot.name]]
                 </td>
-                <td sortable="'id'" data-title="'Value Type'">
-                    [[transactiontype.id]]
+                <td sortable="'value_type'" data-title="'{{trans('properties/messages.THEADER4')}}'">
+                    [[property.value_type]]
                 </td>
-                <td sortable="'id'" data-title="'Field Name'">
-                    [[transactiontype.id]]
+                <td sortable="'form_field_name'" data-title="'{{trans('properties/messages.THEADER5')}}'">
+                    [[property.form_field_name]]
                 </td>
-                <td sortable="'t_name'" data-title="'Field Type'" groupable="'t_name'">
-                    [[transactiontype.t_name]]
+                <td sortable="'form_field_type'" data-title="'{{trans('properties/messages.THEADER6')}}'">
+                    [[transactiontype.form_field_type]]
                 </td>
-                <td sortable="'rt_name'" data-title="'Unit Type'" groupable="'rt_name'">
-                    [[transactiontype.rt_name]]
-                </td>
-
-                <td sortable="'state'" data-title="'Field Size'" groupable="'state'">
-                    [[transactiontype.state]]
+                <td sortable="'unit_type'" data-title="'{{trans('properties/messages.THEADER7')}}'">
+                    [[transactiontype.unit_type]]
                 </td>
 
-                <td sortable="'state'" data-title="'Mandatory'">
+                <td sortable="'form_field_size'" data-title="'{{trans('properties/messages.THEADER8')}}'">
+                    [[transactiontype.form_field_size]]
+                </td>
+
+                <td sortable="'mandatory'" data-title="'{{trans('properties/messages.THEADER9')}}'">
+                    [[ transactiontype.mandatory ]]
+                </td>
+
+                <td sortable="'state'" data-title="'{{trans('properties/messages.THEADER10')}}'">
+                    [[ transactiontype.state ]]
+                </td>
+
+                <td sortable="'created_at'" data-title="'{{trans('properties/messages.THEADER11')}}'">
                     [[ transactiontype.created_at ]]
                 </td>
 
-                <td sortable="'updated_at'" data-title="'State'">
+                <td sortable="'updated_at'" data-title="'{{trans('properties/messages.THEADER12')}}'">
                     [[ transactiontype.updated_at ]]
                 </td>
 
-                <td sortable="'deleted_at'" data-title="'Created_on'">
-                    [[ transactiontype.deleted_at ]]
-                </td>
-
-                <td sortable="'executer'" data-title="'Updated_on'">
-                    [[ transactiontype.executer ]]
-                </td>
-
                 <td>
-                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', transactiontype.id)">[[ "BTNTABLE1" | translate]]</button>
-                    <button class="btn btn-info btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
-                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(transactiontype.id)">[[ "BTNTABLE3" | translate]]</button>
+                    <button class="btn btn-default btn-xs btn-detail" ng-click="openModalPropsEnt('md', 'edit', property.id)">{{trans('properties/messages.BTNTABLE1')}}</button>
+                    <button class="btn btn-info btn-xs btn-delete">{{trans('properties/messages.BTNTABLE2')}}</button>
+                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(property.id)">{{trans('properties/messages.BTNTABLE4')}}</button>
                 </td>
             </tr> 
         </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- Modal (Pop up when detail button clicked) -->
-        <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="myModalLabel">[[form_title | translate]]</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form id="formProperty" name="frmProp" class="form-horizontal" novalidate="">
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">[[ "THEADER1" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="entity_type">
-                                        <option value=""></option>
-                                        <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.ent_type_id">[[ entity.language[0].pivot.name ]]</option>
-                                    </select>
-                                    <ul ng-repeat="error in errors.entity_type" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                                <br>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputName" class="col-sm-3 control-label">[[ "THEADER3" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="property_name" name="property_name" ng-value="property.language[0].pivot.name">
-                                    <ul ng-repeat="error in errors.property_name" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="form-group" ng-init="getStates()">
-                                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER10" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <label class="radio-inline state" ng-repeat="state in states">
-                                        <input type="radio" name="property_state" value="[[ state ]]" ng-checked="state == property.state">[[ state ]]
-                                    </label>
-                                    <ul ng-repeat="error in errors.property_state" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="form-group" ng-init="getValueTypes()">
-                                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER4" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <label class="radio-inline valueType" ng-repeat="valueType in valueTypes">
-                                        <input type="radio" name="property_valueType" value="[[ valueType ]]" ng-checked="valueType == property.value_type" >[[ valueType ]]
-                                    </label>
-                                    <ul ng-repeat="error in errors.property_valueType" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="form-group" ng-init="getFieldTypes()">
-                                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER6" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <label class="radio-inline fieldType" ng-repeat="fieldType in fieldTypes">
-                                        <input type="radio" name="property_fieldType" value="[[ fieldType ]]" ng-checked="fieldType == property.form_field_type" >[[ fieldType ]]
-                                    </label>
-                                    <ul ng-repeat="error in errors.property_fieldType" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="form-group" ng-init="getUnits()">
-                                <label for="unitType" class="col-sm-3 control-label">[[ "THEADER7" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="unites_names">
-                                        <option value="0"></option>
-                                        <option ng-repeat="unit in units" ng-value="unit.id" ng-selected="unit.id == property.unit_type_id">[[ unit.language[0].pivot.name ]]</option>
-                                    </select>
-                                    <ul ng-repeat="error in errors.unites_names" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                           <div class="form-group">
-                                <label for="inputfieldSize" class="col-sm-3 control-label">[[ "THEADER8" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="property_fieldSize" name="property_fieldSize"  ng-value="property.form_field_size">
-                                    <ul ng-repeat="error in errors.property_fieldSize" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Gender" class="col-sm-3 control-label">[[ "THEADER9" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <label for="" class="radio-inline mandatory">
-                                        <input type="radio" name="property_mandatory" value="1" ng-checked="1 == property.mandatory" required>Yes
-                                    </label>
-                                    <label for="" class="radio-inline mandatory">
-                                        <input type="radio" name="property_mandatory" value="0" ng-checked="0 == property.mandatory" required>No
-                                    </label>
-                                    <ul ng-repeat="error in errors.property_mandatory" style="padding-left: 15px;">
-                                        <li>[[ error ]]</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="entityType" class="col-sm-3 control-label">[[ "INPUT_REF_ENT" | translate]]:</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="reference_entity">
-                                        <option value="0"></option>
-                                        <option ng-repeat="entity in entities" ng-value="entity.id" ng-selected="entity.id == property.fk_ent_type_id">[[ entity.language[0].pivot.name ]]</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id)" ng-disabled="frmProp.$invalid">[[ "BTN1FORM" | translate]]</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
         <!-- Popup para reordenar as propriedades -->
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -306,16 +173,16 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="myModalLabel">[[ "FORM_DRAG_DROP" | translate]]</h4>
+                        <h4 class="modal-title" id="myModalLabel">{{trans('properties/messages.FORM_DRAG_DROP')}}</h4>
                     </div>
 
                     <div class="modal-body">
-                        <h4>[[ "Page_Name" | translate]]</h4>
+                        <h4>{{trans('properties/messages.Page_Name')}}</h4>
                         <ul ui-sortable="sortableOptionsEnt" ng-model="propsEnt" class="list-group">
                             <li ng-repeat="prop in propsEnt" class="list-group-item" data-id="[[ prop.id ]]">[[prop.language[0].pivot.name]]</li>
                         </ul>
 
-                       <pre>[[propsEnt]]</pre>
+                       <!-- <pre>[[propsEnt]]</pre> -->
                     </div>
                 </div>
             </div>

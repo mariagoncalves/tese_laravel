@@ -48,47 +48,6 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
         });
     };
 
-    /*$scope.saveRel = function(modalstate, id) {
-
-        var url      = API_URL + "PropertyRel";
-
-        console.log(jQuery('#formPropRel').serializeArray());
-        var formData = JSON.parse(JSON.stringify(jQuery('#formPropRel').serializeArray()));
-        console.log(formData);
-        if (modalstate === 'edit') {
-            url += "/" + id ;
-        }
-
-        $http({
-            method: 'POST',
-            url: url,
-            data: $.param(formData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function(response) {
-            //First function handles success
-            $scope.errors = [];
-            $scope.getRelations();
-            $('#myModal').modal('hide');
-            $('#myModal select:first').prop('disabled', false);
-            $('#formPropRel')[0].reset();
-            // Mostrar mensagem de sucesso
-            if(modalstate == "add") {
-                growl.success('Property inserted successfully.',{title: 'Success!'});
-            } else {
-                growl.success('Property edited successfully.',{title: 'Success!'});
-            }
-        }, function(response) {
-            //Second function handles error
-            if (response.status == 400) {
-                $scope.errors = response.data.error;
-            } else if (response.status == 500) {
-                $('#myModal').modal('hide');
-                $('#formPropRel')[0].reset();
-                growl.error('Error.', {title: 'error!'});
-            }
-        });
-    };*/
-
     $scope.toggleRel = function(modalstate, id) {
         $('#formPropRel')[0].reset();
         $scope.property = null;
@@ -207,35 +166,6 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
 
     $scope.openModalPropsRel = function (size, modalstate, id, parentSelector) {
 
-       //$('#formPropRel')[0].reset();
-        $scope.property = null;
-        $scope.modalstate = modalstate;
-
-        if(modalstate == "edit") {
-            $('#myModal select:first').prop('disabled', true);
-        } else {
-            $('#myModal select:first').prop('disabled', false);
-        }
-
-        switch (modalstate) {
-            case 'add':
-                $scope.id = id;
-                $scope.form_title = "Add New Property";
-                break;
-            case 'edit':
-                $scope.form_title = "Edit Property";
-                $scope.id = id;
-                $http.get(API_URL + '/properties/get_property/' + id)
-                    .then(function(response) {
-                        $scope.property = response.data;
-                    });
-                break;
-            default:
-                break;
-        }
-        //$('#myModal').modal('show');
-        //$scope.errors = null;
-
         var modalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -247,9 +177,34 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
             //appendTo: parentElem,
             resolve: {
             }
-        }).closed.then(function() {
-            //handle ur close event here
-            //alert("modal closed");
+        }).rendered.then(function() {
+
+            $scope.property = null;
+            $scope.modalstate = modalstate;
+
+            if(modalstate == "edit") {
+                $('#myModal select:first').prop('disabled', true);
+            } else {
+                $('#myModal select:first').prop('disabled', false);
+            }
+
+            switch (modalstate) {
+                case 'add':
+                    $scope.id = id;
+                    $scope.form_title = "Add New Property";
+                    break;
+                case 'edit':
+                    $scope.form_title = "Edit Property";
+                    $scope.id = id;
+                    $http.get(API_URL + '/properties/get_property/' + id)
+                        .then(function(response) {
+                            $scope.property = response.data;
+                        });
+                    break;
+                default:
+                    break;
+            }
+
         });
     };
 
@@ -276,11 +231,9 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
             $scope.errors = [];
             $scope.getRelations();
             $scope.cancel();
-            //$('#myModal').modal('hide');
             $('#myModal select:first').prop('disabled', false);
-            //$('#formPropRel')[0].reset();
-            // Mostrar mensagem de sucesso
 
+            // Mostrar mensagem de sucesso
             if(modalstate == "add") {
                 growl.success('Property inserted successfully.',{title: 'Success!'});
             } else {
@@ -412,12 +365,6 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
 
         console.log(response.data);
     });
-
-
-
-
-
-
     
 }).directive('pagination', function(){
     return{
