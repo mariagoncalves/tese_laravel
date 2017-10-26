@@ -436,34 +436,68 @@ class PropertiesOfEntitiesController extends Controller {
         return response()->json($outputTypes);
     }
 
-    public function getAll_test ($id = null) {
+    public function getEntities() {
 
-        //\Log::debug("TÁ A CHEGAR AO TESTEEE");
+        $language_id = '1';
 
-        if ($id == null) {
+        $allEnts = EntType::with(['language' => function($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->get();
 
-                $url_text = 'PT';
-                $dataPropsOfEnt = EntType::with(['language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['properties' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['properties.language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['properties.units.language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->get();
+        \Log::debug($allEnts);
 
-                \Log::Debug($dataPropsOfEnt);
+        return response()->json($allEnts);
+    }
 
-                return response()->json($dataPropsOfEnt);
+    public function getAll_test(Request $request, $id = null) {
 
-        } else {
-            return $this->getSpec($id);
+        $data  = $request->all();
+        $count = 5;
+
+        // É de acordo com a váriavel 'count' que será apresentado o número de 'rel_types'.
+        // Caso seja o 'count' 5, então será apresentado 5 'rel_types' na tabela.
+        if (isset($data['count']) && $data['count'] != "") {
+            $count = $data['count'];
         }
+
+        // As váriaveis 'colSorting' e 'typeSorting' são utilizadas para ordenar os dados.
+        // Por defeito, é ordenado pelo o 'created_at' e por ordem 'desc'.
+        $colSorting  = 'created_at';
+        $typeSorting = 'desc';
+        if (isset($data['colSorting']) && $data['colSorting'] != "" && isset($data['typeSorting']) && $data['typeSorting'] != "") {
+            $colSorting  = $data['colSorting'];
+            $typeSorting = $data['typeSorting'];
+        }
+
+        $dataPropsEnt = EntType::leftJoin('ent_type_name', function($query) {
+                                    $query->on('ent_type.id', '=', 'ent_type_name.ent_type_id')->where('ent_type_name.language_id', 1);
+                                })
+                                ->leftJoin('property', function($query) {
+                                    $query->on('ent_type.id', '=', 'property.ent_type_id');
+                                })
+                                ->leftJoin('property_name', function($query){
+                                    $query->on('property.id', '=', 'property_name.property_id');
+                                })
+                                //->leftJoin('unit_type_name', function($query) {
+                                //    $query->on('property.id', '=', 'property_name.property_id');
+                                //})
+
+                                ->select([
+                                    'ent_type.id AS ent_id',
+                                    'ent_type_name.name AS entity_name',
+                                    'property.*',
+                                    'property_name.name AS property_name',
+                                    'property_name.form_field_name AS form_field_name'
+                                ])
+                                ->searchPropsEnt($id, $data)
+                                ->orderBy($colSorting, $typeSorting)
+                                ->paginate($count)
+                                ->toArray();
+
+        \Log::debug($dataPropsEnt);
+
+        return response()->json($dataPropsEnt);
     }
 
 

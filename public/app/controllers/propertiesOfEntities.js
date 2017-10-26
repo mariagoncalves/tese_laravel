@@ -26,7 +26,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
     //$scope.select2PropEntity = [];
     $scope.props = [];
 
-    $scope.getEntities = function(pageNumber) {
+    /*$scope.getEntities = function(pageNumber) {
 
         if (pageNumber === undefined) {
             pageNumber = '1';
@@ -48,7 +48,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             $scope.range = pages;
 
         });
-    };
+    };*/
 
     $scope.showDragDropWindowEnt = function(id) {
 
@@ -350,7 +350,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             }).then(function(response) {
                 //First function handles success
                 $scope.errors = [];
-                $scope.getEntities();
+                $scope.getPropsOfEntities();
                 $scope.cancel();
 
                 if(modalstate == "add") {
@@ -406,7 +406,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
     //------------------------------------TESTES------------------------------
     //Para usar o ng-table
 
-    $http.get('/PropertyEnt/get_props_ent?page=1').then(function(response) {
+    /*$http.get('/PropertyEnt/get_props_ent?page=1').then(function(response) {
         $scope.tableParams = new NgTableParams({
             count: 2,
             group: "name"
@@ -418,7 +418,62 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
         });
 
         console.log(response.data);
-    });
+    });*/
+
+    $scope.getPropsOfEntities = function () {
+
+        var initialParams = {
+            sorting: { created_at: "desc" }, // Ordenação por defeito da tabela
+            count: 5, // Número de dados por página na tabela
+        };
+
+        var initialSettings = {
+            counts: [5, 10, 15], // Número possiveis de apresentação dos dados da tabela
+            getData: function (params) {
+                var filterObj = params.filter(),
+                    sortObj   = params.sorting();
+
+                return $scope.getPropsOfEnt(params, filterObj, sortObj);
+            }
+        };
+
+        $scope.tableParams = new NgTableParams(initialParams, initialSettings);
+    }
+
+     $scope.getPropsOfEnt = function (params, filter, sort) {
+
+        var url = '/propertiesOfEntities/get_propsOfEnt?page=' + params.page();
+
+        url += '&count=' + params.count();
+
+        // Parametro de pesquisa quando é pesquisado pelo nome da entidade
+        if (filter.relationFilter != undefined && filter.relationFilter != '') {
+            url += '&relation=' + filter.relationFilter;
+        }
+        // Parametro de pesquisa quando é pesquisado pelo nome da propriedade
+        if (filter.propertyFilter != undefined && filter.propertyFilter != '') {
+            url += '&property=' + filter.propertyFilter;
+        }
+
+        var colSorting  = Object.keys(sort)[0],
+            typeSorting = sort[colSorting];
+        // Parametro para ordenar os dados
+        url += '&colSorting=' + colSorting + "&typeSorting=" + typeSorting;
+
+        return $http.get(url).then(function (response) {
+                params.total(response.data.total);
+                return response.data.data;
+            });
+    }
+
+
+    $scope.getEntities = function(){
+
+        $http.get('/properties/getAllEntities').then(function(response) {
+            $scope.entities = response.data;
+            console.log($scope.entities);
+        });
+    }
 
 
     

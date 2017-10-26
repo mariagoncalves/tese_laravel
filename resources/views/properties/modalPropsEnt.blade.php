@@ -7,7 +7,7 @@
         <form id="formProperty" name="frmProp" class="form-horizontal" novalidate="">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{trans('properties/messages.THEADER2')}}:</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9" ng-init="getEntities()">
                     <select id = "entity_type" class="form-control" name="entity_type" ng-model="entity_type" >
                         <option value=""></option>
                         <option ng-repeat="entity in entities" value="[[ entity.id ]]" ng-selected="entity.id == property.ent_type_id">[[ entity.language[0].pivot.name ]]</option>

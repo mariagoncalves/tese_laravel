@@ -1,28 +1,14 @@
 @extends('layouts.default')
 @section('content')
     <h2>{{trans("properties/messages.Page_Name")}}</h2>
-    <!-- <div ng-controller="propertiesManagmentControllerJs"> -->
-        <div ng-controller="propertiesOfEntitiesManagmentControllerJs">
-        <div growl></div>
+    <div ng-controller="propertiesOfEntitiesManagmentControllerJs">
+        <!-- <div growl></div>
 
         <button class="btn btn-default btn-xs btn-detail" ng-click="dotranslate()">TRANSLATE</button>
 
-        <!-- Table-to-load-the-data Part -->
         <table class="table table-striped" st-table="displayedCollection" ng-init="getEntities()" st-safe-src="entities">
             <thead>
             <tr>
-                <!-- <th st-sort="language[0].pivot.name">{{trans("messages.entity")}}</th>
-                <th>ID</th>
-                <th>{{trans("messages.property")}}</th>
-                <th>{{trans("messages.valueType")}}</th>
-                <th>{{trans("messages.formFieldName")}}</th>
-                <th>{{trans("messages.formFieldType")}}</th>
-                <th>{{trans("messages.unitType")}}</th>
-                <th>{{trans("messages.formFieldSize")}}</th>
-                <th>{{trans("messages.mandatory")}}</th>
-                <th>{{trans("messages.state")}}</th>
-                <th>{{trans("messages.updated_on")}}</th>
-                <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">{{trans("messages.addProperties")}}</button></th> -->
 
                 <th> [[ "THEADER1" | translate]] </th>
                 <th> [[ "THEADER2" | translate]] </th>
@@ -36,10 +22,9 @@
                 <th> [[ "THEADER10" | translate]] </th>
                 <th> [[ "THEADER11" | translate]] </th>
                 <th> [[ "THEADER12" | translate]] </th>
-                <!-- <th> [[ "THEADER13" | translate]] </th> -->
 
                 <th> 
-                    <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggle('add', 0)">[[ "THEADER14" | translate]]</button> -->
+                    
                     <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsEnt('md', 'add', 0)">Add Properties</button>
                 </th>
             </tr>
@@ -57,7 +42,6 @@
 
                 <td ng-if="entity.properties.length == 0" colspan="11">[[ "NO_PROPERTIES" | translate]]</td>
                 <td ng-if="entity.properties.length == 0" colspan="1">
-                    <!--<button class="btn btn-default btn-xs btn-detail">Inserir</button> -->
                     <button class="btn btn-danger btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                 </td>
 
@@ -73,9 +57,7 @@
                     <td>[[ property.state ]]</td>
                     <td>[[ property.created_at ]]</td>
                     <td>[[ property.updated_at ]]</td>
-                    <!-- <td>[[ property.deleted_at ]]</td> -->
                     <td>
-                        <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggle('edit', property.id)">[[ "BTNTABLE1" | translate]]</button> -->
                         <button type="button" class="btn btn-xs btn-warning" ng-click="openModalPropsEnt('md', 'edit', property.id)">Edit</button>
                         <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(property.id)">[[ "BTNTABLE4" | translate]]</button>
                         <button class="btn btn-primary btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
@@ -86,16 +68,15 @@
         </table>
         <div>
             <pagination></pagination>
-        </div>
+        </div> -->
 
         <!-- ______________________________________________TESTES _________________________________________________________-->
 
 
-        <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsEnt('md', 'add', 0)">{{trans('properties/messages.ADD_PROPERTIES')}}</button>
+        <!-- <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsEnt('md', 'add', 0)">{{trans('properties/messages.ADD_PROPERTIES')}}</button>
         <br>
         <br>
 
-        <!-- Tabela utilizando o ng-table -->
         <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
             <colgroup>
                 <col width="60%" />
@@ -111,9 +92,6 @@
                 </td>
             </tr>
             <tr ng-hide="group.$hideRows" ng-repeat="entity in group.data" ng-repeat-end>
-                <!-- <td sortable="'name'" filter="{name: 'text'}" data-title="'Relation" groupable="'name'">
-                    [[relation.language[0].pivot.name]]
-                </td> -->
                 <td sortable="'entity'" data-title="'{{trans('properties/messages.THEADER2')}}'">
                     [[entity.language[0].pivot.name]]
                     <div ng-if="entity.properties.length > 1">
@@ -165,7 +143,42 @@
                     <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(property.id)">{{trans('properties/messages.BTNTABLE4')}}</button>
                 </td>
             </tr> 
+        </table> -->
+
+
+        <!-- NG TABLE RECENTE -->
+
+        <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsEnt('md', 'add', 0)">{{trans('properties/messages.ADD_PROPERTIES')}}</button>
+        <br>
+        <br>
+
+        <table ng-table="tableParams" ng-init="getPropsOfEntities()" class="table table-condensed table-bordered table-hover" show-filter="true">
+            <tr ng-repeat="entitiesProps in tableParams.data">
+                <td title="'Entity'" filter ="{entityFilter: 'text'}" sortable="'entity_name'" >
+                    [[entitiesProps.entity_name]]
+                    <div>
+                        <button class="btn btn-primary btn-xs" ng-click="showDragDropWindow(entitiesProps.id)"> [[ "BTNTABLE3" | translate]]</button>
+                    </div>
+                </td>
+                <td title="'{{trans('properties/messages.THEADER1')}}'" sortable="'id'" > [[entitiesProps.id]] </td>
+                <td title="'{{trans('properties/messages.THEADER3')}}'" filter ="{propertyFilter: 'text'}" sortable="'property_name'" > [[entitiesProps.property_name]] </td>
+                <td title="'{{trans('properties/messages.THEADER4')}}'" sortable="'value_type'" > [[entitiesProps.value_type]] </td>
+                <td title="'{{trans('properties/messages.THEADER5')}}'" sortable="'form_field_name'" > [[entitiesProps.form_field_name]] </td>
+                <td title="'{{trans('properties/messages.THEADER6')}}'" sortable="'form_field_type'" > [[entitiesProps.form_field_type]] </td>
+                <td title="'{{trans('properties/messages.THEADER7')}}'" sortable="'unit_type'" > [[entitiesProps.unit_type]] </td>
+                <td title="'{{trans('properties/messages.THEADER8')}}'" sortable="'form_field_size'" > [[entitiesProps.form_field_size]] </td>
+                <td title="'{{trans('properties/messages.THEADER9')}}'" sortable="'mandatory'" > [[ entitiesProps.mandatory ]] </td>
+                <td title="'{{trans('properties/messages.THEADER10')}}'" sortable="'state'" > [[ entitiesProps.state ]] </td>
+                <td title="'{{trans('properties/messages.THEADER11')}}'" sortable="'created_at'" > [[ entitiesProps.created_at ]] </td>
+                <td title="'{{trans('properties/messages.THEADER12')}}'" sortable="'updated_at'" > [[ entitiesProps.updated_at ]] </td>
+                <td title="'Action'">
+                    <button class="btn btn-default btn-xs btn-detail" ng-click="openModalPropsEnt('md', 'edit', entitiesProps.id)">{{trans('properties/messages.BTNTABLE1')}}</button>
+                    <button class="btn btn-info btn-xs btn-delete">{{trans('properties/messages.BTNTABLE2')}}</button>
+                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(relation.id)">{{trans('properties/messages.BTNTABLE4')}}</button>
+                </td>
+            </tr> 
         </table>
+
 
         <!-- Popup para reordenar as propriedades -->
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

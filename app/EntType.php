@@ -90,4 +90,18 @@ class EntType extends Model
         return $this->belongsTo('App\Users', 'deleted_by', 'id');
     }
 
+    public function scopeSearchPropsEnt($query, $id, $data) {
+        if ($id != null) {
+            $query->where('id', $id);
+        }
+
+        if (isset($data['entity']) && $data['entity'] != '') {
+            $query->where('ent_type_name.name', 'LIKE', '%'.$data['entity'].'%');
+        }
+
+        if (isset($data['property']) && $data['property'] != '') {
+            $query->where('property_name.name', 'LIKE', '%'.$data['property'].'%');
+        }
+    }
+
 }

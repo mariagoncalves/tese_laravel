@@ -166,6 +166,10 @@ Route::get('/modalConfirm', function () {
 Route::get('/properties/outputTypes', 'PropertiesOfEntitiesController@getOutputTypes');
 Route::get('/PropertyEnt/get_props_ent/{id?}','PropertiesOfEntitiesController@getAll_test');
 
+Route::get('/propertiesOfEntities/get_propsOfEnt/{id?}','PropertiesOfEntitiesController@getAll_test');
+
+Route::get('/properties/getAllEntities','PropertiesOfEntitiesController@getEntities');
+
 
 //----------------------------------Propriedades da Relação----------------------------------------------------
 
