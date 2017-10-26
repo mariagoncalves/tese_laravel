@@ -14,6 +14,7 @@ class RelType extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'id',
         'ent_type1_id',
         'ent_type2_id',
         't_state_id',
@@ -67,5 +68,35 @@ class RelType extends Model
     public function deletedBy() {
 
         return $this->belongsTo('App\Users', 'deleted_by', 'id');
+    }
+
+    public function scopeSearchRelTypes($query, $id, $data) {
+        if ($id != null) {
+            $query->where('id', $id);
+        }
+
+        if (isset($data['relation']) && $data['relation'] != '') {
+            $query->where('rel_type_name.name', 'LIKE', '%'.$data['relation'].'%');
+        }
+
+        if (isset($data['entity1']) && $data['entity1'] != '') {
+            $query->where('ent1.name', 'LIKE', '%'.$data['entity1'].'%');
+        }
+
+        if (isset($data['entity2']) && $data['entity2'] != '') {
+            $query->where('ent2.name', 'LIKE', '%'.$data['entity2'].'%');
+        }
+
+        if (isset($data['transType']) && $data['transType'] != '') {
+            $query->where('transaction_type_name.t_name', 'LIKE', '%'.$data['transType'].'%');
+        }
+
+        if (isset($data['transState']) && $data['transState'] != '') {
+            $query->where('t_state_name.name', 'LIKE', '%'.$data['transState'].'%');
+        }
+
+        if (isset($data['state']) && $data['state'] != '') {
+            $query->where('rel_type.state', 'LIKE', '%'.$data['state'].'%');
+        }
     }
 }

@@ -1,12 +1,8 @@
-app.controller('RelationTypesManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate, NgTableParams, MyService, $uibModal, $timeout) {
+app.controller('RelationTypesManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate, $filter, NgTableParams, MyService, $uibModal, $timeout) {
 
-    $scope.relations = [];
     $scope.entities = [];
     $scope.transactionTypes = [];
     $scope.transactionStates = [];
-    $scope.totalPages = 0;
-    $scope.currentPage = 1;
-    $scope.range = [];
     $scope.errors = [];
 
     $translatePartialLoader.addPart('relTypes');
@@ -15,34 +11,11 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
 
     $scope.dotranslate = function() {
         var currentLang = $translate.proposedLanguage() || $translate.use();
-        if (currentLang == "en")
+        if (currentLang == "en") {
             $translate.use('pt');
-        else
+        } else {
             $translate.use('en');
-    };
-
-    $scope.getRelations = function(pageNumber) {
-
-        if (pageNumber === undefined) {
-            pageNumber = '1';
         }
-
-        $http.get('/relTypes/get_relations?page='+pageNumber).then(function(response) {
-            console.log(response);
-            $scope.relations = response.data.data;
-
-            $scope.totalPages = response.data.last_page;
-            $scope.currentPage = response.data.current_page;
-
-            // Pagination Range
-            var pages = [];
-
-            for (var i = 1; i <= response.data.last_page; i++) {
-                pages.push(i);
-            }
-
-            $scope.range = pages;
-        });
     };
 
     $scope.remove = function(id) {
@@ -52,20 +25,14 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             method: 'POST',
             url: url,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            //headers: {'Content-Type': 'json'}
         }).then(function (response) {
-            console.log(response);
             growl.success('This is success message.',{title: 'Success!'});
-            $scope.getRelations();
+            // Atualizar os dados da tabela
+            $scope.getRelationsTable();
         }, function errorCallback(response) {
-            console.log("lalal");
-            console.log(response);
-            if (response.status == 400 || response.status == 500)
-            {
+            if (response.status == 400 || response.status == 500){
                 growl.error('This is error message.',{title: 'error!'});
-            }
-            else
-            {
+            } else {
                 $scope.errors = response.data;
             }
         });
@@ -75,35 +42,30 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
         //Estado das propriedades
         $http.get('/properties/states').then(function(response) {
             $scope.states = response.data;
-            console.log($scope.states);
         });
     };
 
     $scope.getEntities = function() {
         $http.get('/getAllEntities').then(function(response) {
             $scope.entities = response.data;
-            console.log($scope.entities);
         });
     };
 
     $scope.getTransactionsTypes = function() {
         $http.get('/getAllTransactionTypes').then(function(response) {
             $scope.transactionTypes = response.data;
-            console.log($scope.transactionTypes);
         });
     };
 
     $scope.getTransactionsStates = function() {
         $http.get('/getAllTransactionStates').then(function(response) {
             $scope.transactionStates = response.data;
-            console.log($scope.transactionStates);
         });
     };
 
-
     $scope.openModalRelTypes = function (size, modalstate, id, parentSelector) {
 
-       var modalInstance = $uibModal.open({
+        var modalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
@@ -111,11 +73,9 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
             controller: 'ModalInstanceCtrl1',
             scope: $scope,
             size: size,
-            resolve: {
-            }
+            resolve: {}
         }).rendered.then(function() {
-            
-            $scope.relation = null;
+            $scope.relation   = null;
             $scope.modalstate = modalstate;
 
             switch (modalstate) {
@@ -126,7 +86,7 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
                 case 'edit':
                     $scope.form_title = "EDIT_FORM_NAME";
                     $scope.id = id;
-                    console.log(id);
+
                     $http.get(API_URL + '/getRelationsTypes/' + id)
                         .then(function(response) {
                             $scope.relation = response.data;
@@ -136,93 +96,115 @@ app.controller('RelationTypesManagmentControllerJs', function($scope, $http, gro
                 default:
                     break;
             }
-
         });
     };
 
     $scope.ModalInstanceCtrl1 = function ($scope, $uibModalInstance) {
 
         $scope.save = function(modalstate, id) {
-        var url      = API_URL + "Relation";
+            var url      = API_URL + "Relation";
+            var formData = JSON.parse(JSON.stringify(jQuery('#formRelation').serializeArray()));
 
-        console.log(jQuery('#formRelation').serializeArray());
-
-        var formData = JSON.parse(JSON.stringify(jQuery('#formRelation').serializeArray()));
-
-        console.log(formData);
-
-        if (modalstate === 'edit') {
-            url += "/" + id ;
-        }
-
-        $http({
-            method: 'POST',
-            url: url,
-            data: $.param(formData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function(response) {
-            //First function handles success
-            $scope.errors = [];
-            $scope.getRelations();
-            //$('#myModal').modal('hide');
-
-            $scope.cancel();
-
-            $('#myModal select:first').prop('disabled', false);
-            $('#formRelation')[0].reset();
-
-
-            if(modalstate == "add") {
-                growl.success('SAVE_SUCCESS_MESSAGE',{title: 'SUCCESS'});
-            } else {
-                growl.success('EDIT_SUCCESS_MESSAGE',{title: 'SUCCESS'});
+            if (modalstate === 'edit') {
+                url += "/" + id ;
             }
-        }, function(response) {
-            //Second function handles error
-            if (response.status == 400) {
-                $scope.errors = response.data.error;
-            } else if (response.status == 500) {
 
+            $http({
+                method: 'POST',
+                url: url,
+                data: $.param(formData),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function(response) {
+                $scope.errors = [];
+                // Actualizar os dados da tabela
+                $scope.getRelationsTable();
+                // Fechar o popup
                 $scope.cancel();
 
-                growl.error(response.data.error, {title: 'error!'});
-            }
-        });
-    };
+                $('#myModal select:first').prop('disabled', false);
+                $('#formRelation')[0].reset();
+
+                if (modalstate == "add") {
+                    growl.success('SAVE_SUCCESS_MESSAGE', {title: 'SUCCESS'});
+                } else {
+                    growl.success('EDIT_SUCCESS_MESSAGE', {title: 'SUCCESS'});
+                }
+            }, function(response) {
+                //Second function handles error
+                if (response.status == 400) {
+                    $scope.errors = response.data.error;
+                } else if (response.status == 500) {
+                    $scope.cancel();
+                    growl.error(response.data.error, {title: 'error!'});
+                }
+            });
+        };
+
         $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss();
         };
     };
+    
+    // Serve para inicializar o ng-table
+    $scope.getRelationsTable = function() {
+        var initialParams = {
+            sorting: { created_at: "desc" }, // Ordenação por defeito da tabela
+            count: 5, // Número de dados por página na tabela
+        };
 
-    //------------------------------------TESTES------------------------------
-    //Para usar o ng-table
+        var initialSettings = {
+            counts: [5, 10, 15], // Número possiveis de apresentação dos dados da tabela
+            getData: function (params) {
+                var filterObj = params.filter(),
+                    sortObj   = params.sorting();
 
-    $http.get('/relTypes/get_relation_types1?page=1').then(function(response) {
-        $scope.tableParams = new NgTableParams({
-            count: 2,
-            group: "name"
-        }, {
-            paginationMaxBlocks: 13,
-            paginationMinBlocks: 2,
-            dataset: response.data
+                return $scope.getRelationTypes(params, filterObj, sortObj);
+            }
+        };
 
-        });
-
-        console.log(response.data);
-    });
-
-}).directive('pagination', function(){
-    return{
-        restrict: 'E',
-        template: '<ul class="pagination">'+
-        '<li ng-show="currentPage != 1"><a href="javascript:void(0)" ng-click="getRelations(1)">&laquo;</a></li>'+
-        '<li ng-show="currentPage != 1"><a href="javascript:void(0)" ng-click="getRelations(currentPage-1)">&lsaquo; [[ "BTNPAGINATION2" | translate]] </a></li>'+
-        '<li ng-repeat="i in range" ng-class="{active : currentPage == i}">'+
-        '<a href="javascript:void(0)" ng-click="getRelations(i)">{{i}}</a>'+
-        '</li>'+
-        '<li ng-show="currentPage != totalPages"><a href="javascript:void(0)" ng-click="getRelations(currentPage+1)"> [[ "BTNPAGINATION1" | translate]] &rsaquo;</a></li>'+
-        '<li ng-show="currentPage != totalPages"><a href="javascript:void(0)" ng-click="getRelations(totalPages)">&raquo;</a></li>'+
-        '</ul>'
+        $scope.tableParams = new NgTableParams(initialParams, initialSettings);
     };
+
+    // Este método serve para ir buscar os dados da tabela
+    $scope.getRelationTypes = function(params, filter, sort) {
+        var url = '/relTypes/get_relation_types1?page=' + params.page();
+
+        url += '&count=' + params.count();
+
+        // Parametro de pesquisa quando é pesquisado pelo nome da relação
+        if (filter.relationFilter != undefined && filter.relationFilter != '') {
+            url += '&relation=' + filter.relationFilter;
+        }
+        // Parametro de pesquisa quando é pesquisado pelo nome da entidade 1
+        if (filter.entity1Filter != undefined && filter.entity1Filter != '') {
+            url += '&entity1=' + filter.entity1Filter;
+        }
+        // Parametro de pesquisa quando é pesquisado pelo nome da entidade 2
+        if (filter.entity2Filter != undefined && filter.entity2Filter != '') {
+            url += '&entity2=' + filter.entity2Filter;
+        }
+        // Parametro de pesquisa quando é pesquisado pelo nome da transação
+        if (filter.transTypeFilter != undefined && filter.transTypeFilter != '') {
+            url += '&transType=' + filter.transTypeFilter;
+        }
+        // Parametro de pesquisa quando é pesquisado pelo nome do estado da transação
+        if (filter.transStateFilter != undefined && filter.transStateFilter != '') {
+            url += '&transState=' + filter.transStateFilter;
+        }
+        // Parametro de pesquisa quando é pesquisado pelo estado do rel_type
+        if (filter.stateFilter != undefined && filter.stateFilter != '') {
+            url += '&state=' + filter.stateFilter;
+        }
+
+        var colSorting  = Object.keys(sort)[0],
+            typeSorting = sort[colSorting];
+        // Parametro para ordenar os dados
+        url += '&colSorting=' + colSorting + "&typeSorting=" + typeSorting;
+
+        return $http.get(url).then(function (response) {
+                params.total(response.data.total);
+                return response.data.data;
+            });
+    }
 });
 

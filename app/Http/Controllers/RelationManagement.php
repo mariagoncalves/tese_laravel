@@ -165,7 +165,7 @@ class RelationManagement extends Controller
         $data = $request->all();
 
         $rules = [
-            'relation_name'     => ['required','string', Rule::unique('rel_type_name' , 'name')->where('language_id', '1')->ignore($id, 'rel_type_id') ],
+            'relation_name'     => ['required', 'string', Rule::unique('rel_type_name', 'name')->where('language_id', '1')->ignore($id, 'rel_type_id')],
             'entity_type1'      => ['required', 'integer'],
             'entity_type2'      => ['required', 'integer', 'different:entity_type1'],
             'transactionsType'  => ['required', 'integer'],
@@ -182,25 +182,25 @@ class RelationManagement extends Controller
         }
 
         $data1 = array(
-                'ent_type1_id'         => $data['entity_type1'     ],
-                'ent_type2_id'         => $data['entity_type2'     ],
-                'state'                => $data['relation_state'   ],
-                'transaction_type_id'  => $data['transactionsType' ],
-                't_state_id'           => $data['transactionsState']
-            );
+            'ent_type1_id'         => $data['entity_type1'     ],
+            'ent_type2_id'         => $data['entity_type2'     ],
+            'state'                => $data['relation_state'   ],
+            'transaction_type_id'  => $data['transactionsType' ],
+            't_state_id'           => $data['transactionsState']
+        );
 
-            RelType::where('id', $id)
-                    ->update($data1);
+        RelType::where('id', $id)
+                ->update($data1);
 
-            $dataName = [
+        $dataName =  [
                 'name' => $data['relation_name']
-            ];
+        ];
 
-            RelTypeName::where('rel_type_id', $id)
-                        ->where('language_id', 1)
-                        ->update($dataName);
+        RelTypeName::where('rel_type_id', $id)
+                    ->where('language_id', 1)
+                    ->update($dataName);
 
-        return response()->json([]);
+        return response()->json();
     }
 
     public function remove(Request $request, $id) {
@@ -216,57 +216,58 @@ class RelationManagement extends Controller
         return response()->json(['error' => 'An error occurred. Try later.'], 500);
     }
 
-    public function getAll_test($id = null) {
-        if ($id == null) {
-
-
-                $url_text = 'PT';
-                $dataRelType = RelType::with(['language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['tState.language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['transactionsType.language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['ent1.language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['ent2.language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->get();
-
-                \Log::Debug($dataRelType);
-
-                return response()->json($dataRelType);
-
-                /*$relations = DB::table('rel_type')
-
-                                ->join('rel_type', 'rel_type.id', '=', 'rel_type_name.rel_type_id')
-
-                                ->join('ent_type', 'rel_type.ent_type1_id', '=', 'ent_type.id')
-                                ->join('ent_type', 'rel_type.ent_type2_id', '=', 'ent_type.id')
-
-                                ->join('ent_type_name', 'ent_type_name.ent_type_id', '=', 'ent_type.id')
-                                ->join('language as l1', 'ent_type_name.language_id', '=', 'l1.id')
-
-                                ->join('transaction_type', 'rel_type.transaction_type_id', '=', 'transaction_type.id')
-                                ->join('transaction_type_name', 'transaction_type_name.transaction_type_id', '=', 'transaction_type.id')
-                                ->join('language as l2', 'transaction_type_name.language_id', '=', 'l2.id')
-
-                                ->join('t_state', 'rel_type.t_state_id', '=', 't_state.id')
-                                ->join('t_state_name', 't_state_name.t_state_id', '=', 't_state.id')
-                                ->get();
-
-            \Log::debug("TESTE COM DBBBBBBBBBBBBBBBBBBBB");
-            \Log::debug($relations);
-
-            return response()->json($relations);*/
-
-        } else {
-            return $this->getSpec($id);
+    public function getAll_test(Request $request, $id = null) {
+        $data  = $request->all();
+        $count = 5;
+        // É de acordo com a váriavel 'count' que será apresentado o número de 'rel_types'.
+        // Caso seja o 'count' 5, então será apresentado 5 'rel_types' na tabela.
+        if (isset($data['count']) && $data['count'] != "") {
+            $count = $data['count'];
         }
+
+        // As váriaveis 'colSorting' e 'typeSorting' são utilizadas para ordenar os dados.
+        // Por defeito, é ordenado pelo o 'created_at' e por ordem 'desc'.
+        $colSorting  = 'created_at';
+        $typeSorting = 'desc';
+        if (isset($data['colSorting']) && $data['colSorting'] != "" && isset($data['typeSorting']) && $data['typeSorting'] != "") {
+            $colSorting  = $data['colSorting'];
+            $typeSorting = $data['typeSorting'];
+        }
+
+        $dataRelType = RelType::leftJoin('rel_type_name', function($query) {
+                                    $query->on('rel_type.id', '=', 'rel_type_name.rel_type_id')->where('rel_type_name.language_id', 1);
+                                })
+                                ->leftJoin('ent_type_name AS ent1', function($query) {
+                                    $query->on('rel_type.ent_type1_id', '=', 'ent1.ent_type_id')->where('ent1.language_id', 1);
+                                })
+                                ->leftJoin('ent_type_name AS ent2', function($query) {
+                                    $query->on('rel_type.ent_type2_id', '=', 'ent2.ent_type_id')->where('ent2.language_id', 1);
+                                })
+                                ->leftJoin('t_state_name', function($query) {
+                                    $query->on('rel_type.t_state_id', '=', 't_state_name.t_state_id')->where('t_state_name.language_id', 1);
+                                })
+                                ->leftJoin('transaction_type_name', function($query) {
+                                    $query->on('rel_type.transaction_type_id', '=', 'transaction_type_name.transaction_type_id')
+                                          ->where('transaction_type_name.language_id', 1);
+                                })
+                                // Este 'select' serve para selecionar quais os campos pretendidos de cada tabela.
+                                // Por exemplo, da tabela 'rel_type' vem todos os campos.
+                                // Já por sua vez, da tabela 'rel_type_name' só quero o campo 'name' e altero o nome para 'relation'.
+                                ->select([
+                                    'rel_type.*', 
+                                    'rel_type_name.name AS relation', 
+                                    'ent1.name AS entity1', 
+                                    'ent2.name AS entity2', 
+                                    't_state_name.name AS t_state_name',
+                                    'transaction_type_name.t_name AS transaction_type'
+                                ])
+                                // Eu criei um scope 'scopeSearchRelTypes' em RelType.php para realizar a pesquisa e ficar mais organizados.
+                                ->searchRelTypes($id, $data)
+                                // Isto apenas é para ordenar os dados
+                                ->orderBy($colSorting, $typeSorting)
+                                ->paginate($count)
+                                ->toArray();
+
+        return response()->json($dataRelType);
     }
 }
