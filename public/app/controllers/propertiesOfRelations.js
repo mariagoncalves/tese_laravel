@@ -1,4 +1,4 @@
-app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate, NgTableParams, MyService, $uibModal, $timeout) {
+app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate, $filter, NgTableParams, MyService, $uibModal, $timeout) {
 
     $translatePartialLoader.addPart('properties');
 
@@ -17,13 +17,14 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
     $scope.valueTypes = [];
     $scope.fieldTypes = [];
     $scope.units = [];
-    $scope.totalPages = 0;
-    $scope.currentPage = 1;
-    $scope.range = [];
+    //$scope.totalPages = 0;
+    //$scope.currentPage = 1;
+    //$scope.range = [];
     $scope.errors = [];
     $scope.propsRel = [];
+    $scope.result = [];
 
-    $scope.getRelations = function(pageNumber) {
+    /*$scope.getRelations = function(pageNumber) {
 
         if (pageNumber === undefined) {
             pageNumber = '1';
@@ -46,9 +47,9 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
             $scope.range = pages;
 
         });
-    };
+    };*/
 
-    $scope.toggleRel = function(modalstate, id) {
+    /*$scope.toggleRel = function(modalstate, id) {
         $('#formPropRel')[0].reset();
         $scope.property = null;
         $scope.modalstate = modalstate;
@@ -78,7 +79,7 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
         $('#myModal').modal('show');
         $scope.errors = null;
         $scope.process = null;
-    };
+    };*/
 
     $scope.showDragDropWindow = function(id) {
 
@@ -229,7 +230,7 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
         }).then(function(response) {
             //First function handles success
             $scope.errors = [];
-            $scope.getRelations();
+            $scope.getPropsOfRelation();
             $scope.cancel();
             $('#myModal select:first').prop('disabled', false);
 
@@ -349,10 +350,21 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
     };
 
 
+    $scope.getRelations = function(){
+
+        console.log("GET RELATIONS CHEGOU");
+
+        $http.get('/properties/getAllRelations').then(function(response) {
+            $scope.relations = response.data;
+            console.log($scope.relations);
+        });
+    }
+
+
      //------------------------------------TESTES------------------------------
     //Para usar o ng-table
 
-    $http.get('/propertiesOfRelation/get_propsOfRel1?page=1').then(function(response) {
+    /*$http.get('/propertiesOfRelation/get_propsOfRel1?page=1').then(function(response) {
         $scope.tableParams = new NgTableParams({
             count: 2,
             group: "name"
@@ -364,7 +376,56 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
         });
 
         console.log(response.data);
-    });
+    });*/
+
+    //-------------------------------------------------------------------------
+
+    $scope.getPropsOfRelation = function() {
+
+        var initialParams = {
+            sorting: { created_at: "desc" }, // Ordenação por defeito da tabela
+            count: 5, // Número de dados por página na tabela
+        };
+
+        var initialSettings = {
+            counts: [5, 10, 15], // Número possiveis de apresentação dos dados da tabela
+            getData: function (params) {
+                var filterObj = params.filter(),
+                    sortObj   = params.sorting();
+
+                return $scope.getPropsOfRel(params, filterObj, sortObj);
+            }
+        };
+
+        $scope.tableParams = new NgTableParams(initialParams, initialSettings);
+    };
+
+    $scope.getPropsOfRel = function (params, filter, sort) {
+
+        var url = '/propertiesOfRelation/get_propsOfRel1?page=' + params.page();
+
+        url += '&count=' + params.count();
+
+        // Parametro de pesquisa quando é pesquisado pelo nome da relação
+        if (filter.relationFilter != undefined && filter.relationFilter != '') {
+            url += '&relation=' + filter.relationFilter;
+        }
+        // Parametro de pesquisa quando é pesquisado pelo nome da propriedade
+        if (filter.propertyFilter != undefined && filter.propertyFilter != '') {
+            url += '&property=' + filter.propertyFilter;
+        }
+
+        var colSorting  = Object.keys(sort)[0],
+            typeSorting = sort[colSorting];
+        // Parametro para ordenar os dados
+        url += '&colSorting=' + colSorting + "&typeSorting=" + typeSorting;
+
+        return $http.get(url).then(function (response) {
+                params.total(response.data.total);
+                return response.data.data;
+            });
+    }
+
     
 }).directive('pagination', function(){
     return{

@@ -27,6 +27,7 @@
                 <td colspan="8">Não existe relações...</td>
             </tr>
         </table>
+    </div>
 @stop
 @section('footerContent')
     <script src="<?= asset('app/controllers/relTypes.js') ?>"></script>

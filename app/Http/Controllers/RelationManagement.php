@@ -267,6 +267,8 @@ class RelationManagement extends Controller
                                 ->orderBy($colSorting, $typeSorting)
                                 ->paginate($count)
                                 ->toArray();
+                                
+        \Log::debug($dataRelType);
 
         return response()->json($dataRelType);
     }

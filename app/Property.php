@@ -116,5 +116,4 @@ class Property extends Model
         }
         return $values;
     }
-
 }

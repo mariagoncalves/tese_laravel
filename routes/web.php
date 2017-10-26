@@ -182,6 +182,9 @@ Route::get('/modalPropsRel', function () {
 
 Route::get('/propertiesOfRelation/get_propsOfRel1/{id?}','PropertiesOfRelationsController@getAll_test');
 
+Route::get('/properties/getAllRelations','PropertiesOfRelationsController@getRelations');
+
+
 //--------------------------Métodos comuns as entidades e as relações---------------------------
 
 Route::get('/properties/states', 'PropertiesController@getStates');

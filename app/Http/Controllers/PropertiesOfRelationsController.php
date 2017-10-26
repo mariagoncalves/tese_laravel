@@ -21,7 +21,7 @@ class PropertiesOfRelationsController extends Controller {
         return view('propertiesOfRelations');
     }
 
-    public function getAllRel() {
+    /*public function getAllRel() {
 
         $language_id = '1';
 
@@ -42,7 +42,7 @@ class PropertiesOfRelationsController extends Controller {
 
 
         return response()->json($rels);
-    }
+    }*/
 
     public function insertPropsRel(Request $request) {
 
@@ -256,35 +256,70 @@ class PropertiesOfRelationsController extends Controller {
         return response()->json();
     }
 
+    public function getRelations() {
 
-    public function getAll_test($id = null) {
-        if ($id == null) {
+        $language_id = '1';
+
+        $allRels = RelType::with(['language' => function($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->get();
+
+        \Log::debug("TODAS AS RELAÇÕES");
+        \Log::debug($allRels);
+
+        return response()->json($allRels);
+    }
 
 
-                $url_text = 'PT';
-                $dataPropsRel = RelType::with(['language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['properties.language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['properties.units.language' => function($query) use ($url_text) {
-                                            $query->where('language.slug', $url_text);
-                                        }])
-                                        ->with(['properties' => function($query) {
-                                            $query->orderBy('form_field_order', 'asc');
-                                        }])->whereHas('language', function ($query) use ($url_text){
-                                            return $query->where('language.slug', $url_text);
-                                        })
-                                        ->get();
+    public function getAll_test(Request $request, $id = null) {
 
-                \Log::Debug($dataPropsRel);
+        $data  = $request->all();
+        $count = 5;
 
-            return response()->json($dataPropsRel);
-
-        } else {
-            return $this->getSpec($id);
+        // É de acordo com a váriavel 'count' que será apresentado o número de 'rel_types'.
+        // Caso seja o 'count' 5, então será apresentado 5 'rel_types' na tabela.
+        if (isset($data['count']) && $data['count'] != "") {
+            $count = $data['count'];
         }
+
+        // As váriaveis 'colSorting' e 'typeSorting' são utilizadas para ordenar os dados.
+        // Por defeito, é ordenado pelo o 'created_at' e por ordem 'desc'.
+        $colSorting  = 'created_at';
+        $typeSorting = 'desc';
+        if (isset($data['colSorting']) && $data['colSorting'] != "" && isset($data['typeSorting']) && $data['typeSorting'] != "") {
+            $colSorting  = $data['colSorting'];
+            $typeSorting = $data['typeSorting'];
+        }
+
+        $dataPropsRel = RelType::leftJoin('rel_type_name', function($query) {
+                                    $query->on('rel_type.id', '=', 'rel_type_name.rel_type_id')->where('rel_type_name.language_id', 1);
+                                })
+                                ->leftJoin('property', function($query) {
+                                    $query->on('rel_type.id', '=', 'property.rel_type_id');
+                                })
+                                ->leftJoin('property_name', function($query){
+                                    $query->on('property.id', '=', 'property_name.property_id');
+                                })
+                                //->leftJoin('unit_type_name', function($query) {
+                                //    $query->on('property.id', '=', 'property_name.property_id');
+                                //})
+
+                                ->select([
+                                    'rel_type.id AS rel_id',
+                                    'rel_type_name.name AS relation_name',
+                                    'property.*',
+                                    'property_name.name AS property_name',
+                                    'property_name.form_field_name AS form_field_name'
+                                ])
+                                ->searchPropsRel($id, $data)
+                                ->orderBy($colSorting, $typeSorting)
+                                ->paginate($count)
+                                ->toArray();
+
+        \Log::debug($dataPropsRel);
+
+        return response()->json($dataPropsRel);
     }
 
 

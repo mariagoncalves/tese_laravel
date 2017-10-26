@@ -99,4 +99,18 @@ class RelType extends Model
             $query->where('rel_type.state', 'LIKE', '%'.$data['state'].'%');
         }
     }
+
+    public function scopeSearchPropsRel($query, $id, $data) {
+        if ($id != null) {
+            $query->where('id', $id);
+        }
+
+        if (isset($data['relation']) && $data['relation'] != '') {
+            $query->where('rel_type_name.name', 'LIKE', '%'.$data['relation'].'%');
+        }
+
+        if (isset($data['property']) && $data['property'] != '') {
+            $query->where('property_name.name', 'LIKE', '%'.$data['property'].'%');
+        }
+    }
 }

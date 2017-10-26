@@ -3,26 +3,13 @@
     <h2>[["Page_Name" | translate]]</h2>
     <!-- <div ng-controller="propertiesManagmentControllerJs"> -->
     <div ng-controller="propertiesOfRelationsManagmentControllerJs">
-        <div growl></div>
+        <!-- <div growl></div>
 
         <button class="btn btn-default btn-xs btn-detail" ng-click="dotranslate()">TRANSLATE</button>
 
-        <!-- Table-to-load-the-data Part -->
         <table class="table table-striped" st-table="displayedCollection" ng-init="getRelations()" st-safe-src="relations">
             <thead>
             <tr>
-                <!-- <th st-sort="language[0].pivot.name">{{trans("messages.relation")}}</th>
-                <th>ID</th>
-                <th>{{trans("messages.property")}}</th>
-                <th>{{trans("messages.valueType")}}</th>
-                <th>{{trans("messages.formFieldName")}}</th>
-                <th>{{trans("messages.formFieldType")}}</th>
-                <th>{{trans("messages.unitType")}}</th>
-                <th>{{trans("messages.formFieldSize")}}</th>
-                <th>{{trans("messages.mandatory")}}</th>
-                <th>{{trans("messages.state")}}</th>
-                <th>{{trans("messages.updated_on")}}</th>
-                <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggleRel('add', 0)">{{trans("messages.addProperties")}}</button></th> -->
 
                 <th> [[ "THEADER15" | translate]] </th>
                 <th> [[ "THEADER2" | translate]] </th>
@@ -36,9 +23,7 @@
                 <th> [[ "THEADER10" | translate]] </th>
                 <th> [[ "THEADER11" | translate]] </th>
                 <th> [[ "THEADER12" | translate]] </th>
-                <!-- <th> [[ "THEADER13" | translate]] </th> -->
                 <th> 
-                    <!-- <button id="btn-add" class="btn btn-success btn-xs" ng-click="toggleRel('add', 0)">[[ "THEADER14" | translate]]</button> -->
                     <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsRel('md', 'add', 0)">Add Properties</button>
                 </th>
             </tr>
@@ -56,7 +41,6 @@
 
                 <td ng-if="relation.properties.length == 0" colspan="11">[[ "NO_PROPERTIES" | translate]]</td>
                 <td ng-if="relation.properties.length == 0" colspan="1">
-                    <!-- <button class="btn btn-default btn-xs btn-detail">Inserir</button> -->
                     <button class="btn btn-danger btn-xs btn-delete">[[ "BTNTABLE2" | translate]]</button>
                 </td>
 
@@ -72,9 +56,7 @@
                     <td>[[ property.state ]]</td>
                     <td>[[ property.created_at ]]</td>
                     <td>[[ property.updated_at ]]</td>
-                    <!-- <td>[[ property.deleted_at ]]</td> -->
                     <td>
-                        <!-- <button class="btn btn-warning btn-xs btn-detail" ng-click="toggleRel('edit', property.id)">[[ "BTNTABLE1" | translate]]</button> -->
                         <button type="button" class="btn btn-xs btn-warning" ng-click="openModalPropsRel('md', 'edit', property.id)">Edit</button>
                         <button class="btn btn-danger btn-xs btn-delete" ng-click="remove(relation.id)">[[ "BTNTABLE4" | translate]]</button>
                         <button class="btn btn-danger btn-xs btn-delete" ng-click="openModaConfirm('md', property.id)"> REMOVER </button>
@@ -91,10 +73,10 @@
 
         <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsRel('md', 'add', 0)">{{trans('properties/messages.ADD_PROPERTIES')}}</button>
         <br>
-        <br>
+        <br> -->
 
         <!-- Tabela utilizando o ng-table -->
-        <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
+        <!-- <table ng-table="tableParams" class="table table-condensed table-bordered table-hover">
             <colgroup>
                 <col width="60%" />
                 <col width="20%" />
@@ -109,9 +91,6 @@
                 </td>
             </tr>
             <tr ng-hide="group.$hideRows" ng-repeat="relation in group.data" ng-repeat-end>
-                <!-- <td sortable="'name'" filter="{name: 'text'}" data-title="'Relation" groupable="'name'">
-                    [[relation.language[0].pivot.name]]
-                </td> -->
                 <td sortable="'relation'" data-title="'{{trans('properties/messages.THEADER13')}}'">
                     [[relation.language[0].pivot.name]]
                     <div ng-if="relation.properties.length > 1">
@@ -163,7 +142,55 @@
                     <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(relation.id)">{{trans('properties/messages.BTNTABLE4')}}</button>
                 </td>
             </tr> 
+        </table> -->
+
+
+        <!-- ng-table novo -->
+
+        <button type="button" class="btn btn-xs btn-success" ng-click="openModalPropsRel('md', 'add', 0)">{{trans('properties/messages.ADD_PROPERTIES')}}</button>
+        <br>
+        <br>
+
+        <table ng-table="tableParams" ng-init="getPropsOfRelation()" class="table table-condensed table-bordered table-hover" show-filter="true">
+            <tr ng-repeat="relationProps in tableParams.data">
+                <td title="'{{trans('properties/messages.THEADER13')}}'" filter ="{relationFilter: 'text'}" sortable="'relation_name'" >
+                    [[relationProps.relation_name]]
+                    <div>
+                        <button class="btn btn-primary btn-xs" ng-click="showDragDropWindow(relationProps.id)"> [[ "BTNTABLE3" | translate]]</button>
+                    </div>
+                </td>
+                <td title="'{{trans('properties/messages.THEADER1')}}'" sortable="'id'" > [[relationProps.id]] </td>
+                <td title="'{{trans('properties/messages.THEADER3')}}'" filter ="{propertyFilter: 'text'}" sortable="'property_name'" > [[relationProps.property_name]] </td>
+                <td title="'{{trans('properties/messages.THEADER4')}}'" sortable="'value_type'" > [[relationProps.value_type]] </td>
+                <td title="'{{trans('properties/messages.THEADER5')}}'" sortable="'form_field_name'" > [[relationProps.form_field_name]] </td>
+                <td title="'{{trans('properties/messages.THEADER6')}}'" sortable="'form_field_type'" > [[relationProps.form_field_type]] </td>
+                <td title="'{{trans('properties/messages.THEADER7')}}'" sortable="'unit_type'" > [[relationProps.unit_type]] </td>
+                <td title="'{{trans('properties/messages.THEADER8')}}'" sortable="'form_field_size'" > [[relationProps.form_field_size]] </td>
+                <td title="'{{trans('properties/messages.THEADER9')}}'" sortable="'mandatory'" > [[ relationProps.mandatory ]] </td>
+                <td title="'{{trans('properties/messages.THEADER10')}}'" sortable="'state'" > [[ relationProps.state ]] </td>
+                <td title="'{{trans('properties/messages.THEADER11')}}'" sortable="'created_at'" > [[ relationProps.created_at ]] </td>
+                <td title="'{{trans('properties/messages.THEADER12')}}'" sortable="'updated_at'" > [[ relationProps.updated_at ]] </td>
+                <td title="'Action'">
+                    <button class="btn btn-default btn-xs btn-detail" ng-click="openModalPropsRel('md', 'edit', relationProps.id)">{{trans('properties/messages.BTNTABLE1')}}</button>
+                    <button class="btn btn-info btn-xs btn-delete">{{trans('properties/messages.BTNTABLE2')}}</button>
+                    <button class="btn btn-danger btn-xs btn-delete" ng-click="delete(relation.id)">{{trans('properties/messages.BTNTABLE4')}}</button>
+                </td>
+            </tr> 
         </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- Popup para reordenar propriedades-->
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

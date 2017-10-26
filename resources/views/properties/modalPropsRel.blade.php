@@ -8,7 +8,7 @@
 
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{trans('properties/messages.THEADER13')}}:</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9" ng-init = "getRelations()">
                     <select class="form-control" name = "relation_type">
                         <option value=""></option>
                         <option ng-repeat="relation in relations" ng-value="relation.id" ng-selected="relation.id == property.rel_type_id" >[[ relation.language[0].pivot.name ]]</option>
