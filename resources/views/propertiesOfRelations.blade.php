@@ -153,10 +153,10 @@
 
         <table ng-table="tableParams" ng-init="getPropsOfRelation()" class="table table-condensed table-bordered table-hover" show-filter="true">
             <tr ng-repeat="relationProps in tableParams.data">
-                <td title="'{{trans('properties/messages.THEADER13')}}'" filter ="{relationFilter: 'text'}" sortable="'relation_name'" >
+                <td title="'{{trans('properties/messages.THEADER13')}}'" filter ="{relationFilter: 'text'}" sortable="'relation_name'">
                     [[relationProps.relation_name]]
                     <div>
-                        <button class="btn btn-primary btn-xs" ng-click="showDragDropWindow(relationProps.id)"> [[ "BTNTABLE3" | translate]]</button>
+                        <button class="btn btn-primary btn-xs" ng-click="showDragDropWindow(relationProps.rel_id)"> [[ "BTNTABLE3" | translate]]</button>
                     </div>
                 </td>
                 <td title="'{{trans('properties/messages.THEADER1')}}'" sortable="'id'" > [[relationProps.id]] </td>
@@ -164,7 +164,7 @@
                 <td title="'{{trans('properties/messages.THEADER4')}}'" sortable="'value_type'" > [[relationProps.value_type]] </td>
                 <td title="'{{trans('properties/messages.THEADER5')}}'" sortable="'form_field_name'" > [[relationProps.form_field_name]] </td>
                 <td title="'{{trans('properties/messages.THEADER6')}}'" sortable="'form_field_type'" > [[relationProps.form_field_type]] </td>
-                <td title="'{{trans('properties/messages.THEADER7')}}'" sortable="'unit_type'" > [[relationProps.unit_type]] </td>
+                <td title="'{{trans('properties/messages.THEADER7')}}'" sortable="'unit_type'" > [[relationProps.unit_name]] </td>
                 <td title="'{{trans('properties/messages.THEADER8')}}'" sortable="'form_field_size'" > [[relationProps.form_field_size]] </td>
                 <td title="'{{trans('properties/messages.THEADER9')}}'" sortable="'mandatory'" > [[ relationProps.mandatory ]] </td>
                 <td title="'{{trans('properties/messages.THEADER10')}}'" sortable="'state'" > [[ relationProps.state ]] </td>

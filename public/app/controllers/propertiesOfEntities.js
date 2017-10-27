@@ -1,4 +1,4 @@
-app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate, NgTableParams, MyService, $uibModal, $timeout) {
+app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $http, growl, API_URL, $translatePartialLoader, $translate, $filter, NgTableParams, MyService, $uibModal, $timeout) {
 
     $translatePartialLoader.addPart('properties');
 
@@ -211,7 +211,6 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
                 break;
         }
 
-
         });
 
     };
@@ -388,7 +387,7 @@ app.controller('propertiesOfEntitiesManagmentControllerJs', function($scope, $ht
             console.log("lalal 11");
             console.log(response);
             growl.success('This is success message.',{title: 'Success!'});
-            $scope.getEntities();
+            $scope.getPropsOfEntities();
         }, function errorCallback(response) {
             console.log("lalal");
             console.log(response);

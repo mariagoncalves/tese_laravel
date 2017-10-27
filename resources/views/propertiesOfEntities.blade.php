@@ -157,7 +157,7 @@
                 <td title="'Entity'" filter ="{entityFilter: 'text'}" sortable="'entity_name'" >
                     [[entitiesProps.entity_name]]
                     <div>
-                        <button class="btn btn-primary btn-xs" ng-click="showDragDropWindow(entitiesProps.id)"> [[ "BTNTABLE3" | translate]]</button>
+                        <button class="btn btn-primary btn-xs" ng-click="showDragDropWindowEnt(entitiesProps.ent_id)"> [[ "BTNTABLE3" | translate]]</button>
                     </div>
                 </td>
                 <td title="'{{trans('properties/messages.THEADER1')}}'" sortable="'id'" > [[entitiesProps.id]] </td>
@@ -165,7 +165,7 @@
                 <td title="'{{trans('properties/messages.THEADER4')}}'" sortable="'value_type'" > [[entitiesProps.value_type]] </td>
                 <td title="'{{trans('properties/messages.THEADER5')}}'" sortable="'form_field_name'" > [[entitiesProps.form_field_name]] </td>
                 <td title="'{{trans('properties/messages.THEADER6')}}'" sortable="'form_field_type'" > [[entitiesProps.form_field_type]] </td>
-                <td title="'{{trans('properties/messages.THEADER7')}}'" sortable="'unit_type'" > [[entitiesProps.unit_type]] </td>
+                <td title="'{{trans('properties/messages.THEADER7')}}'" sortable="'unit_type'" > [[entitiesProps.unit_name]] </td>
                 <td title="'{{trans('properties/messages.THEADER8')}}'" sortable="'form_field_size'" > [[entitiesProps.form_field_size]] </td>
                 <td title="'{{trans('properties/messages.THEADER9')}}'" sortable="'mandatory'" > [[ entitiesProps.mandatory ]] </td>
                 <td title="'{{trans('properties/messages.THEADER10')}}'" sortable="'state'" > [[ entitiesProps.state ]] </td>

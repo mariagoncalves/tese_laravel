@@ -119,7 +119,7 @@ app.controller('propertiesOfRelationsManagmentControllerJs', function($scope, $h
                 data: formData,
             }).then(function(response) {
                 console.log('Success!');
-                $scope.getRelations();
+                $scope.getPropsOfRelation();
                 //growl.success('Order updated successfully.',{title: 'Success!'});
             }, function(response) {
                 //Second function handles error

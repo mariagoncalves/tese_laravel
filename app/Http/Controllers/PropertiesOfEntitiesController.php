@@ -479,16 +479,21 @@ class PropertiesOfEntitiesController extends Controller {
                                 ->leftJoin('property_name', function($query){
                                     $query->on('property.id', '=', 'property_name.property_id');
                                 })
-                                //->leftJoin('unit_type_name', function($query) {
-                                //    $query->on('property.id', '=', 'property_name.property_id');
-                                //})
+                                ->leftJoin('prop_unit_type', function($query) {
+                                    $query->on('property.unit_type_id', '=', 'prop_unit_type.id');
+                                })
+                                ->leftJoin('prop_unit_type_name', function($query) {
+                                    $query->on('prop_unit_type.id', '=', 'prop_unit_type_name.prop_unit_type_id');
+                                })
 
                                 ->select([
                                     'ent_type.id AS ent_id',
                                     'ent_type_name.name AS entity_name',
                                     'property.*',
                                     'property_name.name AS property_name',
-                                    'property_name.form_field_name AS form_field_name'
+                                    'property_name.form_field_name AS form_field_name',
+                                    'prop_unit_type.id AS id_unit',
+                                    'prop_unit_type_name.name AS unit_name',
                                 ])
                                 ->searchPropsEnt($id, $data)
                                 ->orderBy($colSorting, $typeSorting)
