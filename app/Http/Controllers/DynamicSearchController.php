@@ -13,6 +13,7 @@ use App\Relation;
 use App\Query;
 use App\Operator;
 use App\Condicion;
+use App\PropertyCanReadResult;
 
 class DynamicSearchController extends Controller
 {
@@ -334,8 +335,12 @@ class DynamicSearchController extends Controller
         $property = $this->getPropertyData($idProperty);
         $valueType = $property->value_type;
 
+        $idOperator = Operator::where('operator_type', '=')
+                                ->select(['id'])
+                                ->first();
+
         $valueQuery    = '';
-        $operatorQuery = NULL;
+        $operatorQuery = $idOperator->id;
 
         if ($valueType == "int") {
             $valueQuery    = $data['int'.$type.$position];
@@ -360,6 +365,15 @@ class DynamicSearchController extends Controller
         );
 
         $dataCondicion = Condicion::create($data1);
+
+        $dataPropertyResult = array(
+            'reading_property' => $idProperty,
+            'providing_result' => $idQuery,
+            'output_type'      => 'accordion',
+            );
+
+        $dataPropertyReadResult = PropertyCanReadResult::create($dataPropertyResult);
+
     }
 
 
@@ -630,16 +644,25 @@ class DynamicSearchController extends Controller
 
         //Construir a frase conforme o value_type
         $valueQuery    = '';
-        $operatorQuery = '=';
+
+        if(isset($data['operators'.$type.$position]) && $data['operators'.$type.$position] != "" ) {
+
+            $operatorSymbol = Operator::where('id', $data['operators'.$type.$position])
+                                        ->select(['operator_type'])
+                                        ->first();
+
+            $operatorQuery = $operatorSymbol->operator_type;
+
+        } else {
+            $operatorQuery = '=';
+        }
 
         if ($valueType == "int") {
             $valueQuery    = $data['int'.$type.$position];
-            $operatorQuery = $data['operators'.$type.$position];
             // Formar a frase 
             $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $operatorQuery.' '.$valueQuery).';';
         }  else if ($valueType == "double") {
             $valueQuery    = $data['double'.$type.$position];
-            $operatorQuery = $data['operators'.$type.$position];
             // Formar a frase 
             $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $operatorQuery.' '.$valueQuery) . ';';
         } else  if ($valueType == "text") {
