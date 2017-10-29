@@ -254,6 +254,8 @@
 			                <td ng-if="entRelated.properties.length == 0 && position == 0" colspan="4"> Não tem props </td>
 
 			               	<tr ng-repeat="property in entRelated.properties" >
+			               		<input type="hidden" name="idEntTypeER[[ property.key ]]" value = "[[ entRelated.ent_type1_id ]]" ng-if="entRelated.properties.length != 0 && entRelated.ent_type2_id == ents.id">
+			               		<input type="hidden" name="idEntTypeER[[ property.key ]]" value = "[[ entRelated.ent_type2_id ]]" ng-if="entRelated.properties.length != 0 && entRelated.ent_type1_id == ents.id">
 			                    <td>[[ property.language[0].pivot.name ]]</td>
 			                    <td> <input type="checkbox" name="checkER[[ property.key ]]" value="[[ property.id ]]" disabled> </td>
 			                    <td>	
@@ -328,21 +330,13 @@
 			</div>
 			<table class="table" border = "1px solid" ng-if="resultDynamincSearch.result.length != 0">
 	            <thead>
-	            	<th ng-repeat="value in resultDynamincSearch.result[0].values">[[value.property.language[0].pivot.name]]</th>
-	            	<th>State</th>
-	            	<th>Action</th>
+	            	<th ng-repeat="value in resultDynamincSearch.result[0]">[[value.property.language[0].pivot.name]]</th>
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="entity in resultDynamincSearch.result">
-                		<td ng-repeat="value in entity.values">
+                		<td ng-repeat="value in entity">
                 			[[ value.state == 'active' ? (value.value == '' ? 'Sem Valor Atribuído' : value.value) : '-' ]]
                 		</td>
-                    	<td>[[ entity.state == 'active' ? 'Ativo' : 'Inativo' ]]</td>
-                    	<td>
-                    		<button type="button" class="btn btn-xs btn-warning" ng-click="inactiveActive(entity.id)"> 
-                    			[[ entity.state == 'active' ? 'Desativar' : 'Ativar' ]]
-                    		</button>
-                    	</td>
 	                </tr>
 	            </tbody>
 	        </table>

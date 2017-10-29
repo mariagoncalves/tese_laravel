@@ -123,6 +123,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         // Caso contrario, bloquear.
         if (existeChecked) {
             $("#checkRL").find("[type=checkbox], [type=text], [type=number], [type=radio], select").removeAttr('disabled');
+            $("#table4").find("[type=checkbox], [type=text], [type=number], [type=radio], select").removeAttr('disabled');
         } else {
             $("#checkRL").find("[type=checkbox]").prop("checked", false);
             $("#checkRL").find("[type=checkbox], [type=text], [type=number], [type=radio], select").attr('disabled', true);
@@ -161,12 +162,12 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
         // Se existir, então vamos desbloquear todos os campos da tabela 4.
         // Caso contrario, bloquear.
-        if (existeCheckedTable3) {
+        /*if (existeCheckedTable3) {
             $("#table4").find("[type=checkbox], [type=text], [type=number], [type=radio], select").removeAttr('disabled');
         } else {
             $("#table4").find("[type=checkbox]").prop("checked", false);
             $("#table4").find("[type=checkbox], [type=text], [type=number], [type=radio], select").attr('disabled', true);
-        }
+        }*/
 
         var existeCheckedTable1 = false;
         $("#table1").find("[type=checkbox]").each(function(index) {

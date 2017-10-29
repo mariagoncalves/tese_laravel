@@ -378,46 +378,179 @@ class DynamicSearchController extends Controller
 
 
     public function search(Request $request, $idEntityType) {
-        $data             = $request->all();
-        $propertiesSelect = [];
-        $language_id      = '1';
-        $result           = [];
-        $query            = [];
+        $data        = $request->all();
+        $generalData = [
+            'table1' => ['select' => false, 'properties' => [], 'resultEntities' => [], 'relTable2' => [], 'relTable3' => [], 'relTable4' => []], 
+            'table2' => ['select' => false, 'properties' => [], 'resultEntities' => []],
+            'table3' => ['select' => false, 'properties' => [], 'resultRelation' => []],
+            'table4' => ['select' => false, 'properties' => [], 'resultEntities' => []]
+        ];
+        $language_id = '1';
+        $result      = [];
+        $query       = [];
 
         if (isset($data['query_name']) && $data['query_name'] != "") {
             $this->registarQueryPesquisa($data, $idEntityType);
         }
 
-        // Formar a query para apresentar os dados na tabela
-        //Query base para a pesquisa
-        $query = Entity::with(['language' => function($query) use ($language_id) {
-                            $query->where('language_id', $language_id);
-                        }])
-                        ->with(['values.language' => function($query) use ($language_id) {
-                            $query->where('language_id', $language_id);
-                        }])
-                        ->with(['values.property.language' => function($query) use ($language_id) {
-                            $query->where('language_id', $language_id);
-                        }]);
-
         //Formar a frase e realizar pesquisa de acordo com a pesquisa..
-        $phrase = $this->formPhraseAndQuery($idEntityType, $data, $query, $propertiesSelect);
+        $phrase = $this->formPhraseAndQuery($idEntityType, $data, $generalData);
+        $result['phrase'] = $phrase;
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (GERAL PESQUISA): ");
-        //Para trazer só as propriedades que foram selecionadas
-        $query = $query->with(['values' => function($query) use ($propertiesSelect) {
-                            $query->whereIn('property_id', $propertiesSelect);
-                        }]);
 
-        \Log::debug($query->toSql());
+        $resultsTables['result1'] = [];
+        if ($generalData['table1']['select']) {
+            $resultsTables['result1'] = $this->getValuesEntitiesTables($generalData['table1']['properties'], $generalData['table1']['resultEntities']);
+        }
 
-        $result['phrase'] = $phrase;
-        $result['result'] = $query->get()->toArray();
-        
+        $resultsTables['result2'] = [];
+        if ($generalData['table2']['select']) {
+            $resultsTables['result2'] = $this->getValuesEntitiesTables($generalData['table2']['properties'], $generalData['table2']['resultEntities']);
+        }
+
+        $resultsTables['result3'] = [];
+        if ($generalData['table3']['select']) {
+            $resultsTables['result3'] = $this->getValuesRelationTables($generalData['table3']['properties'], $generalData['table3']['resultRelation']);
+        }
+
+        $resultsTables['result4'] = [];
+        if ($generalData['table4']['select']) {
+            $resultsTables['result4'] = $this->getValuesEntitiesTables($generalData['table4']['properties'], $generalData['table4']['resultEntities']);
+        }
+
+        \Log::debug($generalData);
+        $result['result'] = $this->organizeDataTable($generalData, $resultsTables);
+
         return response()->json($result);
     }
 
-    public function formPhraseAndQuery($idEntityType, $data, &$query, &$propertiesSelect) {
+    public function organizeDataTable($generalData, $resultsTables) {
+        $resultFinal = [];
+        if ($generalData['table1']['select'] && $generalData['table4']['select']) { // Tabela 1 e 4
+            // Percorrer as entidades da tabela 1
+            foreach ($resultsTables['result1'] as $entity) {
+
+                //$relations = $generalData['table1']['relTable4'][$entity['id']] ?? [];
+                $relations = isset($generalData['table1']['relTable4'][$entity['id']]) ? $generalData['table1']['relTable4'][$entity['id']] : [];
+                foreach ($relations as $idRelation) {
+                    $valuesDataResult = [];
+                    // Cada value da entidade da tabela 1
+                    foreach ($entity['values'] as $valueData) {
+                        $valuesDataResult[] = $valueData;
+                    }
+
+                    // Percorrer as relacoes da tabela 4
+                    foreach ($resultsTables['result4'] as $dataRelation) {
+                        if ($dataRelation['id'] == $idRelation) {
+                            // Cada value da relação da tabela 3
+                            foreach ($dataRelation['values'] as $valueData2) {
+                                $valuesDataResult[] = $valueData2;
+                            }
+                        }
+                    }
+
+                    $resultFinal[] = $valuesDataResult;
+                }
+            }
+        } else if ($generalData['table1']['select'] && $generalData['table3']['select']) { // Tabela 1 e 3
+            // Percorrer as entidades da tabela 1
+            foreach ($resultsTables['result1'] as $entity) {
+
+                //$relations = $generalData['table1']['relTable3'][$entity['id']] ?? [];
+                $relations = isset($generalData['table1']['relTable3'][$entity['id']]) ? $generalData['table1']['relTable3'][$entity['id']] : [];
+                foreach ($relations as $idRelation) {
+                    $valuesDataResult = [];
+                    // Cada value da entidade da tabela 1
+                    foreach ($entity['values'] as $valueData) {
+                        $valuesDataResult[] = $valueData;
+                    }
+
+                    // Percorrer as relacoes da tabela 3
+                    foreach ($resultsTables['result3'] as $dataRelation) {
+                        if ($dataRelation['id'] == $idRelation) {
+                            // Cada value da relação da tabela 3
+                            foreach ($dataRelation['values'] as $valueData2) {
+                                $valuesDataResult[] = $valueData2;
+                            }
+                        }
+                    }
+
+                    $resultFinal[] = $valuesDataResult;
+                }
+            }
+        } else if ($generalData['table1']['select'] && $generalData['table2']['select']) { // Tabela 1 e 2
+            // Percorrer as entidades da tabela 1
+            foreach ($resultsTables['result1'] as $entity) {
+
+                //$relations = $generalData['table1']['relTable2'][$entity['id']] ?? [];
+                $relations = isset($generalData['table1']['relTable2'][$entity['id']]) ? $generalData['table1']['relTable2'][$entity['id']] : [];
+                foreach ($relations as $idEntityRelation) {
+                    $valuesDataResult = [];
+                    // Cada value da entidade da tabela 1
+                    foreach ($entity['values'] as $valueData) {
+                        $valuesDataResult[] = $valueData;
+                    }
+
+                    // Percorrer as entidades da tabela 2
+                    foreach ($resultsTables['result2'] as $entity2) {
+                        if ($entity2['id'] == $idEntityRelation) {
+                            // Cada value da entidade da tabela 2
+                            foreach ($entity2['values'] as $valueData2) {
+                                $valuesDataResult[] = $valueData2;
+                            }
+                        }
+                    }
+
+                    $resultFinal[] = $valuesDataResult;
+                }
+            }
+        } else if ($generalData['table1']['select']) { // Tabela 1
+            // Percorrer as entidades
+            foreach ($resultsTables['result1'] as $entity) {
+                $valuesDataResult = [];
+                // Cada value da entidade
+                foreach ($entity['values'] as $valueData) {
+                    $valuesDataResult[] = $valueData;
+                }
+                $resultFinal[] = $valuesDataResult;
+            }
+        }
+
+        return $resultFinal;
+    }
+
+    public function getValuesEntitiesTables($properties, $entities) {
+        $language_id = 1;
+        $result = Entity::with('values')
+                        ->with(['values.property.language' => function($query) use ($language_id) {
+                            $query->where('language_id', $language_id);
+                        }])
+                        ->with(['values' => function($qu1) use ($properties) {
+                            $qu1->whereIn('property_id', $properties);
+                        }])->OrWhere(function($q3) use ($entities) {
+                            $q3->whereIn('id', $entities);
+                        })->get()->toArray();
+
+        return $result;
+    }
+
+    public function getValuesRelationTables($properties, $relations) {
+        $language_id = 1;
+        $result = Relation::with('values')
+                        ->with(['values.property.language' => function($query) use ($language_id) {
+                            $query->where('language_id', $language_id);
+                        }])
+                        ->with(['values' => function($qu1) use ($properties) {
+                            $qu1->whereIn('property_id', $properties);
+                        }])->OrWhere(function($q3) use ($relations) {
+                            $q3->whereIn('id', $relations);
+                        })->get()->toArray();
+
+        return $result;
+    }
+
+    public function formPhraseAndQuery($idEntityType, $data, &$generalData) {
         $language_id = 1;
 
         $ent = EntType::with(['language' => function($q) use ($language_id) {
@@ -429,186 +562,164 @@ class DynamicSearchController extends Controller
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 1): ");
 
         // Formar a frase da tabela 1 e pesquisar de acordo com a pesquisa efetuada na tabela 1
-        $selectTable1 = false;
         $queryTable1 = new Entity;
         for ($i=0; $i < $data['numTableET']; $i++) { 
             if (isset($data['checkET'.$i])) {
-                $selectTable1 = true;
-                $propertiesSelect[] = $data['checkET'.$i];
+                $generalData['table1']['select']       = true;
+                $generalData['table1']['properties'][] = $data['checkET'.$i];
                 $phrase = $this->formPhraseTableType($data, $data['checkET'.$i], 'ET', $i, $phrase);
 
                 $this->formQueryTable($data, $data['checkET'.$i], 'ET', $i, $queryTable1);
             }
         }
 
-        if ($selectTable1) {
+        if ($generalData['table1']['select']) {
             $resultTable1 = $queryTable1->where('ent_type_id', $idEntityType)->distinct('id')->get(['id'])->toArray();
-
-            $entitiesIdsTable1 = $this->formatArrayData($resultTable1, 'id');
+            $generalData['table1']['resultEntities'] = $this->formatArrayData($resultTable1, 'id');
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 2): ");
 
         // Formar a frase da tabela 2
-        $selectTable2 = false;
-        $queryTable2  = new Entity;
+        $queryTable2 = new Entity;
         for ($i = 0; $i < $data['numTableVT']; $i++) { 
             if (isset($data['checkVT'.$i])) {
-                $selectTable2 = true;
-                $propertiesSelect[] = $data['checkVT'.$i];            
+                $generalData['table2']['select']       = true;
+                $generalData['table2']['properties'][] = $data['checkVT'.$i];            
                 $phrase = $this->formPhraseTableType($data, $data['checkVT'.$i], 'VT', $i, $phrase);
 
                 $this->formQueryTable($data, $data['checkVT'.$i], 'VT', $i, $queryTable2);
             }
         }
 
-        if ($selectTable2) {
+        if ($generalData['table2']['select']) {
+            $propertiesTable1 = $this->getPropertiesEntities($generalData['table1']['resultEntities']);
+
             $relacaoEntreTable1e2 = [];
             $resultTable2 = $queryTable2->distinct('id')->get(['id'])->toArray();
 
             $entitiesIdsTable2 = $this->formatArrayData($resultTable2, 'id');
-            \Log::debug("ID TABELA 2 (INICIAL)");
-            \Log::debug($entitiesIdsTable2);
 
             foreach ($entitiesIdsTable2 as $key => $id_entity2) {
-                $exist = false;
 
-                foreach ($entitiesIdsTable1 as $id_entity) {
-                    $nameE = Entity::with(['language' => function($qy) use ($language_id) {
-                                    $qy->where('language_id', $language_id);
-                                }])->find($id_entity);
+                $values = Value::with('property')->where('entity_id', $id_entity2)->get();
+                \Log::debug("VALORESSSSSS TESTEEEEEEEEEEEEEEEEEEE");
+                \Log::debug($values);
+                foreach ($values as $valueData) {
+                    if (in_array($valueData->property->fk_property_id, $propertiesTable1)) {
 
-                    $nameInstance = $nameE->language[0]->pivot->name;
-                    \Log::debug("ID: " . $id_entity);
-                    \Log::debug($nameInstance);
+                        foreach ($generalData['table1']['resultEntities'] as $id_entity1) {
+                            $values = Value::where('entity_id', $id_entity1)
+                                        ->where('value', $valueData->value)
+                                        ->where('property_id', $valueData->property->fk_property_id)
+                                        ->count();
 
-                    $dataV = Value::where('entity_id', $id_entity2)->where('value', $nameInstance)->count();
-                    if ($dataV > 0) {
-                        $relacaoEntreTable1e2[] = ['1id' => $id_entity, '2id' => $id_entity2];
-                        $exist = true;
-                        break;
+                            if ($values > 0) {
+                                $generalData['table1']['relTable2'][$id_entity1][] = $id_entity2;
+                                $generalData['table2']['resultEntities'][] = $id_entity2;
+                            }
+                        }
                     }
                 }
-
-                if ($exist == false) {
-                    unset($entitiesIdsTable2[$key]);
-                }
             }
-            \Log::debug($relacaoEntreTable1e2);
-            \Log::debug("ID TABELA 1 (FINAL)");
-            \Log::debug($entitiesIdsTable1);
-            \Log::debug("ID TABELA 2 (FINAL)");
-            \Log::debug($entitiesIdsTable2);
-        } else {
-            \Log::debug("ID TABELA 1 (FINAL)");
-            //\Log::debug($entitiesIdsTable1);
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 3): ");
 
         $queryTable3 = new Relation;
-        $selectTable3 = false;
         // Formar a frase da tabela 3
         for ($i=0; $i < $data['numTableRL']; $i++) { 
             if (isset($data['checkRL'.$i])) {
-                $selectTable3 = true;
-                $propertiesSelect[] = $data['checkRL'.$i];
+                $generalData['table3']['select'] = true;
+                $generalData['table3']['properties'][] = $data['checkRL'.$i];
                 $phrase = $this->formPhraseTableType($data, $data['checkRL'.$i], 'RL', $i, $phrase);
 
                 $this->formQueryTable($data, $data['checkRL'.$i], 'RL', $i, $queryTable3);
             }
         }
 
-        if ($selectTable3) {
+        if ($generalData['table3']['select']) {
             //Trazia todos os dados da relaçlão mas especifiquei que só quero o entity1_id e entity2_id
-            $resultTable3 = $queryTable3->distinct('id')->get(['entity1_id', 'entity2_id'])->toArray();
+            $resultTable3 = $queryTable3->distinct('id')->get(['id', 'entity1_id', 'entity2_id'])->toArray();
 
             $entitiesIdsTable3 = [];
             foreach ($resultTable3 as $key => $value) {
+                $generalData['table3']['resultRelation'][] = $value['id'];
                 //Para não meter valores repetidos no array
                 if(!in_array($value['entity1_id'], $entitiesIdsTable3)) {
-                    $entitiesIdsTable3[] = $value['entity1_id'];
+                    $entitiesIdsTable3[] = ['id_entity' => $value['entity1_id'], 'id_relation' => $value['id']];
                 }
 
                 if(!in_array($value['entity2_id'], $entitiesIdsTable3)) {
-                    $entitiesIdsTable3[] = $value['entity2_id'];
+                    $entitiesIdsTable3[] = ['id_entity' => $value['entity2_id'], 'id_relation' => $value['id']];
                 }
             }
 
-            if ($selectTable1) {
-                foreach ($entitiesIdsTable3 as $key => $entitiesId) {
-                    if (!in_array($entitiesId, $entitiesIdsTable1)) {
-                        unset($entitiesIdsTable3[$key]);
+            if ($generalData['table1']['select']) {
+                $newIdsTable1 = [];
+                foreach ($entitiesIdsTable3 as $dataRel) {
+                    if (in_array($dataRel['id_entity'], $generalData['table1']['resultEntities'])) {
+                        $newIdsTable1[] = $dataRel['id_entity'];
+                        $generalData['table1']['relTable3'][$dataRel['id_entity']][] = $dataRel['id_relation'];
                     }
                 }
+                $generalData['table1']['resultEntities'] = $newIdsTable1;
             }
         }
 
         \Log::debug("DADOS TESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE (TABELA 4): ");
 
         $queryTable4 = new Entity;
-        $selectTable4 = false;
         // Formar a frase da tabela 4
         for ($i=0; $i < $data['numTableER']; $i++) { 
             if (isset($data['checkER'.$i])) {  
-                $selectTable4 = true;
-                $propertiesSelect[] = $data['checkER'.$i];              
+                $generalData['table4']['select'] = true;
+                $generalData['table4']['properties'][] = $data['checkER'.$i];              
                 $phrase = $this->formPhraseTableType($data, $data['checkER'.$i], 'ER', $i, $phrase);
 
                 $this->formQueryTable($data, $data['checkER'.$i], 'ER', $i, $queryTable4);
+
+                if (isset($data['idEntTypeER'.$i])) {
+                    $queryTable4 = $queryTable4->where('ent_type_id', $data['idEntTypeER'.$i]);
+                }
             }
         }
 
-        if ($selectTable4) {
+        if ($generalData['table4']['select']) {
+            //\Log::debug($generalData['table1']['resultEntities']);
             //Trazia todos os dados da entidade mas especifiquei que só quero o id
             $resultTable4     = $queryTable4->distinct('id')->get(['id'])->toArray();
             $entitiesIdsTable4 = $this->formatArrayData($resultTable4, 'id');
 
-            foreach ($entitiesIdsTable4 as $key => $entitiesId) {
-                if (!in_array($entitiesId, $entitiesIdsTable3)) {
-                    unset($entitiesIdsTable4[$key]);
+            //\Log::debug("TESTEE FINAL 1122: ");
+            //\Log::debug($entitiesIdsTable4);
+
+            $newIdsTable1 = [];
+            $newIdsTable4 = [];
+            foreach ($generalData['table1']['resultEntities'] as $entity1) {
+
+                foreach ($entitiesIdsTable4 as $entity2) {
+                    $relation = Relation::where(function($qy) use ($entity1, $entity2) {
+                                            $qy->where('entity1_id', $entity1)->where('entity2_id', $entity2);
+                                        })->OrWhere(function($qy) use ($entity1, $entity2) {
+                                            $qy->where('entity1_id', $entity2)->where('entity2_id', $entity1);
+                                        })->first();
+
+                    if ($relation) {
+                        $newIdsTable1[] = $entity1;
+                        if (isset($generalData['table1']['relTable4'][$entity1])) {
+                            if (!in_array($relation->id, $generalData['table1']['relTable4'][$entity1])) {
+                                $generalData['table1']['relTable4'][$entity1][] = $entity2;
+                            }
+                        } else {
+                            $generalData['table1']['relTable4'][$entity1][] = $entity2;
+                        }
+                        $newIdsTable4[] = $entity2;
+                    }
                 }
             }
-
-        } else if ($selectTable3) {
-            //Percorro os ids das instancias de entidade e verifico se o ent_Type_id dessas instancias é = ao id da entidade que selecionei
-            $aux = [];
-            foreach ($entitiesIdsTable3 as $value) {
-                
-                $entTypeVal = Entity::where('id', $value)->first();
-
-                if ($entTypeVal->ent_type_id == $idEntityType) {
-                    $aux[] = $value;
-                }
-            }
-            $entitiesIdsTable3 = $aux;
-
-            \Log::debug("IDs ENTIDADES TABELA 3");
-            \Log::debug($entitiesIdsTable3);
-        }
-
-        if ($selectTable4) {
-            // Adicionar a query geral filtros da tabela 4 
-            //Busco as instancias dos ids que eu tenho no array
-            $query = $query->OrWhere(function($q) use ($entitiesIdsTable4) {
-                            $q->whereIn('id', $entitiesIdsTable4);
-                        });
-        } else if ($selectTable3) {
-            // Adicionar a query geral filtros da tabela 3 
-            //Busco as instancias dos ids que eu tenho no array
-            $query = $query->OrWhere(function($q) use ($idEntityType, $entitiesIdsTable3) {
-                            $q->whereIn('id', $entitiesIdsTable3);
-                        });
-        } else if ($selectTable2) {
-            // Adicionar a query geral filtros da tabela 2 
-            $query = $query->OrWhere(function($q) use ($idEntityType, $entitiesIdsTable2) {
-                        $q->whereIn('id', $entitiesIdsTable2);
-                    });
-        } elseif ($selectTable1) {
-            // Adicionar a query geral filtros da tabela 1 
-            $query = $query->where(function($q) use ($idEntityType, $entitiesIdsTable1) {
-                    $q->where('ent_type_id', $idEntityType)->whereIn('id', $entitiesIdsTable1);
-                });
+            $generalData['table1']['resultEntities'] = $newIdsTable1;
+            $generalData['table4']['resultEntities'] = $newIdsTable4;
         }
 
         return $phrase;
@@ -660,23 +771,23 @@ class DynamicSearchController extends Controller
         if ($valueType == "int") {
             $valueQuery    = $data['int'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $operatorQuery.' '.$valueQuery).';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $operatorQuery.' '.$valueQuery).';';
         }  else if ($valueType == "double") {
             $valueQuery    = $data['double'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $operatorQuery.' '.$valueQuery) . ';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $operatorQuery.' '.$valueQuery) . ';';
         } else  if ($valueType == "text") {
             $valueQuery = $data['text'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $valueQuery).';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $valueQuery).';';
         } else  if ($valueType == "enum") {
             $valueQuery = $data['select'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $valueQuery).';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $valueQuery).';';
         } else  if ($valueType == "bool") {
             $valueQuery = $data['radio'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'vazio' : $valueQuery).';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $valueQuery).';';
         }
 
         return $phrase;
@@ -718,6 +829,25 @@ class DynamicSearchController extends Controller
         }
 
         return $array;
+    }
+
+    public function getPropertiesEntities($idsEntities = []) {
+        $result = [];
+        if (is_array($idsEntities) && count($idsEntities) > 0) {
+            foreach ($idsEntities as $idEntity) {
+                $properties = Value::where('entity_id', $idEntity)
+                                    ->select(['property_id'])
+                                    ->get();
+
+                foreach ($properties as $property) {
+                    if (!in_array($property->property_id, $result)) {
+                        $result[] = $property->property_id;
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 
     public function getPropertyData($idProperty) {
