@@ -321,10 +321,49 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
-    $scope.saveSearch = function () {
-        
+    $scope.saveSearch = function (idEntityType) {
+
+        console.log("TÁ A CHEGAR AO MÉTODO E O ID DA ENT TYPE È: ");
+        console.log(idEntityType);
+
+        $http.post('/dynamicSearch/saveSearch/' + idEntityType).then(function(response) {
+            $scope.operators = response.data;
+            console.log($scope.operators);
+        });
+
     }
 
+     $scope.checkUncheckAll = function (tableType) {
+
+        console.log("TÁ A CHEGAR AQUIIII");
+        //console.log(idEntityType);
+
+        if(tableType == 'ET') {
+            console.log("É da primeira tabela");
+
+            $(".checkstable1").each(function() {
+                if($(this).is(":checked")) {
+                    $(this).prop('checked', false);
+                } else {
+                    $(this).prop('checked', true);
+                }
+            });
+        } else if (tableType == 'VT') {
+            console.log("É da segunda tabela");
+
+            $(".checkstable2").each(function() {
+                if($(this).is(":checked")) {
+                    $(this).prop('checked', false);
+                } else {
+                    $(this).prop('checked', true);
+                }
+            });
+        } else if (tableType == 'ER') {
+            console.log("Tou na tabela 4");
+
+
+        }
+    }
 
 });
 

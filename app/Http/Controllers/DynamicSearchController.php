@@ -376,6 +376,19 @@ class DynamicSearchController extends Controller
 
     }*/
 
+    public function saveSearch (Request $request, $idEntityType) {
+
+        \Log::debug("Tá a chegar ao método");
+        /*$data = $request->all();
+        \Log::debug("Teste ao salvar pesquisa");
+        \Log::debug($data);*/
+
+        $query_name = $request->input('query_name');
+        \Log::debug("O nome da query é:");
+        \Log::debug($query_name);
+
+    }
+
 
     public function search(Request $request, $idEntityType) {
         $data        = $request->all();
@@ -913,6 +926,6 @@ class DynamicSearchController extends Controller
 
     public function showSavedSearches () {
 
-        return view('showSavedSearches');
+        return view('showSavedSearche');
     }
 }

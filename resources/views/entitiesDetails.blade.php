@@ -4,7 +4,7 @@
 <!-- <p> Isto é o id recebido: <?= $id ?> </p> -->
 <!--<p> Isto é o id recebido com angular: {{$id}}</p>  -->
 
-<div ng-controller="dynamicSearchControllerJs"> 
+<div ng-controller="dynamicSearchControllerJs">
 	<form id="dynamic-search">
 		<!-- <p><b>Nome da Query:</b></p>
 		<input type="text" name="query_name"> -->
@@ -16,7 +16,7 @@
 		                <tr>
 		                    <th>{{trans("dynamicSearch/messages.THEADER1")}}</th>
 		                    <th>{{trans("dynamicSearch/messages.THEADER2")}}</th>
-		                    <th>{{trans("dynamicSearch/messages.THEADER3")}}</th>
+		                    <th><input type = "checkbox" name = "selectAlltable1" id = "selectAlltable1" ng-click = "checkUncheckAll('ET')"> {{trans("dynamicSearch/messages.THEADER3")}}</th>
 		                    <th>{{trans("dynamicSearch/messages.THEADER4")}}</th>
 		                </tr>
 		            </thead>
@@ -27,7 +27,7 @@
 			                <tr ng-repeat="(key1, property) in ents.properties">
 			                    <td>[[ property.id ]]</td>
 			                    <td>[[ property.language[0].pivot.name ]]</td>
-			                    <td><input type="checkbox" name = "checkET[[ key1 ]]" value = "[[ property.id ]]" ng-click = "clickTable1()"> </td>
+			                    <td><input class = "checkstable1" type="checkbox" name = "checkET[[ key1 ]]" value = "[[ property.id ]]" ng-click = "clickTable1()"> </td>
 			                    <td>
 			                    	<div ng-switch on="property.value_type">
 								        <div ng-switch-when="text"> <input type="text" name="textET[[ $index ]]"> </div>
@@ -93,7 +93,7 @@
 				                <tr>
 				                    <th>{{trans("dynamicSearch/messages.THEADER1")}}</th>
 				                    <th>{{trans("dynamicSearch/messages.THEADER2")}}</th>
-				                    <th>{{trans("dynamicSearch/messages.THEADER3")}}</th>
+				                    <th><input type = "checkbox" name = "selectAlltable2" id = "selectAlltable2" ng-click = "checkUncheckAll('VT')"> {{trans("dynamicSearch/messages.THEADER3")}}</th>
 				                    <th>{{trans("dynamicSearch/messages.THEADER4")}}</th>
 				                </tr>
 				            </thead>
@@ -104,7 +104,7 @@
 					                <tr ng-repeat="propOfEnt in entRef.properties" >
 					                    <td>[[ propOfEnt.id ]]</td>
 					                    <td>[[ propOfEnt.language[0].pivot.name ]]</td>
-					                    <td><input type="checkbox" name = "checkVT[[ propOfEnt.key ]]" value = "[[ propOfEnt.id ]]" ng-click = "clickTable2()" disabled> </td>
+					                    <td><input class = "checkstable2" type="checkbox" name = "checkVT[[ propOfEnt.key ]]" value = "[[ propOfEnt.id ]]" ng-click = "clickTable2()" disabled> </td>
 					                    <td>
 					                    	<div ng-switch on="propOfEnt.value_type">
 										        <div ng-switch-when="text"> <input type="text" name="textVT[[ propOfEnt.key  ]]" disabled> </div>
@@ -236,7 +236,7 @@
 	                    <thead>
 	                        <th>{{trans("dynamicSearch/messages.THEADER7")}}</th>
 	                        <th>{{trans("dynamicSearch/messages.THEADER2")}}</th>
-	                        <th>{{trans("dynamicSearch/messages.THEADER3")}}</th>
+	                        <th><input type = "checkbox" name = "" id = ""> {{trans("dynamicSearch/messages.THEADER3")}}</th>
 	                        <th>{{trans("dynamicSearch/messages.THEADER4")}}</th>
 	                    </thead>
 	                    <tbody>
@@ -245,10 +245,12 @@
 
 			                <td ng-if="entRelated.properties.length != 0 && entRelated.ent_type1_id == ents.id" rowspan="[[ entRelated.properties.length + 1 ]] ">
 			                    [[ entRelated.ent2.language[0].pivot.name ]]
+			                    <input type = "checkbox" name = "selectAllTable3" id = "selectAllTable3" ng-click = "checkUncheckAll('ER')">
 			                </td>
 
 			                <td ng-if="entRelated.properties.length != 0 && entRelated.ent_type2_id == ents.id" rowspan="[[ entRelated.properties.length + 1 ]] ">
 			                    [[ entRelated.ent1.language[0].pivot.name ]]
+			                    <input type = "checkbox" name = "selectAllTable3" id = "selectAllTable3" ng-click = "checkUncheckAll('ER')">
 			                </td>
 
 			                <td ng-if="entRelated.properties.length == 0 && position == 0" colspan="4"> Não tem props </td>
@@ -316,7 +318,7 @@
 	<div id="dynamic-search-presentation" style="display: none;">
 		<p><b>Nome da Query:</b></p>
 		<input type="text" name="query_name">
-		<button type = "button" ng-click = "saveSearch() " > Save </button>
+		<button type = "button" ng-click = "saveSearch(ents.id) " > Save </button>
 		<h3>Pesquisa</h3>
 		<div id="false-de-pesquisa" style="padding: 15px 0px;">
 			<dl>

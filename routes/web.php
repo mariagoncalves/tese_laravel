@@ -224,7 +224,7 @@ Route::post('/dynamicSearch/inactiveActive/{id?}', 'DynamicSearchController@inac
 Route::get('/savedSearch', 'DynamicSearchController@showSavedSearches');
 
 
-
+Route::post('/dynamicSearch/saveSearch/{id?}', 'DynamicSearchController@saveSearch');
 
 
 
