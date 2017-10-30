@@ -40,6 +40,9 @@
                 <li>
                     <a href="/dynamicSearch">Dynamic Search</a>
                 </li>
+                <li>
+                    <a href="/savedSearch">Saved Searches</a>
+                </li>
             </ul>
         </li>
 		<li>

@@ -321,6 +321,10 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         });
     }
 
+    $scope.saveSearch = function () {
+        
+    }
+
 
 });
 

@@ -220,6 +220,11 @@ Route::post('/dynamicSearch/search/{id?}', 'DynamicSearchController@search');
 Route::post('/dynamicSearch/inactiveActive/{id?}', 'DynamicSearchController@inactiveActive');
 
 
+// Rotas para o saved searches
+Route::get('/savedSearch', 'DynamicSearchController@showSavedSearches');
+
+
+
 
 
 

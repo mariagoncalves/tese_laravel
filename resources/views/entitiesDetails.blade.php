@@ -6,18 +6,18 @@
 
 <div ng-controller="dynamicSearchControllerJs"> 
 	<form id="dynamic-search">
-		<p><b>Nome da Query:</b></p>
-		<input type="text" name="query_name">
+		<!-- <p><b>Nome da Query:</b></p>
+		<input type="text" name="query_name"> -->
 		<div ng-init = "getEntitiesData({{$id}})">
 			<div id = "checkET">
-				<h3>Lista de propriedades da entidade [[ents.language[0].pivot.name ]] </h3>
+				<h3>{{trans("dynamicSearch/messages.TABLE_TITLE1")}} [[ents.language[0].pivot.name ]] </h3>
 				<table id="table1" class="table table-striped" border = "1px solid">
 		            <thead>
 		                <tr>
-		                    <th>Id</th>
-		                    <th>Nome da propriedade</th>
-		                    <th>Seleção</th>
-		                    <th>Valor</th>
+		                    <th>{{trans("dynamicSearch/messages.THEADER1")}}</th>
+		                    <th>{{trans("dynamicSearch/messages.THEADER2")}}</th>
+		                    <th>{{trans("dynamicSearch/messages.THEADER3")}}</th>
+		                    <th>{{trans("dynamicSearch/messages.THEADER4")}}</th>
 		                </tr>
 		            </thead>
 			        <tbody>
@@ -91,10 +91,10 @@
 						<table class="table table-striped" border = "1px solid">
 				            <thead>
 				                <tr>
-				                    <th>Id</th>
-				                    <th>Nome da propriedade</th>
-				                    <th>Seleção</th>
-				                    <th>Valor</th>
+				                    <th>{{trans("dynamicSearch/messages.THEADER1")}}</th>
+				                    <th>{{trans("dynamicSearch/messages.THEADER2")}}</th>
+				                    <th>{{trans("dynamicSearch/messages.THEADER3")}}</th>
+				                    <th>{{trans("dynamicSearch/messages.THEADER4")}}</th>
 				                </tr>
 				            </thead>
 					        <tbody>
@@ -161,8 +161,8 @@
 	                    <thead>
 	                        <th>Tipo Relação</th>
 	                        <th>Propriedade da Relação</th>
-	                        <th>Seleção</th>
-	                        <th>Valor</th>
+	                        <th>{{trans("dynamicSearch/messages.THEADER3")}}</th>
+	                        <th>{{trans("dynamicSearch/messages.THEADER4")}}</th>
 	                    </thead>
 	                    <tbody>
 			                <tr ng-repeat-start="relWithEnt in relsWithEnt" ng-if="false" ng-init="innerIndex = $index"></tr>
@@ -234,10 +234,10 @@
 				<div ng-if="relsWithEnt.length > 0"> 
 					<table id="table4" class="table" border = "1px solid">
 	                    <thead>
-	                        <th>Entidade</th>
-	                        <th>Propriedade</th>
-	                        <th>Seleção</th>
-	                        <th>Valor</th>
+	                        <th>{{trans("dynamicSearch/messages.THEADER7")}}</th>
+	                        <th>{{trans("dynamicSearch/messages.THEADER2")}}</th>
+	                        <th>{{trans("dynamicSearch/messages.THEADER3")}}</th>
+	                        <th>{{trans("dynamicSearch/messages.THEADER4")}}</th>
 	                    </thead>
 	                    <tbody>
 
@@ -314,6 +314,9 @@
 
 	<!-- Tabela com os resultados da pesquisa -->
 	<div id="dynamic-search-presentation" style="display: none;">
+		<p><b>Nome da Query:</b></p>
+		<input type="text" name="query_name">
+		<button type = "button" ng-click = "saveSearch() " > Save </button>
 		<h3>Pesquisa</h3>
 		<div id="false-de-pesquisa" style="padding: 15px 0px;">
 			<dl>

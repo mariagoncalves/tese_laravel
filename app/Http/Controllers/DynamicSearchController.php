@@ -307,7 +307,7 @@ class DynamicSearchController extends Controller
     }
 
 
-    public function registarQueryPesquisa ($data, $idEntityType) {
+    /*public function registarQueryPesquisa ($data, $idEntityType) {
 
         \Log::debug("NOMEEEEEEEEER QUERYYY");
         \Log::debug($data['query_name']);
@@ -374,7 +374,7 @@ class DynamicSearchController extends Controller
 
         $dataPropertyReadResult = PropertyCanReadResult::create($dataPropertyResult);
 
-    }
+    }*/
 
 
     public function search(Request $request, $idEntityType) {
@@ -389,9 +389,9 @@ class DynamicSearchController extends Controller
         $result      = [];
         $query       = [];
 
-        if (isset($data['query_name']) && $data['query_name'] != "") {
+        /*if (isset($data['query_name']) && $data['query_name'] != "") {
             $this->registarQueryPesquisa($data, $idEntityType);
-        }
+        }*/
 
         //Formar a frase e realizar pesquisa de acordo com a pesquisa..
         $phrase = $this->formPhraseAndQuery($idEntityType, $data, $generalData);
@@ -532,6 +532,8 @@ class DynamicSearchController extends Controller
                             $q3->whereIn('id', $entities);
                         })->get()->toArray();
 
+        \Log::debug("RESULTADO METODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+        \Log::debug($result);
         return $result;
     }
 
@@ -603,8 +605,10 @@ class DynamicSearchController extends Controller
             foreach ($entitiesIdsTable2 as $key => $id_entity2) {
 
                 $values = Value::with('property')->where('entity_id', $id_entity2)->get();
+
                 \Log::debug("VALORESSSSSS TESTEEEEEEEEEEEEEEEEEEE");
                 \Log::debug($values);
+
                 foreach ($values as $valueData) {
                     if (in_array($valueData->property->fk_property_id, $propertiesTable1)) {
 
@@ -732,7 +736,7 @@ class DynamicSearchController extends Controller
         $valueType = $property->value_type;
 
         if ($type == 'ET') {
-            $auxPhrase  = '- Cuja propriedade '.$nameProp.' é ';
+            $auxPhrase  = '- Cujo valor para a propriedade '.$nameProp.' é ';
         } elseif ($type == 'VT') {
             $nameEntity = $property->entType->language->first()->pivot->name;
             $auxPhrase = "- Que referencie uma entidade do tipo ".$nameEntity." cuja propriedade ".$nameProp." é ";
@@ -771,23 +775,23 @@ class DynamicSearchController extends Controller
         if ($valueType == "int") {
             $valueQuery    = $data['int'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $operatorQuery.' '.$valueQuery).';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'qualquer' : $operatorQuery.' '.$valueQuery).';';
         }  else if ($valueType == "double") {
             $valueQuery    = $data['double'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $operatorQuery.' '.$valueQuery) . ';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'qualquer' : $operatorQuery.' '.$valueQuery) . ';';
         } else  if ($valueType == "text") {
             $valueQuery = $data['text'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $valueQuery).';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'qualquer' : $valueQuery).';';
         } else  if ($valueType == "enum") {
             $valueQuery = $data['select'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $valueQuery).';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'qualquer' : $valueQuery).';';
         } else  if ($valueType == "bool") {
             $valueQuery = $data['radio'.$type.$position];
             // Formar a frase 
-            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'todos' : $valueQuery).';';
+            $phrase[] = $auxPhrase . ($valueQuery == '' ? 'qualquer' : $valueQuery).';';
         }
 
         return $phrase;
@@ -906,4 +910,9 @@ class DynamicSearchController extends Controller
 
         return response()->json([$stateEntity->state]);
     } 
+
+    public function showSavedSearches () {
+
+        return view('showSavedSearches');
+    }
 }
