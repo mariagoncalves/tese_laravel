@@ -28,6 +28,7 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.idEntityType = [];
     $scope.state = [];
     $scope.propRefs = [];
+    //$scope.formData = [];
     
 
 
@@ -326,9 +327,65 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         console.log("TÁ A CHEGAR AO MÉTODO E O ID DA ENT TYPE È: ");
         console.log(idEntityType);
 
-        $http.post('/dynamicSearch/saveSearch/' + idEntityType).then(function(response) {
-            $scope.operators = response.data;
-            console.log($scope.operators);
+        var formData   = JSON.parse(JSON.stringify($('#dynamic-search').serializeArray())),
+            numChecked = $('#dynamic-search').find('[type=checkbox]:checked').length,
+            numTableET = 0,
+            numTableVT = 0,
+            numTableRL = 0,
+            numTableER = 0;
+
+        // Para saber quantas propriedades tem em cada tabela
+        if ($scope.ents.properties != '' && $scope.ents.properties != undefined) {
+            numTableET = $scope.ents.properties.length;
+        }
+        if ($scope.entRefs != '' && $scope.entRefs != undefined) {
+            var len = $scope.entRefs.length;
+            for (var i = 0; i < len; i++) {
+                numTableVT = numTableVT + $scope.entRefs[i].properties.length;
+            }
+        }
+        if ($scope.relsWithEnt != '' && $scope.relsWithEnt != undefined) {
+            var len = $scope.relsWithEnt.length;
+            for (var i = 0; i < len; i++) {
+                numTableRL = numTableRL + $scope.relsWithEnt[i].properties.length;
+            }
+        }
+        if ($scope.entsRelated != '' && $scope.entsRelated != undefined) {
+            var len = $scope.entsRelated.length;
+            for (var i = 0; i < len; i++) {
+                numTableER = numTableER + $scope.entsRelated[i].properties.length;
+            }
+        }
+
+        //Acrescento ao form data o nr de propriedades existente em cada tabela
+        formData.push({'name': 'numTableET', 'value': numTableET});
+        formData.push({'name': 'numTableVT', 'value': numTableVT});
+        formData.push({'name': 'numTableRL', 'value': numTableRL});
+        formData.push({'name': 'numTableER', 'value': numTableER});
+        formData.push({'name': 'numChecked', 'value': numChecked});
+
+        console.log("FORM DATA NO SAVE SEARCH : ");
+        console.log(formData);
+
+        var queryName = $("#query_name").val();
+        console.log("Nome da query: ");
+        console.log(queryName);
+
+        formData.push({'name': 'query_name', 'value': queryName});
+
+        console.log("DEPOIS: ");
+        console.log(formData);
+
+        $http({
+            method: 'POST',
+            url: API_URL + "/dynamicSearch/saveSearch/" + idEntityType,
+            data: $.param(formData),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function(response) {
+            console.log("RESUL FINAL");
+            console.log(response);
+            $scope.res = response.data;
+
         });
 
     }
@@ -337,6 +394,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
         console.log("TÁ A CHEGAR AQUIIII");
         //console.log(idEntityType);
+        //console.log("O id da 4 tabela é: ");
+        //console.log(idEntTypeTable4);
 
         if(tableType == 'ET') {
             console.log("É da primeira tabela");
@@ -360,6 +419,14 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             });
         } else if (tableType == 'ER') {
             console.log("Tou na tabela 4");
+            $(".checkstable3").each(function() {
+                if($(this).is(":checked")) {
+                    $(this).prop('checked', false);
+                } else {
+                    $(this).prop('checked', true);
+                }
+            });
+
 
 
         }

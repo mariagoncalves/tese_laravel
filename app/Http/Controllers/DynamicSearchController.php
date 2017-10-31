@@ -328,7 +328,7 @@ class DynamicSearchController extends Controller
             }
         }
 
-    }
+    }*/
 
     public function createCondicion($idQuery, $idProperty, $type, $position, $data) {
 
@@ -374,18 +374,28 @@ class DynamicSearchController extends Controller
 
         $dataPropertyReadResult = PropertyCanReadResult::create($dataPropertyResult);
 
-    }*/
+    }
 
     public function saveSearch (Request $request, $idEntityType) {
 
         \Log::debug("Tá a chegar ao método");
-        /*$data = $request->all();
+        $data = $request->all();
         \Log::debug("Teste ao salvar pesquisa");
-        \Log::debug($data);*/
+        \Log::debug($data);
 
-        $query_name = $request->input('query_name');
-        \Log::debug("O nome da query é:");
-        \Log::debug($query_name);
+        $data1 = array(
+                'name'      => $data['query_name'],
+                'ent_type_id' => $idEntityType
+            );
+
+        $dataQuery = Query::create($data1);
+        $idQuery   = $dataQuery->id;
+
+        for ($i=0; $i < $data['numTableET']; $i++) { 
+            if (isset($data['checkET'.$i])) {
+                $this->createCondicion($idQuery, $data['checkET'.$i], 'ET', $i, $data);
+            }
+        }
 
     }
 

@@ -175,46 +175,46 @@
 
 			                <tr ng-repeat="(key3, prop) in relWithEnt.properties" >
 			                    <td>[[ prop.language[0].pivot.name ]]</td>
-			                    <td> <input type="checkbox" name="checkRL[[ prop.key ]]" value="[[ prop.id ]]" ng-click = "clickTable3()"> </td>
+			                    <td> <input type="checkbox" name="checkRL[[ prop.key ]]" value="[[ prop.id ]]" ng-click = "clickTable3()" disabled> </td>
 			                    <td>
 			                    	<div ng-switch on="prop.value_type">
-								        <div ng-switch-when="text"> <input type="text" name="textRL[[ prop.key ]]"> </div>
+								        <div ng-switch-when="text"> <input type="text" name="textRL[[ prop.key ]]" disabled> </div>
 								        <div ng-switch-when="bool"> 
-								        	<input type="radio" name="radioRL[[ prop.key ]]" value="true">True
-											<input type="radio" name="radioRL[[ prop.key ]]" value="false">False 
+								        	<input type="radio" name="radioRL[[ prop.key ]]" value="true" disabled>True
+											<input type="radio" name="radioRL[[ prop.key ]]" value="false" disabled>False 
 										</div>
 										<div ng-switch-when="enum">
-											<select name = "selectRL[[ prop.key ]]" ng-init = "getEnumValues(prop.id)">
+											<select name = "selectRL[[ prop.key ]]" ng-init = "getEnumValues(prop.id)" disabled>
 												<option></option>
 								        		<option ng-repeat = "propAllowedValue in propAllowedValues[prop.id]"> [[ propAllowedValue.language[0].pivot.name ]] </option>
 								        	</select>
 										</div>
 										<div ng-switch-when="ent_ref"> 
-											<select name = "ent_refRL[[ prop.key ]]" ng-init = "getEntityInstances(ents.id, prop.id)">
+											<select name = "ent_refRL[[ prop.key ]]" ng-init = "getEntityInstances(ents.id, prop.id)" disabled>
 								        		<option></option>
 								        		<option ng-repeat = "inst in fkEnt.fk_ent_type.entity"> [[ inst.language[0].pivot.name ]] </option>
 								        	</select>
 										</div>
 								        <div ng-switch-when="int"> 
-											<select name = "operatorsRL" ng-init = "getOperators()">
+											<select name = "operatorsRL" ng-init = "getOperators()" disabled>
 								        		<option></option>
 								        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 								        	</select>
-								        	<input type="number" name="intRL[[ prop.key ]]">
+								        	<input type="number" name="intRL[[ prop.key ]]" disabled>
 										</div>
 										<div ng-switch-when="double"> 
-											<select name = "operatorsRL[[ prop.key ]]" ng-init = "getOperators()">
+											<select name = "operatorsRL[[ prop.key ]]" ng-init = "getOperators()" disabled>
 								        		<option></option>
 								        		<option ng-repeat = "operator in operators" value = "[[operator.id]]"> [[ operator.operator_type ]] </option>
 								        	</select>
-								        	<input type="number" name="doubleRL[[ prop.key ]]">
+								        	<input type="number" name="doubleRL[[ prop.key ]]" disabled>
 										</div>
 										<div ng-switch-when="file"> 
-											<input type="text" name="fileRL[[ prop.key ]]">
+											<input type="text" name="fileRL[[ prop.key ]]" disabled>
 										</div>
 
 										<div ng-switch-default> 
-								        	<input type="text" name="propRefRL[[ prop.key ]]">
+								        	<input type="text" name="propRefRL[[ prop.key ]]" disabled>
 										</div>
 									</div>
 			                    </td>
@@ -317,7 +317,7 @@
 	<!-- Tabela com os resultados da pesquisa -->
 	<div id="dynamic-search-presentation" style="display: none;">
 		<p><b>Nome da Query:</b></p>
-		<input type="text" name="query_name">
+		<input type="text" name="query_name" id = "query_name">
 		<button type = "button" ng-click = "saveSearch(ents.id) " > Save </button>
 		<h3>Pesquisa</h3>
 		<div id="false-de-pesquisa" style="padding: 15px 0px;">
