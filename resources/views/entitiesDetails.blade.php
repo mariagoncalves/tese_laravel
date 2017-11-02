@@ -340,7 +340,7 @@
 	            <tbody>
 	                <tr ng-repeat="entity in resultDynamincSearch.result">
                 		<td ng-repeat="value in entity">
-                			[[ value.state == 'active' ? (value.value == '' ? 'Sem Valor Atribuído' : value.value) : '-' ]]
+                			[[ value.value == '' ? 'Sem Valor Atribuído' : value.value ]]
                 		</td>
 	                </tr>
 	            </tbody>

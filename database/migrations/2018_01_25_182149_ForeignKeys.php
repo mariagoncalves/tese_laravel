@@ -517,6 +517,11 @@ class ForeignKeys extends Migration
             $table->dropForeign(['custom_form_id']);
         });
 
+        Schema::table('property_can_read_property', function (Blueprint $table) {
+            $table->dropForeign(['reading_property']);
+            $table->dropForeign(['providing_property']);
+        });
+
         Schema::table('property_can_read_result', function (Blueprint $table) {
             $table->dropForeign(['reading_property']);
             $table->dropForeign(['providing_result']);
@@ -526,7 +531,7 @@ class ForeignKeys extends Migration
             $table->dropForeign(['reading_property']);
             $table->dropForeign(['providing_ent_type']);
         });
-         Schema::table('property_can_read_rel_type', function (Blueprint $table) {
+        Schema::table('property_can_read_rel_type', function (Blueprint $table) {
             $table->dropForeign(['reading_property']);
             $table->dropForeign(['providing_rel_type']);
         });

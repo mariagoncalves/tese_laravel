@@ -41,7 +41,7 @@
                     <a href="/dynamicSearch">Dynamic Search</a>
                 </li>
                 <li>
-                    <a href="/savedSearch">Saved Searches</a>
+                    <a href="/dynamicSearch/savedSearch">Saved Searches</a>
                 </li>
             </ul>
         </li>

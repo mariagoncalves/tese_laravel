@@ -28,7 +28,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
     $scope.idEntityType = [];
     $scope.state = [];
     $scope.propRefs = [];
-    //$scope.formData = [];
+    $scope.formData = [];
+    $scope.query_name = [];
     
 
 
@@ -288,6 +289,8 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
         console.log("SEGUNDOS VALORES DO FORMDATA");
         console.log(formData);
 
+        $scope.formData = formData;
+
         $http({
             method: 'POST',
             url: API_URL + "dynamicSearch/search/" + idEntityType,
@@ -300,6 +303,13 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             $("#dynamic-search").hide();
             $("#dynamic-search-presentation").show();
         });
+    }
+
+    $scope.showQueryResults = function () {
+
+        console.log("Tou a chegar");
+
+        
     }
 
     $scope.voltar = function() {
@@ -324,57 +334,13 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
 
     $scope.saveSearch = function (idEntityType) {
 
-        console.log("TÁ A CHEGAR AO MÉTODO E O ID DA ENT TYPE È: ");
-        console.log(idEntityType);
-
-        var formData   = JSON.parse(JSON.stringify($('#dynamic-search').serializeArray())),
-            numChecked = $('#dynamic-search').find('[type=checkbox]:checked').length,
-            numTableET = 0,
-            numTableVT = 0,
-            numTableRL = 0,
-            numTableER = 0;
-
-        // Para saber quantas propriedades tem em cada tabela
-        if ($scope.ents.properties != '' && $scope.ents.properties != undefined) {
-            numTableET = $scope.ents.properties.length;
-        }
-        if ($scope.entRefs != '' && $scope.entRefs != undefined) {
-            var len = $scope.entRefs.length;
-            for (var i = 0; i < len; i++) {
-                numTableVT = numTableVT + $scope.entRefs[i].properties.length;
-            }
-        }
-        if ($scope.relsWithEnt != '' && $scope.relsWithEnt != undefined) {
-            var len = $scope.relsWithEnt.length;
-            for (var i = 0; i < len; i++) {
-                numTableRL = numTableRL + $scope.relsWithEnt[i].properties.length;
-            }
-        }
-        if ($scope.entsRelated != '' && $scope.entsRelated != undefined) {
-            var len = $scope.entsRelated.length;
-            for (var i = 0; i < len; i++) {
-                numTableER = numTableER + $scope.entsRelated[i].properties.length;
-            }
-        }
-
-        //Acrescento ao form data o nr de propriedades existente em cada tabela
-        formData.push({'name': 'numTableET', 'value': numTableET});
-        formData.push({'name': 'numTableVT', 'value': numTableVT});
-        formData.push({'name': 'numTableRL', 'value': numTableRL});
-        formData.push({'name': 'numTableER', 'value': numTableER});
-        formData.push({'name': 'numChecked', 'value': numChecked});
-
-        console.log("FORM DATA NO SAVE SEARCH : ");
-        console.log(formData);
-
         var queryName = $("#query_name").val();
         console.log("Nome da query: ");
         console.log(queryName);
 
-        formData.push({'name': 'query_name', 'value': queryName});
+        var formData = $scope.formData;
 
-        console.log("DEPOIS: ");
-        console.log(formData);
+        formData.push({'name': 'query_name', 'value': queryName});
 
         $http({
             method: 'POST',
@@ -386,6 +352,18 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
             console.log(response);
             $scope.res = response.data;
 
+        });
+
+    }
+
+    $scope.getSavedQueries = function () {
+
+        console.log("Tou a chegar ao método");
+
+        $http.get(API_URL + '/dynamicSearch/getSavedQueries').then(function(response) {
+            $scope.queries = response.data;
+            console.log("Nome da query");
+            console.log($scope.queries);
         });
 
     }
@@ -426,8 +404,6 @@ app.controller('dynamicSearchControllerJs', function($scope, $http, growl, API_U
                     $(this).prop('checked', true);
                 }
             });
-
-
 
         }
     }

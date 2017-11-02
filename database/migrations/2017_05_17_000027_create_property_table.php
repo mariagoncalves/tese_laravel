@@ -17,7 +17,7 @@ class CreatePropertyTable extends Migration
 //            $table->string('name', 128)->default('');
             $table->integer('ent_type_id')->nullable()->unsigned();
             $table->integer('rel_type_id')->nullable()->unsigned();
-            $table->enum('value_type', ['text', 'bool', 'int', 'double', 'enum', 'ent_ref', 'prop_ref', 'file'])->comment('text, int, double, boolean, enum');
+            $table->enum('value_type', ['text', 'bool', 'int', 'double', 'enum', 'ent_ref', 'prop_ref', 'file'])->comment('text, int, double, boolean, enum', 'ent_ref', 'prop_ref', 'file');
 //            $table->string('form_field_name', 64)->default('')->comment('ascii string to be used as the name of the form field');
             $table->enum('form_field_type', ['text','textbox','number','radio','checkbox','selectbox','file']);
             $table->integer('unit_type_id')->nullable()->unsigned();

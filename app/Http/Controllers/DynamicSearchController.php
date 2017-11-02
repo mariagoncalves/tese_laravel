@@ -356,6 +356,11 @@ class DynamicSearchController extends Controller
             $valueQuery = $data['radio'.$type.$position];
         }
 
+        if($operatorQuery == "") {
+
+            $operatorQuery = $idOperator->id;
+        }
+
         $data1 = array(
             'query_id'    => $idQuery,
             'operator_id' => $operatorQuery,
@@ -397,6 +402,23 @@ class DynamicSearchController extends Controller
             }
         }
 
+        for ($i = 0; $i < $data['numTableVT']; $i++) { 
+            if (isset($data['checkVT'.$i])) {
+                $this->createCondicion($idQuery, $data['checkVT'.$i], 'VT', $i, $data);
+            }
+        }
+
+        for ($i = 0; $i < $data['numTableRL']; $i++) { 
+            if (isset($data['checkRL'.$i])) {
+                $this->createCondicion($idQuery, $data['checkRL'.$i], 'RL', $i, $data);
+            }
+        }
+
+        for ($i = 0; $i < $data['numTableER']; $i++) { 
+            if (isset($data['checkER'.$i])) {
+                $this->createCondicion($idQuery, $data['checkER'.$i], 'ER', $i, $data);
+            }
+        }
     }
 
 
@@ -936,6 +958,25 @@ class DynamicSearchController extends Controller
 
     public function showSavedSearches () {
 
-        return view('showSavedSearche');
+        return view('showSavedSearches');
+    }
+
+    public function getSavedQueries () {
+
+        $language_id = '1';
+
+        $dataQuery = Query::with(['entType.language' => function($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->with('condicions')
+                            ->with(['condicions.property.language' => function ($query) use ($language_id) {
+                                $query->where('language_id', $language_id);
+                            }])
+                            ->with('condicions.operator')
+                            ->get();
+
+        \Log::debug($dataQuery);
+
+        return response()->json($dataQuery);
     }
 }
